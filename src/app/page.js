@@ -1,7 +1,8 @@
 import styles from './apod.module.css';
 
 export default async function Apod() {
-  const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+  const apiKey = process.env.NASA_API_KEY;
+  const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
   const apod = await response.json();
 
   return (
