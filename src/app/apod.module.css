@@ -6,12 +6,6 @@
     padding: 1rem;
 }
 
-.grid > * {
-    border: 1px solid gray;
-    padding: 1rem;
-    border-radius: 0.5rem;
-}
-
 .heading {
     font-size: 2rem;
     padding: 1rem;
@@ -25,12 +19,15 @@
     border-radius: 0.5rem;
 }
 
-.text {
+.textContainer {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     text-align: justify;
     hyphens: auto;
+    border: 1px solid gray;
+    padding: 1rem;
+    border-radius: 0.5rem;
 }
 
 .subheading {

@@ -12,7 +12,7 @@ export default async function Apod() {
         <div className={styles.imageContainer}>
           <img src={apod.url} alt={apod.title}/>
         </div>
-        <div className={styles.text}>
+        <div className={styles.textContainer}>
           <h2>{apod.date}</h2>
           <h3 className={styles.subheading}>{apod.title}</h3>
           <p>{apod.explanation}</p>
