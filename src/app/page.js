@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; // Forces server fetch on every request
+
 import styles from './apod.module.css';
 
 export default async function Apod() {
