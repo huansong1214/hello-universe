@@ -2,17 +2,26 @@ export const dynamic = 'force-dynamic'; // Forces server fetch on every request
 
 import styles from './apod.module.css';
 
+interface ApodData {
+  date: string;
+  explanation: string;
+  title: string;
+  url: string;
+}
+
 export default async function Apod() {
   const apiKey = process.env.NASA_API_KEY;
+
   const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
-  const apod = await response.json();
+  
+  const apod: ApodData = await response.json();
 
   return (
     <>
       <h1 className={styles.heading}>Astronomy Picture of the Day</h1>
       <main className={styles.grid}>
         <div className={styles.imageContainer}>
-          <img src={apod.url} alt={apod.title}/>
+          <img src={apod.url} alt={apod.title} />
         </div>
         <div className={styles.textContainer}>
           <h2>{apod.date}</h2>
@@ -21,6 +30,5 @@ export default async function Apod() {
         </div>
       </main>
     </>
-
   );
 }
