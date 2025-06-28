@@ -13,7 +13,7 @@ export default function Header() {
     setIsOpen(!isOpen);
   };
 
-  // Close menu when clicking outside
+  // close menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
@@ -48,8 +48,12 @@ export default function Header() {
         <button 
           ref={buttonRef}
           onClick={handleClick} 
-          className={styles.menuButton}>
-          ☰
+          className={`${styles.menuButton} ${isOpen ? styles.open : styles.closed}`}
+        >
+          <span className={styles.bar}></span>
+          <span className={styles.bar}></span>
+          <span className={styles.bar}></span>
+          <span className={styles.bar}></span>
         </button>
 
         <nav 
