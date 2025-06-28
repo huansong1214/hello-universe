@@ -57,7 +57,7 @@ export default function Header() {
           className={`${styles.nav} ${isOpen ? styles.open : ""}`}>
           <ul>
             <li><Link href="/">Home</Link></li>
-            <li><Link href="/apod">Astronomy Picture of the Day</Link></li>
+            <li><Link href="/apod">APOD</Link></li>
             <li><Link href="/about">About</Link></li>
             <li><Link href="/contact">Contact</Link></li>
           </ul>
