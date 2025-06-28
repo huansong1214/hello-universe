@@ -1,0 +1,80 @@
+.header {
+    display: flex;
+    background-color: yellow;
+    color: black;
+    padding: 1rem;
+    align-items: center;
+}
+
+.title {
+    font-size: 1.5rem;
+}
+
+.navContainer {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.menuButton {
+    z-index: 2;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    background-color: yellow;
+    padding: 1rem;
+}
+
+.nav.open {
+    display: block;
+}
+
+.nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav li {
+    margin: 0.5rem 0;
+}
+
+.nav li:last-child {
+    margin-bottom: 0;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+    .menuButton {
+        display: none;
+    }
+
+    .nav {
+        display: block;
+        position: static;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .nav ul {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .nav li {
+        margin: 0;
+    }
+}
