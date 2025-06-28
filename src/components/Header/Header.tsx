@@ -1,15 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import styles from "./Header.module.css";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
+      if (
+        navRef.current && 
+        !navRef.current.contains(target) && 
+        buttonRef.current && 
+        !buttonRef.current.contains(target)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <header className={styles.header}>
@@ -18,11 +45,16 @@ export default function Header() {
       </div>
 
       <div className={styles.navContainer}>
-        <button onClick={handleClick} className={styles.menuButton}>
+        <button 
+          ref={buttonRef}
+          onClick={handleClick} 
+          className={styles.menuButton}>
           ☰
         </button>
 
-        <nav className={`${styles.nav} ${isOpen ? styles.open : ""}`}>
+        <nav 
+          ref={navRef}
+          className={`${styles.nav} ${isOpen ? styles.open : ""}`}>
           <ul>
             <li><Link href="/">Home</Link></li>
             <li><Link href="/apod">Astronomy Picture of the Day</Link></li>
