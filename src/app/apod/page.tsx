@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic'; // Forces server fetch on every request
 
 import styles from './apod.module.css';
-import Header from "../../components/Header/Header";
 
 interface ApodData {
   date: string;
@@ -23,7 +22,6 @@ export default async function Apod() {
 
   return (
     <>
-      <Header />
       <h1 className={styles.heading}>Astronomy Picture of the Day</h1>
       <main className={styles.grid}>
         <div className={styles.imageContainer}>
