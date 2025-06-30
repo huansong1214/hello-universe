@@ -34,10 +34,6 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Usage
-
-The app is also deployed on Vercel at [Hello Universe](https://hello-universe-ruddy.vercel.app/).
-
 ## Contributing
 
 I follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
