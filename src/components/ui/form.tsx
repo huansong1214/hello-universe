@@ -18,12 +18,14 @@ type FormProps<TSchema extends ZodSchema<any>> = {
     schema: TSchema;
     onSubmit: (value: TypeOf<TSchema>) => void;
     children: React.ReactNode;
+    className?: string;
 };
 
 export function Form<TSchema extends ZodSchema<any>>({
     schema,
     onSubmit,
-    children
+    children,
+    className,
 }: FormProps<TSchema>) {
     const methods = useForm<TypeOf<TSchema>>({
         resolver: zodResolver(schema),
@@ -31,7 +33,7 @@ export function Form<TSchema extends ZodSchema<any>>({
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className={className}>{children}</form>
         </FormProvider>
     );
 }
@@ -64,7 +66,7 @@ type FormItemProps = {
     className?: string;
 };
 
-export function FormItem({ children, className = "mb-4" }: FormItemProps) {
+export function FormItem({ children, className }: FormItemProps) {
     return <div className={className}>{children}</div>;
 }
 
@@ -75,7 +77,7 @@ type FormLabelProps = {
     className?: string;
 };
 
-export function FormLabel({ children, htmlFor, className = "mb-4", ...props }: FormLabelProps) {
+export function FormLabel({ children, htmlFor, className, ...props }: FormLabelProps) {
     return <label htmlFor={htmlFor} className={className} {...props}>{children}</label>;
 }
 
@@ -85,7 +87,7 @@ type FormControlProps = {
     className?: string;
 };
 
-export function FormControl({ children, className = "mb-4" }: FormControlProps) {
+export function FormControl({ children, className }: FormControlProps) {
     return <div className={className}>{children}</div>;
 }
 
@@ -95,7 +97,7 @@ type FormDescriptionProps = {
     className?: string;
 };
 
-export function FormDescription({ children, className = "mb-4" }: FormDescriptionProps) {
+export function FormDescription({ children, className }: FormDescriptionProps) {
     return <p className={className}>{children}</p>;
 }
 
@@ -105,7 +107,7 @@ type FormMessageProps<T> = {
     className?: string;
 };
 
-export function FormMessage<T>({ name, className = "text-red-600 mb-4" }: FormMessageProps<T>) {
+export function FormMessage<T>({ name, className }: FormMessageProps<T>) {
     const { errors } = useFormState<T>();
     const error = get(errors, name);
 
