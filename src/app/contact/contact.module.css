@@ -1,0 +1,6 @@
+.heading {
+    font-size: 2rem;
+    margin: 1rem;
+    color: hotpink;
+    text-shadow: 0.1rem 0.1rem 0.1rem rgba(255, 255, 255, 0.5);
+}
