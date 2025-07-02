@@ -42,7 +42,7 @@ export default function ContactForm() {
             <Form schema={contactSchema} onSubmit={onSubmit}>
                 {/* name */}
                 <FormField name="name">
-                    {({ value, onChange, onBlur, ref }) => (
+                    {({ value = "", onChange, onBlur, ref }) => (
                         <FormItem>
                             <FormLabel htmlFor="name">Name</FormLabel>
                             <FormControl>
@@ -62,7 +62,7 @@ export default function ContactForm() {
                 
                 {/* email */}
                 <FormField name="email">
-                    {({ value, onChange, onBlur, ref }) => (
+                    {({ value = "", onChange, onBlur, ref }) => (
                         <FormItem>
                             <FormLabel htmlFor="email">Email</FormLabel>
                             <FormControl>
@@ -83,7 +83,7 @@ export default function ContactForm() {
 
                 {/* Message */}
                 <FormField name="message">
-                    {({ value, onChange, onBlur, ref }) => (
+                    {({ value = "", onChange, onBlur, ref }) => (
                         <FormItem>
                             <FormLabel htmlFor="message">Message</FormLabel>
                             <FormControl>
