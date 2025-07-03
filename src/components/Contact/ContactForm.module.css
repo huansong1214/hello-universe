@@ -10,22 +10,22 @@
 .input, 
 .textarea {
     width: 100%;
-    background-color: #1a1a1a;
-    border: 0.1rem solid gray;
+    background-color: #334650;
+    border: 0.1rem solid #56B3B4;
     border-radius: 0.5rem;
     padding: 0.5rem;
     margin: 0.5rem auto;
 }
 
 .button {
-    background-color: #ededed;
-    color: #0a0a0a;
+    background-color: #C693C6;
+    color: var(--background);
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     margin: 0.5rem auto;
 }
 
 .button:hover {
-    background-color: #d3d3d3;
+    background-color: #AA7EAA;
     cursor: pointer;
 }
