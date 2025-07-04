@@ -12,7 +12,7 @@ I followed the tutorial at [react.dev/learn](https://react.dev/learn) to create 
 
 I hope to build my capstone project on top of this foundation by integrating additional NASA or telescope APIs and adding the required features.
 
-***
+---
 
 ## Installation Instructions
 

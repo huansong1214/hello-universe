@@ -1,9 +1,9 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button(props: ButtonProps) {
-    return <button {...props} />;
+  return <button {...props} />;
 }
 
-export { Button }
+export { Button };

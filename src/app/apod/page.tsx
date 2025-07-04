@@ -12,10 +12,12 @@ interface ApodData {
 export default async function Apod() {
   const apiKey = process.env.NASA_API_KEY;
 
-  const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`);
-  
+  const response = await fetch(
+    `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`,
+  );
+
   if (!response.ok) {
-    throw new Error("Failed to fetch NASA APOD data");
+    throw new Error('Failed to fetch NASA APOD data');
   }
 
   const apod: ApodData = await response.json();

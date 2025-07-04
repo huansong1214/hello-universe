@@ -1,10 +1,10 @@
-import "../styles/globals.css";
-import Header from "@/components/Header/Header"
-import type { ReactNode } from "react";
+import '../styles/globals.css';
+import Header from '@/components/Header/Header';
+import type { ReactNode } from 'react';
 
 export const metadata = {
-  title: "Hello Universe",
-  description: "Stay curious.",
+  title: 'Hello Universe',
+  description: 'Stay curious.',
 };
 
 interface RootLayoutProps {
