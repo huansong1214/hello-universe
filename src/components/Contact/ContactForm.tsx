@@ -31,14 +31,24 @@ export default function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = (data: ContactFormData) => {
+  const onSubmit = async (data: ContactFormData) => {
     try {
-      console.log('Form submitted', data);
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-      // TODO: call Resend API on form submit — add error handling and success UI
-
-      setSuccess(true);
-      reset();
+      if (response.ok) {
+        setSuccess(true);
+        reset();
+      } else {
+        const result = await response.json();
+        console.error('Error sending message:', result.error);
+        setSuccess(false);
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       setSuccess(false);
