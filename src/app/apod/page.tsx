@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'; // forces server fetch on every request
+export const dynamic = 'force-dynamic'; // force server fetch on every request
 
 import styles from './apod.module.css';
 

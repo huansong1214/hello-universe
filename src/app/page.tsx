@@ -1,6 +1,6 @@
 import React from "react";
 
-// Prevent Vercel deployment error when page.tsx is empty
+// prevent Vercel deployment error when page.tsx is empty
 export default function Page() {
   return (
     <>

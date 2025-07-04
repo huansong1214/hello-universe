@@ -34,7 +34,9 @@ export default function ContactForm() {
     const onSubmit = (data: ContactFormData) => {
         try {
             console.log("Form submitted", data);
-            // TODO: call RESEND API on form submit — add error handling and success UI.
+
+            // TODO: call Resend API on form submit — add error handling and success UI
+            
             setSuccess(true);
             reset();
         } catch (error) {

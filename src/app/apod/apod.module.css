@@ -1,4 +1,4 @@
-/* Mobile-first: single column by default */
+/* mobile-first: single column by default */
 .grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -34,7 +34,7 @@
     color: #EA5E5E;
 }
 
-/* Two columns for screens 768px and wider */
+/* two columns for screens 768px and wider */
 @media (min-width: 768px) {
     .grid {
         grid-template-columns: 1fr 1fr;
