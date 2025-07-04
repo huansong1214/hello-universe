@@ -4,7 +4,6 @@
 
 .fieldsContainer {
   display: grid;
-  gap: 2rem;
 }
 
 .input,
@@ -14,7 +13,7 @@
   border: 0.1rem solid #56b3b4;
   border-radius: 0.5rem;
   padding: 0.5rem;
-  margin: 0.5rem auto;
+  margin: 0.5rem auto 0.25rem auto;
 }
 
 .button {
@@ -28,4 +27,20 @@
 .button:hover {
   background-color: #aa7eaa;
   cursor: pointer;
+}
+
+.formItem {
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+
+.error {
+  position: absolute;
+  color: #FBBF47;
+}
+
+.success {
+  margin: 0.5rem;
+  color: #56b3b4;
+  text-align: center;
 }
