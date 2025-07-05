@@ -23,7 +23,7 @@ export default async function Apod() {
   const apod: ApodData = await response.json();
 
   return (
-    <main>
+    <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Astronomy Picture of the Day</h1>
       <div className={styles.grid}>
         <div className={styles.imageContainer}>

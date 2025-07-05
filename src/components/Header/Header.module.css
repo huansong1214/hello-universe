@@ -1,8 +1,11 @@
 .header {
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   background-color: #fbbf47;
   color: #1a2b34;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   align-items: center;
 }
 
