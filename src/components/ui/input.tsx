@@ -1,13 +1,24 @@
 import React from 'react';
+import clsx from 'clsx';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
-  { type = 'text', ...props },
+  { type = 'text', className, ...props },
   ref,
 ) {
-  return <input type={type} ref={ref} {...props} />;
+  return (
+    <input 
+      type={type} 
+      ref={ref} 
+      className={clsx(
+        'w-full bg-[#334650] border border-[#56b3b4] rounded-md p-2 my-2', 
+        className
+      )}
+      {...props} 
+    />
+  );
 });
 
 Input.displayName = 'Input';
