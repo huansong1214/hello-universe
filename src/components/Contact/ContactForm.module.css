@@ -17,13 +17,13 @@
   margin: 0.5rem auto;
 }
 
-.button {
+/* .button {
   background-color: #c693c6;
   color: var(--background);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
   margin: 0.5rem auto;
-}
+} */
 
 .button:hover {
   background-color: #aa7eaa;
