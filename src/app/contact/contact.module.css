@@ -3,3 +3,10 @@
   margin: 1rem;
   color: #ea5e5e;
 }
+
+@media (min-width: 768px) {
+  .contentContainer {
+    width: 768px;
+    margin: 0 auto;
+  }
+}
