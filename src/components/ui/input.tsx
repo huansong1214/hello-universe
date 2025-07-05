@@ -9,14 +9,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
   ref,
 ) {
   return (
-    <input 
-      type={type} 
-      ref={ref} 
+    <input
+      type={type}
+      ref={ref}
       className={clsx(
-        'w-full bg-[#334650] border border-[#56b3b4] rounded-md p-2 my-2', 
-        className
+        'w-full bg-[#334650] border border-[#56b3b4] rounded-md p-2 my-2',
+        className,
       )}
-      {...props} 
+      {...props}
     />
   );
 });

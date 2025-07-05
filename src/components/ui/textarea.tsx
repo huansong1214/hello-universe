@@ -9,13 +9,13 @@ function TextareaComponent(
   ref: React.Ref<HTMLTextAreaElement>,
 ) {
   return (
-    <textarea 
-      ref={ref} 
+    <textarea
+      ref={ref}
       className={clsx(
-        'w-full bg-[#334650] border border-[#56b3b4] rounded-md p-2 my-2', 
-        className
+        'w-full bg-[#334650] border border-[#56b3b4] rounded-md p-2 my-2',
+        className,
       )}
-      {...props} 
+      {...props}
     />
   );
 }
