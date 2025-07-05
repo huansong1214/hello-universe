@@ -70,9 +70,9 @@ export default function ContactForm() {
               {...register('name')}
               className={styles.input}
             />
-            {errors.name && (
-              <p className={styles.error}>{errors.name.message}</p>
-            )}
+            <p className={styles.error}>
+              {errors.name?.message || '\u00A0'}
+            </p>
           </div>
 
           {/* email */}
@@ -87,9 +87,9 @@ export default function ContactForm() {
               {...register('email')}
               className={styles.input}
             />
-            {errors.email && (
-              <p className={styles.error}>{errors.email.message}</p>
-            )}
+            <p className={styles.error}>
+              {errors.email?.message || '\u00A0'}
+            </p>
           </div>
 
           {/* message */}
@@ -100,13 +100,13 @@ export default function ContactForm() {
             <Textarea
               id="message"
               rows={5}
-              placeholder="Your feedback helps us improve. Thank you for sharing!"
+              placeholder={`Your feedback helps us improve. \nThank you for sharing!`}
               {...register('message')}
               className={styles.textarea}
             />
-            {errors.message && (
-              <p className={styles.error}>{errors.message.message}</p>
-            )}
+            <p className={styles.error}>
+              {errors.message?.message || '\u00A0'}
+            </p>
           </div>
 
           {/* submit */}
