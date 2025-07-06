@@ -1,23 +1,23 @@
 .formContainer {
-	margin: 1rem;
+  margin: 1rem;
 }
 
 .fieldsContainer {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .formItem {
-	padding-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 .error {
-	position: static;
-	color: #fbbf47;
+  position: static;
+  color: #fbbf47;
 }
 
 .success {
-	margin: 0.5rem;
-	color: #56b3b4;
-	text-align: center;
+  margin: 0.5rem;
+  color: #56b3b4;
+  text-align: center;
 }
