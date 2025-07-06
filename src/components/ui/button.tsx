@@ -1,5 +1,6 @@
-import React, { ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
+
+import type { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 

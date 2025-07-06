@@ -29,6 +29,7 @@
 }
 
 /* fallback if image is missing */
+
 .flipCardFront {
   background-color: #1a2b34;
   color: #f5f5dc;

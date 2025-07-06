@@ -1,10 +1,9 @@
-import React from 'react';
+import { forwardRef, type InputHTMLAttributes } from 'react';
 import clsx from 'clsx';
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
+const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { type = 'text', className, ...props },
   ref,
 ) {
