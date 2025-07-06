@@ -1,10 +1,11 @@
 import React from 'react';
 
-// prevent Vercel deployment error when page.tsx is empty
-export default function Page() {
+import styles from './page.module.css';
+
+export default function Home() {
   return (
-    <>
-      <main>Under maintenance</main>
-    </>
+      <main className={styles.mainContainer}>
+      <h1 className={styles.heading}>Under Maintenance</h1>
+      </main>
   );
 }
