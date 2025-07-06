@@ -7,6 +7,7 @@ interface ApodData {
   explanation: string;
   title: string;
   url: string;
+  media_type: 'image' | 'video'; // add media_type
 }
 
 export default async function Apod() {
@@ -14,6 +15,7 @@ export default async function Apod() {
 
   const response = await fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`,
+    { cache: 'no-store' } // also ensure no caching
   );
 
   if (!response.ok) {
@@ -27,7 +29,17 @@ export default async function Apod() {
       <h1 className={styles.heading}>Astronomy Picture of the Day</h1>
       <div className={styles.grid}>
         <div className={styles.imageContainer}>
-          <img src={apod.url} alt={apod.title} />
+          {apod.media_type === 'image' ? (
+            <img src={apod.url} alt={apod.title} />
+          ) : (
+            <iframe
+              src={apod.url}
+              title={apod.title}
+              allow="fullscreen"
+              allowFullScreen
+              frameBorder="0"
+            />
+          )}
         </div>
         <div className={styles.textContainer}>
           <h2>{apod.date}</h2>

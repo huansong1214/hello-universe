@@ -18,8 +18,14 @@
 }
 
 .imageContainer img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  /* height: auto; */
+  border-radius: 0.5rem;
+}
+
+.imageContainer iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 0.5rem;
 }
 
