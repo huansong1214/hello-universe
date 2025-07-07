@@ -18,48 +18,70 @@ type ManifestData = {
   };
 };
 
+const rovers = ['perseverance', 'curiosity', 'opportunity', 'spirit'];
+
 export default function Rovers() {
-  const [manifest, setManifest] = useState<ManifestData | null>(null);
+  const [manifests, setManifests] = useState<ManifestData[]>([]);
 
   useEffect(() => {
-    async function fetchManifest() {
+    async function fetchManifests() {
       try {
-        const response = await fetch('api/rovers/perseverance/manifest');
-        const data = await response.json();
-        setManifest(data);
+        const responses = await Promise.all(
+          rovers.map(rover =>
+            fetch(`api/rovers/${rover}/manifest`).then(res => res.json())
+          )
+        );
+        setManifests(responses);
       } catch (error) {
-        console.error('Error fetching manifest:', error);
+        console.error('Error fetching manifests:', error);
       }
     }
 
-    fetchManifest();
+    fetchManifests();
   }, []);
 
-  const backContent = manifest ? (
-    <div>
-      <h3>{manifest.photo_manifest.name}</h3>
-      <p>Status: {manifest.photo_manifest.status}</p>
-      <p>Launch: {manifest.photo_manifest.launch_date}</p>
-      <p>Landing: {manifest.photo_manifest.landing_date}</p>
-      <p>Photos: {manifest.photo_manifest.total_photos.toLocaleString()}</p>
-    </div>
-  ) : (
-    <div>Loading...</div>
-  );
+  if (manifests.length === 0) {
+    return (
+      <main className={styles.mainContainer}>
+        <h1 className={styles.heading}>Mars Rovers</h1>
+        <div className={styles.grid}>
+          <p>Loading rover data...</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Mars Rovers</h1>
       <div className={styles.grid}>
-        <FlipCard
-          frontContent={
-            <div className={styles.imageContainer}>
-              <div className={styles.roverName}>Perseverance</div>
-              <img src='/images/rover-perseverance.jpg' alt='Mars Rover Perseverance' />
-            </div>
-          }
-          backContent={backContent}
-        />
+        {manifests.map((manifest) => {
+          if (!manifest.photo_manifest) return null;
+
+          return (
+            <FlipCard
+              key={manifest.photo_manifest.name}
+              frontContent={
+                <div className={styles.imageContainer}>
+                  <div className={styles.roverName}>{manifest.photo_manifest.name}</div>
+                  <img
+                    src={`/images/rover-${manifest.photo_manifest.name.toLowerCase()}.jpg`}
+                    alt={`Mars Rover ${manifest.photo_manifest.name}`}
+                  />
+                </div>
+              }
+              backContent={
+                <div>
+                  <h3>{manifest.photo_manifest.name}</h3>
+                  <p>Status: {manifest.photo_manifest.status}</p>
+                  <p>Launch: {manifest.photo_manifest.launch_date}</p>
+                  <p>Landing: {manifest.photo_manifest.landing_date}</p>
+                  <p>Photos: {manifest.photo_manifest.total_photos.toLocaleString()}</p>
+                </div>
+              }
+            />
+          );
+        })}
       </div>
     </main>
   );
