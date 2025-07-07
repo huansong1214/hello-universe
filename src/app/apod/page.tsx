@@ -10,9 +10,13 @@ interface ApodData {
   media_type: 'image' | 'video'; // add media_type
 }
 
-export default async function Apod() {
-  const NASA_API_KEY = process.env.NASA_API_KEY;
+const NASA_API_KEY = process.env.NASA_API_KEY;
 
+if (!NASA_API_KEY) {
+  throw new Error('NASA API key is missing in environment variables.');
+}
+
+export default async function Apod() {
   const response = await fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`,
     { cache: 'no-store' } // also ensure no caching
