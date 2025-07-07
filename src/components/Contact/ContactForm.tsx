@@ -62,11 +62,12 @@ export default function ContactForm() {
           {/* name */}
           <div className={styles.formItem}>
             <label htmlFor="name" className={styles.label}>
-              Name
+              Full Name
             </label>
             <Input
               id="name"
               placeholder="Your name here"
+              autoComplete='name'
               {...register('name')}
               className={styles.input}
             />
@@ -82,6 +83,7 @@ export default function ContactForm() {
               id="email"
               type="email"
               placeholder="Your email here"
+              autoComplete='email'
               {...register('email')}
               className={styles.input}
             />
@@ -107,7 +109,7 @@ export default function ContactForm() {
 
           {/* submit */}
           <Button type="submit" className={styles.button}>
-            Send Message
+            Send message
           </Button>
 
           {/* feedback */}

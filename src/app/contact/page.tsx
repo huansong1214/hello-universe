@@ -5,7 +5,7 @@ import styles from './contact.module.css';
 export default function ContactPage() {
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading}>Contact Us</h1>
+      <h1 className={styles.heading}>Contact</h1>
       <ContactForm />
     </main>
   );
