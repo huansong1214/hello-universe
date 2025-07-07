@@ -13,7 +13,7 @@ interface ApodData {
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
 if (!NASA_API_KEY) {
-  throw new Error('NASA API key is missing in environment variables.');
+  throw new Error('Missing NASA_API_KEY environment variable');
 }
 
 export default async function Apod() {

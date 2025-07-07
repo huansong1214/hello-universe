@@ -5,7 +5,7 @@ const NASA_API_KEY = process.env.NASA_API_KEY;
 export async function GET(req: NextRequest, { params }: { params: Promise<{ rover: string }> }) {
   if (!NASA_API_KEY) {
     return NextResponse.json(
-      { error: 'NASA API key is missing in environment variables.' },
+      { error: 'Missing NASA_API_KEY environment variable' },
       { status: 500 }
     );
   }
