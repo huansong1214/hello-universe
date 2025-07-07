@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import Image from 'next/image';
-
 import { FlipCard } from '@/components/FlipCard/FlipCard';
 
 import styles from './rovers.module.css';
@@ -53,16 +51,11 @@ export default function Rovers() {
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Mars Rovers</h1>
       <div className={styles.grid}>
-        <div>Perseverance</div>
         <FlipCard
           frontContent={
             <div className={styles.imageContainer}>
-              <Image
-                src='/images/rover-perseverance.jpg'
-                alt='Mars Rover Perseverance'
-                fill
-                priority
-              />
+              <div className={styles.roverName}>Perseverance</div>
+              <img src='/images/rover-perseverance.jpg' alt='Mars Rover Perseverance' />
             </div>
           }
           backContent={backContent}
