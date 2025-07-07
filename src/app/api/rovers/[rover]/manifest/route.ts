@@ -3,6 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ rover: string }> }) {
+  if (!NASA_API_KEY) {
+    return NextResponse.json(
+      { error: 'NASA API key is missing in environment variables.' },
+      { status: 500 }
+    );
+  }
+
   const { rover } = await params;
 
   const url = `https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${NASA_API_KEY}`;
