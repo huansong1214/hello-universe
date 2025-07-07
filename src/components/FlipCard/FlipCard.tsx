@@ -7,7 +7,7 @@ interface FlipCardProps {
     backContent: React.ReactNode;
 }
 
-function FlipCard({ frontContent, backContent }: FlipCardProps): JSX.Element {
+function FlipCard({ frontContent, backContent }: FlipCardProps): React.ReactElement {
     return (
         <div className={styles.flipCard}>
             <div className={styles.flipCardInner}>
