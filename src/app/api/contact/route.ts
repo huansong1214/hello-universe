@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 import { EmailTemplate } from 'emails/ContactEmail';
@@ -20,11 +21,11 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      return Response.json({ error }, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
 
-    return Response.json(data);
+    return NextResponse.json(data);
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
