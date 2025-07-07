@@ -2,9 +2,9 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   margin: 0 auto;
-  border: 0.1rem solid #56b3b4;
   border-radius: 0.5rem;
   overflow: hidden;
+  perspective: 1000px;
 }
 
 .flipCardInner {
@@ -31,13 +31,15 @@
 /* fallback if image is missing */
 
 .flipCardFront {
-  background-color: #1a2b34;
+  background-color: transparent;
   color: #f5f5dc;
 }
 
 .flipCardBack {
-  background-color: #56b3b4;
-  color: #1a2b34;
+  background-color: transparent;
+  color: #f5f5dc;
+  border: 0.1rem solid #56b3b4;
+  border-radius: 0.5rem;
   transform: rotateY(180deg);
 }
 
