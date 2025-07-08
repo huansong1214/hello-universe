@@ -39,9 +39,3 @@
   justify-content: center;
   align-items: center;
 }
-
-@media (min-width: 768px) {
-  .flipCard {
-    width: 24rem;
-  }
-}

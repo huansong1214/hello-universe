@@ -27,3 +27,14 @@
   transform: translateX(-50%);
   color: #1a2b34;
 }
+
+@media (min-width: 768px) {
+  .mainContainer {
+    width: 768px;
+    margin: 4rem auto;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
