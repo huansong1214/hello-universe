@@ -54,46 +54,40 @@ export default function ContactForm() {
         <div className={styles.fieldsContainer}>
           {/* name */}
           <div className={styles.formItem}>
-            <label htmlFor="name" className={styles.label}>
-              Full Name
-            </label>
             <Input
               id="name"
-              placeholder="Your name here"
+              placeholder="Name"
               autoComplete='name'
               {...register('name')}
               className={styles.input}
+              aria-label='Full Name'
             />
             <p className={styles.error}>{errors.name?.message || '\u00A0'}</p>
           </div>
 
           {/* email */}
           <div className={styles.formItem}>
-            <label htmlFor="email" className={styles.label}>
-              Email
-            </label>
             <Input
               id="email"
               type="email"
-              placeholder="Your email here"
+              placeholder="Email"
               autoComplete='email'
               {...register('email')}
               className={styles.input}
+              aria-label='Email'
             />
             <p className={styles.error}>{errors.email?.message || '\u00A0'}</p>
           </div>
 
           {/* message */}
           <div className={styles.formItem}>
-            <label htmlFor="message" className={styles.label}>
-              Message
-            </label>
             <Textarea
               id="message"
               rows={5}
-              placeholder={`Your feedback helps us improve. \nThank you for sharing!`}
+              placeholder={'Message'}
               {...register('message')}
               className={styles.textarea}
+              aria-label='Message'
             />
             <p className={styles.error}>
               {errors.message?.message || '\u00A0'}
@@ -102,7 +96,7 @@ export default function ContactForm() {
 
           {/* submit */}
           <Button type="submit" className={styles.button}>
-            Send message
+            Send
           </Button>
 
           {/* feedback */}
