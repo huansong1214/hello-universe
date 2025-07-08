@@ -27,9 +27,9 @@ export default function Rovers() {
     async function fetchManifests() {
       try {
         const responses = await Promise.all(
-          rovers.map(rover =>
-            fetch(`api/rovers/${rover}/manifest`).then(res => res.json())
-          )
+          rovers.map((rover) =>
+            fetch(`api/rovers/${rover}/manifest`).then((res) => res.json()),
+          ),
         );
         setManifests(responses);
       } catch (error) {
@@ -63,7 +63,9 @@ export default function Rovers() {
               key={manifest.photo_manifest.name}
               frontContent={
                 <div className={styles.imageContainer}>
-                  <div className={styles.roverName}>{manifest.photo_manifest.name}</div>
+                  <div className={styles.roverName}>
+                    {manifest.photo_manifest.name}
+                  </div>
                   <img
                     src={`/images/rover-${manifest.photo_manifest.name.toLowerCase()}.jpg`}
                     alt={`Mars Rover ${manifest.photo_manifest.name}`}
@@ -76,7 +78,10 @@ export default function Rovers() {
                   <p>Status: {manifest.photo_manifest.status}</p>
                   <p>Launch: {manifest.photo_manifest.launch_date}</p>
                   <p>Landing: {manifest.photo_manifest.landing_date}</p>
-                  <p>Photos: {manifest.photo_manifest.total_photos.toLocaleString()}</p>
+                  <p>
+                    Photos:{' '}
+                    {manifest.photo_manifest.total_photos.toLocaleString()}
+                  </p>
                 </div>
               }
             />

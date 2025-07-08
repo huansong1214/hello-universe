@@ -1,12 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ rover: string }> }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ rover: string }> },
+) {
   if (!NASA_API_KEY) {
     return NextResponse.json(
       { error: 'Missing NASA_API_KEY environment variable' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -20,7 +23,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ rove
     if (!response.ok) {
       return NextResponse.json(
         { error: `Failed to fetch manifest from ${rover}` },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -31,7 +34,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ rove
     console.error(`Error Fetching manifest for ${rover}:`, error);
     return NextResponse.json(
       { error: 'Internal server error while fetching manifest' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

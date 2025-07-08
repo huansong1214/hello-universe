@@ -18,7 +18,7 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting},
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -50,17 +50,18 @@ export default function ContactForm() {
 
   // create an array of error messages
   const errorMessages = Object.values(errors).map(
-    (error) => error?.message || ''
+    (error) => error?.message || '',
   );
 
   return (
     <div className={styles.formContainer}>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-
         {/* consolidated error block */}
         {errorMessages.length > 0 && (
-          <div className={styles.errorBlock} role='alert' aria-live='assertive'>
-            <p><strong>There was a problem</strong></p>
+          <div className={styles.errorBlock} role="alert" aria-live="assertive">
+            <p>
+              <strong>There was a problem</strong>
+            </p>
             <ul>
               {errorMessages.map((msg, i) => (
                 <li key={i}>{msg}</li>
@@ -75,10 +76,10 @@ export default function ContactForm() {
             <Input
               id="name"
               placeholder="Name"
-              autoComplete='name'
+              autoComplete="name"
               {...register('name')}
               className={styles.input}
-              aria-label='Full Name'
+              aria-label="Full Name"
               aria-invalid={errors.name ? 'true' : 'false'}
             />
           </div>
@@ -89,10 +90,10 @@ export default function ContactForm() {
               id="email"
               type="email"
               placeholder="Email"
-              autoComplete='email'
+              autoComplete="email"
               {...register('email')}
               className={styles.input}
-              aria-label='Email'
+              aria-label="Email"
               aria-invalid={errors.email ? 'true' : 'false'}
             />
           </div>
@@ -105,19 +106,23 @@ export default function ContactForm() {
               placeholder={'Message'}
               {...register('message')}
               className={styles.textarea}
-              aria-label='Message'
+              aria-label="Message"
               aria-invalid={errors.message ? 'true' : 'false'}
             />
           </div>
 
           {/* submit */}
-          <Button type="submit" className={styles.button} disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className={styles.button}
+            disabled={isSubmitting}
+          >
             Send
           </Button>
 
           {/* feedback */}
           {success && (
-            <p className={styles.success} role='status' aria-live='polite'>
+            <p className={styles.success} role="status" aria-live="polite">
               Message sent successfully
             </p>
           )}

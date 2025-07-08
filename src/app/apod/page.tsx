@@ -19,7 +19,7 @@ if (!NASA_API_KEY) {
 export default async function Apod() {
   const response = await fetch(
     `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`,
-    { cache: 'no-store' } // also ensure no caching
+    { cache: 'no-store' }, // also ensure no caching
   );
 
   if (!response.ok) {
