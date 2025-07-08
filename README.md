@@ -2,17 +2,7 @@
 
 ## Description
 
-This project integrates NASA’s Astronomy Picture of the Day (APOD) API to display the date, title, explanation, and the image itself.
-
-## Why I chose to work on the project
-
-I wanted to test the waters with the React library by building a single-page application.
-
-I followed the tutorial at [react.dev/learn](https://react.dev/learn) to create this app using the Next.js framework and deployed it on Vercel: [hello-universe-ruddy.vercel.app](https://hello-universe-ruddy.vercel.app).
-
-I hope to build my capstone project on top of this foundation by integrating additional NASA or telescope APIs and adding the required features.
-
----
+_TODO: A short explanation of what the project does_
 
 ## Installation Instructions
 
@@ -34,6 +24,24 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Usage
+
+The app is also deployed on Vercel at [Hello Universe](https://hello-universe-ruddy.vercel.app/).
+
+> Note: Deployment is temporarily disabled.
+
+## Examples
+
+_TODO: Code snippets or screenshots showing how it works_
+
 ## Contributing
 
-I follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
+
+## License
+
+_TODO: Information about how the project can be used or shared_
+
+## Credits
+
+_TODO: Acknowledgments or links to related work_
