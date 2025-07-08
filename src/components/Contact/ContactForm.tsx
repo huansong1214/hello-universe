@@ -18,7 +18,7 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting},
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -48,9 +48,27 @@ export default function ContactForm() {
     }
   };
 
+  // create an array of error messages
+  const errorMessages = Object.values(errors).map(
+    (error) => error?.message || ''
+  );
+
   return (
     <div className={styles.formContainer}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+
+        {/* consolidated error block */}
+        {errorMessages.length > 0 && (
+          <div className={styles.errorBlock} role='alert' aria-live='assertive'>
+            <p><strong>There was a problem</strong></p>
+            <ul>
+              {errorMessages.map((msg, i) => (
+                <li key={i}>{msg}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <div className={styles.fieldsContainer}>
           {/* name */}
           <div className={styles.formItem}>
@@ -61,8 +79,8 @@ export default function ContactForm() {
               {...register('name')}
               className={styles.input}
               aria-label='Full Name'
+              aria-invalid={errors.name ? 'true' : 'false'}
             />
-            <p className={styles.error}>{errors.name?.message || '\u00A0'}</p>
           </div>
 
           {/* email */}
@@ -75,8 +93,8 @@ export default function ContactForm() {
               {...register('email')}
               className={styles.input}
               aria-label='Email'
+              aria-invalid={errors.email ? 'true' : 'false'}
             />
-            <p className={styles.error}>{errors.email?.message || '\u00A0'}</p>
           </div>
 
           {/* message */}
@@ -88,20 +106,20 @@ export default function ContactForm() {
               {...register('message')}
               className={styles.textarea}
               aria-label='Message'
+              aria-invalid={errors.message ? 'true' : 'false'}
             />
-            <p className={styles.error}>
-              {errors.message?.message || '\u00A0'}
-            </p>
           </div>
 
           {/* submit */}
-          <Button type="submit" className={styles.button}>
+          <Button type="submit" className={styles.button} disabled={isSubmitting}>
             Send
           </Button>
 
           {/* feedback */}
           {success && (
-            <p className={styles.success}>Message sent successfully</p>
+            <p className={styles.success} role='status' aria-live='polite'>
+              Message sent successfully
+            </p>
           )}
         </div>
       </form>

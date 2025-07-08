@@ -7,17 +7,11 @@
   flex-direction: column;
 }
 
-.formItem {
-  padding-bottom: 1rem;
-}
-
-.error {
-  position: static;
+.errorBlock {
   color: #fbbf47;
 }
 
 .success {
-  margin: 0.5rem;
   color: #56b3b4;
   text-align: center;
 }
