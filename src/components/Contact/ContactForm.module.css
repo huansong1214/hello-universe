@@ -11,6 +11,10 @@
   color: #fbbf47;
 }
 
+.button {
+  margin: 0 auto;
+}
+
 .success {
   color: #56b3b4;
   text-align: center;

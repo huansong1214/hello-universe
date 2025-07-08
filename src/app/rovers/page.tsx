@@ -6,6 +6,8 @@ import { FlipCard } from '@/components/FlipCard/FlipCard';
 
 import styles from './rovers.module.css';
 
+import { Button } from '@/components/ui/button';
+
 type ManifestData = {
   photo_manifest: {
     name: string;
@@ -22,6 +24,7 @@ const rovers = ['perseverance', 'curiosity', 'opportunity', 'spirit'];
 
 export default function Rovers() {
   const [manifests, setManifests] = useState<ManifestData[]>([]);
+  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'complete'>('all');
 
   useEffect(() => {
     async function fetchManifests() {
@@ -40,6 +43,15 @@ export default function Rovers() {
     fetchManifests();
   }, []);
 
+  // filter manifests only if filterStatus is not 'all'
+  const filteredManifests =
+    filterStatus === 'all'
+      ? manifests
+      : manifests.filter(
+          (manifest) =>
+            manifest.photo_manifest?.status.toLowerCase() === filterStatus,
+      );
+
   if (manifests.length === 0) {
     return (
       <main className={styles.mainContainer}>
@@ -54,8 +66,16 @@ export default function Rovers() {
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Mars Rovers</h1>
+
+      {/* filter buttons */}
+      <div className={styles.filterButtons}>
+        <Button onClick={() => setFilterStatus('all')}>All</Button>
+        <Button onClick={() => setFilterStatus('active')}>Active</Button>
+        <Button onClick={() => setFilterStatus('complete')}>Complete</Button>
+      </div>
+
       <div className={styles.grid}>
-        {manifests.map((manifest) => {
+        {filteredManifests.map((manifest) => {
           if (!manifest.photo_manifest) return null;
 
           return (
