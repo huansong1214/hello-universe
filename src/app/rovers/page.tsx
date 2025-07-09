@@ -69,9 +69,9 @@ export default function Rovers() {
 
       {/* filter buttons */}
       <div className={styles.filterButtons}>
-        <Button onClick={() => setFilterStatus('all')}>All</Button>
-        <Button onClick={() => setFilterStatus('active')}>Active</Button>
-        <Button onClick={() => setFilterStatus('complete')}>Complete</Button>
+        <Button active={filterStatus === 'all'} onClick={() => setFilterStatus('all')}>All</Button>
+        <Button active={filterStatus === 'active'} onClick={() => setFilterStatus('active')}>Active</Button>
+        <Button active={filterStatus === 'complete'} onClick={() => setFilterStatus('complete')}>Complete</Button>
       </div>
 
       <div className={styles.grid}>
