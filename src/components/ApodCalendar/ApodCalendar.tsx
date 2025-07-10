@@ -21,19 +21,48 @@ interface CalendarData {
 export default function ApodCalendar() {
   const [calendarData, setCalendarData] = useState<CalendarData>({});
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const [activeStartDate, setActiveStartDate] = useState<Date>(new Date());
+
   const [error, setError] = useState<string | null>(null);
+
+  const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
   useEffect(() => {
     async function fetchApodData() {
+      const today = new Date();
+
+      // if activeStartDate is in the future month, skip fetching
+      if (
+        activeStartDate.getFullYear() > today.getFullYear() ||
+        (activeStartDate.getFullYear() === today.getFullYear() &&
+        activeStartDate.getMonth() > today.getMonth())
+      ) {
+        setCalendarData({});
+        setError(null);
+        return;
+      }
+
       try {
-        const currentDate = new Date();
-        const month = currentDate.getMonth();
-        const year = currentDate.getFullYear();
+        const year = activeStartDate.getFullYear();
+        const month = activeStartDate.getMonth();
+
         const startDate = new Date(year, month, 1);
+        let endDate = new Date(year, month + 1, 0);
 
-        const startStr = startDate.toISOString().split('T')[0];
+        // if current month, endDate should be today
+        if (
+          year === today.getFullYear() &&
+          month === today.getMonth() &&
+          today < endDate
+        ) {
+          endDate = today;
+        }
 
-        const response = await fetch(`/api/apod?start_date=${startStr}`);
+        const startStr = formatDate(startDate);
+        const endStr = formatDate(endDate);
+
+        const response = await fetch(`/api/apod?start_date=${startStr}&end_date=${endStr}`);
         if (!response.ok) {
           throw new Error('Failed to fetch NASA APOD data');
         }
@@ -46,14 +75,15 @@ export default function ApodCalendar() {
         }
 
         setCalendarData(data);
+        setError(null);
       } catch (error) {
-        console.error(error)
+        console.error(error);
         setError('Failed to load NASA APOD data');
       }
     }
 
     fetchApodData();
-  }, []);
+  }, [activeStartDate]);
 
   type CalendarValue = Date | [Date | null, Date | null] | null;
 
@@ -83,6 +113,9 @@ export default function ApodCalendar() {
         onChange={handleDateChange}
         value={selectedDate}
         selectRange={false}
+
+        onActiveStartDateChange={({ activeStartDate }) => activeStartDate && setActiveStartDate(activeStartDate)}
+
         tileContent={({ date }) => {
           const dateString = date.toISOString().split('T')[0];
           const apod = calendarData[dateString];
