@@ -1,4 +1,6 @@
-export const dynamic = 'force-dynamic'; // force server fetch on every request
+'use client';
+
+import { useEffect, useState } from 'react';
 
 import styles from './apod.module.css';
 
@@ -7,26 +9,36 @@ interface ApodData {
   explanation: string;
   title: string;
   url: string;
-  media_type: 'image' | 'video'; // add media_type
+  media_type: 'image' | 'video';
 }
 
-const NASA_API_KEY = process.env.NASA_API_KEY;
+export default function Apod() {
+  const [apod, setApod] = useState<ApodData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-if (!NASA_API_KEY) {
-  throw new Error('Missing NASA_API_KEY environment variable');
-}
+  useEffect(() => {
+    async function fetchApod() {
+      try {
+        const response = await fetch('/api/apod');
+        if (!response.ok) {
+          throw new Error('Failed to fetch NASA APOD data');
+        }
+        const data: ApodData = await response.json();
+        setApod(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) setError(error.message);
+        else setError('Unknown error fetching NASA APOD data');
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchApod();
+  }, []);
 
-export default async function Apod() {
-  const response = await fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`,
-    { cache: 'no-store' }, // also ensure no caching
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch NASA APOD data');
-  }
-
-  const apod: ApodData = await response.json();
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!apod) return <p>No data</p>;
 
   return (
     <main className={styles.mainContainer}>

@@ -38,7 +38,7 @@ export async function GET() {
     );
     } else {
       return NextResponse.json(
-        { message: 'Unknown error fetching APOD data', error: String(error) },
+        { message: 'Unknown error fetching NASA APOD data', error: String(error) },
         { status: 500 }
       );
     }
