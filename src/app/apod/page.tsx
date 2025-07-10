@@ -53,7 +53,6 @@ export default function Apod() {
               title={apod.title}
               allow="fullscreen"
               allowFullScreen
-              frameBorder="0"
             />
           )}
         </div>
