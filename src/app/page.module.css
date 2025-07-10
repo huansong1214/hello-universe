@@ -5,5 +5,5 @@
 .heading {
   font-size: 1.5rem;
   margin: 0.5rem 1rem;
-  color: #ea5e5e;
+  color: var(--secondary);
 }

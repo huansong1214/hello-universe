@@ -28,11 +28,11 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   background-color: transparent;
-  color: #f5f5dc;
+  color: var(--foreground);
 }
 
 .flipCardBack {
-  border: 0.1rem solid #56b3b4;
+  border: 0.1rem solid var(--success);
   border-radius: 0.5rem;
   transform: rotateY(180deg);
   display: flex;

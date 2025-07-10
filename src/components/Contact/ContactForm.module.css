@@ -8,7 +8,7 @@
 }
 
 .errorBlock {
-  color: #fbbf47;
+  color: var(--info);
 }
 
 .button {
@@ -16,6 +16,7 @@
 }
 
 .success {
-  color: #56b3b4;
+  color: var(--success);
   text-align: center;
+  margin: 0.5rem;
 }

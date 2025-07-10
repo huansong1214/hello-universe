@@ -3,6 +3,12 @@
 :root {
   --background: #1a2b34;
   --foreground: #f5f5dc;
+
+  --primary: #c693c6;
+  --secondary: #ea5e5e;
+  --success: #56b3b4;
+  --muted: #334650;
+  --info: #fbbf47;
 }
 
 * {
