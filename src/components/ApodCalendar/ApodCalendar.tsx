@@ -20,39 +20,53 @@ interface CalendarData {
 
 export default function ApodCalendar() {
   const [calendarData, setCalendarData] = useState<CalendarData>({});
+
+  // cache to store previously fetched month data keyed by "YYYY-MM"
+  const [cache, setCache] = useState<Record<string, CalendarData>>({});
+
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
   const [activeStartDate, setActiveStartDate] = useState<Date>(new Date());
-
   const [error, setError] = useState<string | null>(null);
 
+  // formal full date as "YYYY-MM-DD"
   const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
+  // format month as "YYYY-MM"
+  const getMonthKey = (date: Date) =>
+    `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+
   useEffect(() => {
-    // set a debounce timer
+    // debounce fetch: wait 500ms before triggering fetch
     const debounceTimeout = setTimeout(() => {
+      const today = new Date();
+      const year = activeStartDate.getFullYear();
+      const month = activeStartDate.getMonth();
+      const monthKey = getMonthKey(activeStartDate);
+
+      // if data is already cached for this month, use it directly
+      if (cache[monthKey]) {
+        console.log(`[Cache] Using cached data for ${monthKey}`);
+        setCalendarData(cache[monthKey]);
+        setError(null);
+        return;
+      }
+
+      // skip fetching if viewing a future month
+      if (
+        year > today.getFullYear() ||
+        (year === today.getFullYear() && month > today.getMonth())
+      ) {
+        setCalendarData({});
+        setError(null);
+        return;
+      }
+
       async function fetchApodData() {
-        const today = new Date();
-
-        // if activeStartDate is in the future month, skip fetching
-        if (
-          activeStartDate.getFullYear() > today.getFullYear() ||
-          (activeStartDate.getFullYear() === today.getFullYear() &&
-          activeStartDate.getMonth() > today.getMonth())
-        ) {
-          setCalendarData({});
-          setError(null);
-          return;
-        }
-
         try {
-          const year = activeStartDate.getFullYear();
-          const month = activeStartDate.getMonth();
-
           const startDate = new Date(year, month, 1);
           let endDate = new Date(year, month + 1, 0);
 
-          // if current month, endDate should be today
+          // restrict endDate to today if viewing the current month
           if (
             year === today.getFullYear() &&
             month === today.getMonth() &&
@@ -64,19 +78,21 @@ export default function ApodCalendar() {
           const startStr = formatDate(startDate);
           const endStr = formatDate(endDate);
 
+          console.log(`[Fetch] Fetching data for ${monthKey}`);
           const response = await fetch(`/api/apod?start_date=${startStr}&end_date=${endStr}`);
           if (!response.ok) {
             throw new Error('Failed to fetch NASA APOD data');
           }
 
           const apods: ApodData[] = await response.json();
-
           const data: CalendarData = {};
           for (const apod of apods) {
             data[apod.date] = apod;
           }
 
+          // store data in both calendar state and cache
           setCalendarData(data);
+          setCache(prev => ({ ...prev, [monthKey]: data }));
           setError(null);
         } catch (error) {
           console.error(error);
@@ -87,9 +103,9 @@ export default function ApodCalendar() {
       fetchApodData();
     }, 500); // 500ms debounce delay
 
-    // clear the timeout if activeStartDate changes before delay finishes
+    // clear timeout on effect cleanup to prevent overlapping fetches
     return () => clearTimeout(debounceTimeout);
-  }, [activeStartDate]);
+  }, [activeStartDate, cache]);
 
   type CalendarValue = Date | [Date | null, Date | null] | null;
 
