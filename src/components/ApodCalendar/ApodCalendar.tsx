@@ -29,60 +29,66 @@ export default function ApodCalendar() {
   const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
   useEffect(() => {
-    async function fetchApodData() {
-      const today = new Date();
+    // set a debounce timer
+    const debounceTimeout = setTimeout(() => {
+      async function fetchApodData() {
+        const today = new Date();
 
-      // if activeStartDate is in the future month, skip fetching
-      if (
-        activeStartDate.getFullYear() > today.getFullYear() ||
-        (activeStartDate.getFullYear() === today.getFullYear() &&
-        activeStartDate.getMonth() > today.getMonth())
-      ) {
-        setCalendarData({});
-        setError(null);
-        return;
-      }
-
-      try {
-        const year = activeStartDate.getFullYear();
-        const month = activeStartDate.getMonth();
-
-        const startDate = new Date(year, month, 1);
-        let endDate = new Date(year, month + 1, 0);
-
-        // if current month, endDate should be today
+        // if activeStartDate is in the future month, skip fetching
         if (
-          year === today.getFullYear() &&
-          month === today.getMonth() &&
-          today < endDate
+          activeStartDate.getFullYear() > today.getFullYear() ||
+          (activeStartDate.getFullYear() === today.getFullYear() &&
+          activeStartDate.getMonth() > today.getMonth())
         ) {
-          endDate = today;
+          setCalendarData({});
+          setError(null);
+          return;
         }
 
-        const startStr = formatDate(startDate);
-        const endStr = formatDate(endDate);
+        try {
+          const year = activeStartDate.getFullYear();
+          const month = activeStartDate.getMonth();
 
-        const response = await fetch(`/api/apod?start_date=${startStr}&end_date=${endStr}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch NASA APOD data');
+          const startDate = new Date(year, month, 1);
+          let endDate = new Date(year, month + 1, 0);
+
+          // if current month, endDate should be today
+          if (
+            year === today.getFullYear() &&
+            month === today.getMonth() &&
+            today < endDate
+          ) {
+            endDate = today;
+          }
+
+          const startStr = formatDate(startDate);
+          const endStr = formatDate(endDate);
+
+          const response = await fetch(`/api/apod?start_date=${startStr}&end_date=${endStr}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch NASA APOD data');
+          }
+
+          const apods: ApodData[] = await response.json();
+
+          const data: CalendarData = {};
+          for (const apod of apods) {
+            data[apod.date] = apod;
+          }
+
+          setCalendarData(data);
+          setError(null);
+        } catch (error) {
+          console.error(error);
+          setError('Failed to load NASA APOD data');
         }
-
-        const apods: ApodData[] = await response.json();
-
-        const data: CalendarData = {};
-        for (const apod of apods) {
-          data[apod.date] = apod;
-        }
-
-        setCalendarData(data);
-        setError(null);
-      } catch (error) {
-        console.error(error);
-        setError('Failed to load NASA APOD data');
       }
-    }
 
-    fetchApodData();
+      fetchApodData();
+    }, 500); // 500ms debounce delay
+
+    // clear the timeout if activeStartDate changes before delay finishes
+    return () => clearTimeout(debounceTimeout);
   }, [activeStartDate]);
 
   type CalendarValue = Date | [Date | null, Date | null] | null;
