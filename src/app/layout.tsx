@@ -1,8 +1,9 @@
+import type { ReactNode } from 'react';
+import 'react-calendar/dist/Calendar.css';
+
 import './globals.css';
 
 import Header from '@/components/Header/Header';
-
-import type { ReactNode } from 'react';
 
 export const metadata = {
   title: 'Hello Universe',

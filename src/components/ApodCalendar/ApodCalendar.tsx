@@ -110,6 +110,7 @@ export default function ApodCalendar() {
       {error && <p>{error}</p>}
 
       <Calendar
+        className={styles.reactCalendar}
         onChange={handleDateChange}
         value={selectedDate}
         selectRange={false}
