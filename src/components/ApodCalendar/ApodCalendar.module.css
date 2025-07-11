@@ -1,0 +1,36 @@
+.reactCalendar {
+  background-color: var(--muted);
+  width: 100%;
+  border: none;
+}
+
+:global(.react-calendar__navigation__label) {
+  background-color: var(--muted) !important;
+}
+
+:global(.react-calendar__tile) {
+  padding: 0;
+  aspect-ratio: 1 / 1;
+}
+
+:global(.react-calendar__tile > abbr) {
+  display: none;
+}
+
+.tileImage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.dateOverlay {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

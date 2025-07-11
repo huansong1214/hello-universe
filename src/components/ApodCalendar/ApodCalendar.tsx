@@ -115,6 +115,10 @@ export default function ApodCalendar() {
         value={selectedDate}
         selectRange={false}
 
+        view='month'
+        minDetail='month'
+        maxDetail='month'
+
         onActiveStartDateChange={({ activeStartDate }) => activeStartDate && setActiveStartDate(activeStartDate)}
 
         tileContent={({ date }) => {
@@ -122,6 +126,7 @@ export default function ApodCalendar() {
           const apod = calendarData[dateString];
           return apod ? (
             <div className={styles.tileImage}>
+              <span className={styles.dateOverlay}>{date.getDate()}</span>
               <img
                 src={apod.url}
                 alt={apod.title}
