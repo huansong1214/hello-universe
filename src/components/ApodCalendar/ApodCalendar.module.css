@@ -1,3 +1,7 @@
+.loading {
+  color: var(--info);
+}
+
 .reactCalendar {
   background-color: var(--muted);
   width: 100%;
@@ -6,6 +10,10 @@
 
 :global(.react-calendar__navigation__label) {
   background-color: var(--muted) !important;
+}
+
+:global(.react-calendar__month-view__weekdays) {
+  display: none !important;
 }
 
 :global(.react-calendar__tile) {
