@@ -57,7 +57,7 @@ export default function Rovers() {
       <main className={styles.mainContainer}>
         <h1 className={styles.heading}>Mars Rovers</h1>
         <div className={styles.grid}>
-          <p>Loading rover data...</p>
+          <p className={styles.loading}>Loading rover data...</p>
         </div>
       </main>
     );

@@ -21,6 +21,11 @@
   margin: 1rem;
 }
 
+.loading {
+  color: var(--info);
+  margin: 0.5rem 0;
+}
+
 .imageContainer {
   position: relative;
   width: 100%;

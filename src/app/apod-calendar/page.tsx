@@ -6,7 +6,9 @@ export default function ApodCalendarPage() {
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Astronomy Picture of the Day Calendar</h1>
-      <ApodCalendar />
+      <div className={styles.calendarContainer}>
+        <ApodCalendar />
+      </div>
     </main>
   );
 }

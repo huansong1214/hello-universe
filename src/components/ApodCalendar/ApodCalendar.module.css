@@ -1,5 +1,7 @@
-.loading {
+.loading,
+.error {
   color: var(--info);
+  margin: 0.5rem 0;
 }
 
 .reactCalendar {

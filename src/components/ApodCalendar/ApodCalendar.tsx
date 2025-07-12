@@ -37,7 +37,7 @@ export default function ApodCalendar() {
   return (
     <div>
       {isLoading && <p className={styles.loading}>Loading APOD data...</p>}
-      {error && <p>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
 
       <Calendar
         className={styles.reactCalendar}

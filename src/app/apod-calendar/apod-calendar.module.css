@@ -7,3 +7,7 @@
   margin: 0.5rem 1rem;
   color: var(--secondary);
 }
+
+.calendarContainer {
+  margin: 1rem;
+}
