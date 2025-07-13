@@ -21,3 +21,21 @@ body {
   font-size: 1.2rem;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
+/* global styles for react-calendar */
+.react-calendar__navigation__label {
+  background-color: var(--muted) !important;
+}
+
+.react-calendar__month-view__weekdays {
+  display: none !important;
+}
+
+.react-calendar__tile {
+  padding: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.react-calendar__tile > abbr {
+  display: none;
+}

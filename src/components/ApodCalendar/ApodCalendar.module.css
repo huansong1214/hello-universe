@@ -10,23 +10,6 @@
   border: none;
 }
 
-:global(.react-calendar__navigation__label) {
-  background-color: var(--muted) !important;
-}
-
-:global(.react-calendar__month-view__weekdays) {
-  display: none !important;
-}
-
-:global(.react-calendar__tile) {
-  padding: 0;
-  aspect-ratio: 1 / 1;
-}
-
-:global(.react-calendar__tile > abbr) {
-  display: none;
-}
-
 .tileImage {
   width: 100%;
   height: 100%;
