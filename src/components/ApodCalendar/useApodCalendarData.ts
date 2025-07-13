@@ -60,10 +60,11 @@ export function useApodCalendarData(activeStartDate: Date) {
     const cachedMonth = cache[monthKey];
     const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
 
-    if (
-      cachedMonth &&
-      (year !== today.getFullYear() || month !== today.getMonth() || (now - cachedMonth.timestamp) < EXPIRATION_MS)
-    ) {
+    // use cache if valid
+    const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
+    const isCacheValid = cachedMonth && (!isCurrentMonth || now - cachedMonth.timestamp < EXPIRATION_MS);
+
+    if (isCacheValid) {
       console.log(`[Cache] Using cached data for ${monthKey}`);
       setCalendarData(cachedMonth.data);
       setError(null);
@@ -71,14 +72,13 @@ export function useApodCalendarData(activeStartDate: Date) {
       return;
     }
 
-    const debounceTimeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       async function fetchApodData() {
         setIsLoading(true);
         try {
           const startDate = new Date(year, month, 1);
           let endDate = new Date(year, month + 1, 0);
-
-          if (year === today.getFullYear() && month === today.getMonth() && today < endDate) {endDate = today;}
+          if (isCurrentMonth && today < endDate) endDate = today;
 
           const startStr = formatDate(startDate);
           const endStr = formatDate(endDate);
@@ -117,7 +117,7 @@ export function useApodCalendarData(activeStartDate: Date) {
       fetchApodData();
     }, 500); // 500ms debounce
 
-    return () => clearTimeout(debounceTimeout);
+    return () => clearTimeout(timeout);
   }, [activeStartDate, cache]);
 
   return { calendarData, error, isLoading };
