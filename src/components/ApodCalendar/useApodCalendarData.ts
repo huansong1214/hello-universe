@@ -12,20 +12,25 @@ interface CalendarData {
   [date: string]: ApodData;
 }
 
+interface CachedMonth {
+  data: CalendarData;
+  timestamp: number;
+}
+
 const formatDate = (date: Date) => date.toISOString().split('T')[0];
 const getMonthKey = (date: Date) =>
   `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 
 export function useApodCalendarData(activeStartDate: Date) {
   const [calendarData, setCalendarData] = useState<CalendarData>({});
-  const [cache, setCache] = useState<Record<string, CalendarData>>(() => {
+  const [cache, setCache] = useState<Record<string, CachedMonth>>(() => {
     // load cache from localStorage if available
     if (typeof window !== 'undefined') {
       try {
         const stored = localStorage.getItem('apodCache');
         return stored ? JSON.parse(stored) : {};
-      } catch (err) {
-        console.warn('Failed to parse APOD cache:', err)
+      } catch (error) {
+        console.warn('Failed to parse APOD cache:', error)
         return {};
       }
     }
@@ -35,35 +40,44 @@ export function useApodCalendarData(activeStartDate: Date) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    const today = new Date();
+    const year = activeStartDate.getFullYear();
+    const month = activeStartDate.getMonth();
+
+    // skip future months
+    if (
+      year > today.getFullYear() ||
+      (year === today.getFullYear() && month > today.getMonth())
+    ) {
+      setCalendarData({});
+      setError(null);
+      setIsLoading(false);
+      return;
+    }
+
+    const monthKey = getMonthKey(activeStartDate);
+    const now = Date.now();
+    const cachedMonth = cache[monthKey];
+    const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
+
+    if (
+      cachedMonth &&
+      (year !== today.getFullYear() || month !== today.getMonth() || (now - cachedMonth.timestamp) < EXPIRATION_MS)
+    ) {
+      console.log(`[Cache] Using cached data for ${monthKey}`);
+      setCalendarData(cachedMonth.data);
+      setError(null);
+      setIsLoading(false);
+      return;
+    }
+
     const debounceTimeout = setTimeout(() => {
-      const today = new Date();
-      const year = activeStartDate.getFullYear();
-      const month = activeStartDate.getMonth();
-      const monthKey = getMonthKey(activeStartDate);
-
-      if (cache[monthKey]) {
-        console.log(`[Cache] Using cached data for ${monthKey}`);
-        setCalendarData(cache[monthKey]);
-        setError(null);
-        setIsLoading(false);
-        return;
-      }
-
-      if (
-        year > today.getFullYear() ||
-        (year === today.getFullYear() && month > today.getMonth())
-      ) {
-        setCalendarData({});
-        setError(null);
-        setIsLoading(false);
-        return;
-      }
-
       async function fetchApodData() {
         setIsLoading(true);
         try {
           const startDate = new Date(year, month, 1);
           let endDate = new Date(year, month + 1, 0);
+
           if (year === today.getFullYear() && month === today.getMonth() && today < endDate) {endDate = today;}
 
           const startStr = formatDate(startDate);
@@ -83,14 +97,17 @@ export function useApodCalendarData(activeStartDate: Date) {
 
           // use functional update to avoid stale closure
           setCache(prev => {
-            const updatedCache = { ...prev, [monthKey]: data};
+            const updatedCache = {
+              ...prev,
+              [monthKey]: { data, timestamp: Date.now() }
+            };
             localStorage.setItem('apodCache', JSON.stringify(updatedCache));
             return updatedCache;
           });
 
           setError(null);
-        } catch (err) {
-          console.error(err);
+        } catch (error) {
+          console.error(error);
           setError('Failed to load NASA APOD data');
         } finally {
           setIsLoading(false);
