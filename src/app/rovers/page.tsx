@@ -27,16 +27,40 @@ export default function Rovers() {
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'complete'>('all');
 
   useEffect(() => {
+    const CACHE_KEY = 'roverManifestsCache';
+    const EXPIRATION_MS = 1000 * 60 * 60 * 24; // 1 day
+
     async function fetchManifests() {
+      const cached = localStorage.getItem(CACHE_KEY);
+
+      if (cached) {
+        try {
+          const { timestamp, data } = JSON.parse(cached);
+          if (Date.now() - timestamp < EXPIRATION_MS) {
+            setManifests(data);
+            return;
+          }
+        } catch (error) {
+          console.warn('Failed to parse cached data:', error);
+          localStorage.removeItem(CACHE_KEY); // clear corrupted cache
+        }
+      }
+
       try {
         const responses = await Promise.all(
           rovers.map((rover) =>
-            fetch(`api/rovers/${rover}/manifest`).then((res) => res.json()),
+            fetch(`api/rovers/${rover}/manifest`).then((response) => response.json()),
           ),
         );
+
         setManifests(responses);
+
+        localStorage.setItem(
+          CACHE_KEY,
+          JSON.stringify({ timestamp: Date.now(), data: responses }),
+        );
       } catch (error) {
-        console.error('Error fetching manifests:', error);
+        console.error('Error fetching mission manifests:', error);
       }
     }
 
