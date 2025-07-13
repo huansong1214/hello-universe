@@ -43,6 +43,10 @@ export function useApodCalendarData(activeStartDate: Date) {
     const today = new Date();
     const year = activeStartDate.getFullYear();
     const month = activeStartDate.getMonth();
+    const monthKey = getMonthKey(activeStartDate);
+    const cachedMonth = cache[monthKey];
+    const now = Date.now();
+    const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
 
     // skip future months
     if (
@@ -54,11 +58,6 @@ export function useApodCalendarData(activeStartDate: Date) {
       setIsLoading(false);
       return;
     }
-
-    const monthKey = getMonthKey(activeStartDate);
-    const now = Date.now();
-    const cachedMonth = cache[monthKey];
-    const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
 
     // use cache if valid
     const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
@@ -118,7 +117,7 @@ export function useApodCalendarData(activeStartDate: Date) {
     }, 500); // 500ms debounce
 
     return () => clearTimeout(timeout);
-  }, [activeStartDate, cache]);
+  }, [activeStartDate]);
 
   return { calendarData, error, isLoading };
 }
