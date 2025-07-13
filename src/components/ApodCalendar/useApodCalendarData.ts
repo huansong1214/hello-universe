@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface ApodData {
   date: string;
@@ -23,28 +23,31 @@ const getMonthKey = (date: Date) =>
 
 export function useApodCalendarData(activeStartDate: Date) {
   const [calendarData, setCalendarData] = useState<CalendarData>({});
-  const [cache, setCache] = useState<Record<string, CachedMonth>>(() => {
-    // load cache from localStorage if available
+  const cacheRef = useRef<Record<string, CachedMonth>>({}); // initialize cacheRef with an empty object
+
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // load cache from localStorage only once on mount
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
         const stored = localStorage.getItem('apodCache');
-        return stored ? JSON.parse(stored) : {};
+        if (stored) {
+          cacheRef.current = JSON.parse(stored);
+        }
       } catch (error) {
-        console.warn('Failed to parse APOD cache:', error)
-        return {};
+        console.warn('Failed to parse APOD cache:', error);
       }
     }
-    return {};
-  });
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  }, []);
 
   useEffect(() => {
     const today = new Date();
     const year = activeStartDate.getFullYear();
     const month = activeStartDate.getMonth();
     const monthKey = getMonthKey(activeStartDate);
-    const cachedMonth = cache[monthKey];
+    const cachedMonth = cacheRef.current[monthKey];
     const now = Date.now();
     const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
 
@@ -94,15 +97,12 @@ export function useApodCalendarData(activeStartDate: Date) {
 
           setCalendarData(data);
 
-          // use functional update to avoid stale closure
-          setCache(prev => {
-            const updatedCache = {
-              ...prev,
-              [monthKey]: { data, timestamp: Date.now() }
+          // update the cache and save it to localStorage
+          cacheRef.current = {
+            ...cacheRef.current,
+            [monthKey]: { data, timestamp: Date.now() }
             };
-            localStorage.setItem('apodCache', JSON.stringify(updatedCache));
-            return updatedCache;
-          });
+            localStorage.setItem('apodCache', JSON.stringify(cacheRef.current));
 
           setError(null);
         } catch (error) {
