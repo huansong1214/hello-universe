@@ -28,7 +28,7 @@ export default function Rovers() {
 
   useEffect(() => {
     const CACHE_KEY = 'roverManifestsCache';
-    const EXPIRATION_MS = 1000 * 60 * 60 * 24; // 1 day
+    const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
 
     async function fetchManifests() {
       const cached = localStorage.getItem(CACHE_KEY);
