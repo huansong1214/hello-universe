@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { FlipCard } from '@/components/FlipCard/FlipCard';
 
-import styles from './rovers.module.css';
+import styles from './mars-rover-photos.module.css';
 
 import { Button } from '@/components/ui/button';
 
@@ -22,7 +22,7 @@ type ManifestData = {
 
 const rovers = ['perseverance', 'curiosity', 'opportunity', 'spirit'];
 
-export default function Rovers() {
+export default function MarsRoverPhotosPage() {
   const [manifests, setManifests] = useState<ManifestData[]>([]);
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'complete'>('all');
 
@@ -79,7 +79,7 @@ export default function Rovers() {
   if (manifests.length === 0) {
     return (
       <main className={styles.mainContainer}>
-        <h1 className={styles.heading}>Mars Rovers</h1>
+        <h1 className={styles.heading}>Mars Rover Photos</h1>
         <div className={styles.grid}>
           <p className={styles.loading}>Loading rover data...</p>
         </div>
@@ -89,7 +89,7 @@ export default function Rovers() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading}>Mars Rovers</h1>
+      <h1 className={styles.heading}>Mars Rover Photos</h1>
 
       {/* filter buttons */}
       <div className={styles.filterButtons}>

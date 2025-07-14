@@ -69,7 +69,7 @@ export default function Header() {
               <Link href="/apod-calendar">APOD Calendar</Link>
             </li>
             <li>
-              <Link href="/rovers">Mars Rovers</Link>
+              <Link href="/mars-rover-photos">Mars Rover Photos</Link>
             </li>
             <li>
               <Link href="/contact">Contact</Link>
