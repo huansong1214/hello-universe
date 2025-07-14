@@ -24,9 +24,10 @@ const getMonthKey = (date: Date) =>
 export function useApodCalendarData(activeStartDate: Date) {
   const [calendarData, setCalendarData] = useState<CalendarData>({});
   const cacheRef = useRef<Record<string, CachedMonth>>({}); // initialize cacheRef with an empty object
-
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const isMounted = useRef(true); // track if the component is mounted
 
   // load cache from localStorage only once on mount
   useEffect(() => {
@@ -39,6 +40,10 @@ export function useApodCalendarData(activeStartDate: Date) {
       } catch (error) {
         console.warn('Failed to parse APOD cache:', error);
       }
+    }
+
+    return () => {
+      isMounted.current = false; // cleanup when the component unmounts
     }
   }, []);
 
@@ -76,6 +81,8 @@ export function useApodCalendarData(activeStartDate: Date) {
 
     const timeout = setTimeout(() => {
       async function fetchApodData() {
+        if (!isMounted.current) return; // avoid setting state if the component is unmounted
+
         setIsLoading(true);
         try {
           const startDate = new Date(year, month, 1);
@@ -95,6 +102,8 @@ export function useApodCalendarData(activeStartDate: Date) {
             data[apod.date] = apod;
           }
 
+          if (!isMounted.current) return; // avoid setting state if the component is unmounted
+
           setCalendarData(data);
 
           // update the cache and save it to localStorage
@@ -106,9 +115,11 @@ export function useApodCalendarData(activeStartDate: Date) {
 
           setError(null);
         } catch (error) {
+          if (!isMounted.current) return; // avoid setting state if the component is unmounted
           console.error(error);
           setError('Failed to load NASA APOD data');
         } finally {
+          if (!isMounted.current) return; // avoid setting state if the component is unmounted
           setIsLoading(false);
         }
       }
@@ -116,7 +127,7 @@ export function useApodCalendarData(activeStartDate: Date) {
       fetchApodData();
     }, 500); // 500ms debounce
 
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(timeout); // cleanup timeout on unmount
   }, [activeStartDate]);
 
   return { calendarData, error, isLoading };
