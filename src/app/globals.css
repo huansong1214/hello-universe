@@ -27,6 +27,10 @@ body {
   background-color: var(--muted) !important;
 }
 
+.react-calendar__month-view__days__day--weekend {
+  color:var(--foreground);
+}
+
 .react-calendar__month-view__weekdays {
   display: none !important;
 }
