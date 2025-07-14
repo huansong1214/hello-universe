@@ -102,24 +102,21 @@ export function useApodCalendarData(activeStartDate: Date) {
             data[apod.date] = apod;
           }
 
-          if (!isMounted.current) return; // avoid setting state if the component is unmounted
+          if (!isMounted.current) return;
 
           setCalendarData(data);
 
-          // update the cache and save it to localStorage
-          cacheRef.current = {
-            ...cacheRef.current,
-            [monthKey]: { data, timestamp: Date.now() }
-            };
-            localStorage.setItem('apodCache', JSON.stringify(cacheRef.current));
+          // directly update the cache entry for the specific month to avoid unnecessary copying of the entire cache object
+          cacheRef.current[monthKey] = { data, timestamp: Date.now() };
+          localStorage.setItem('apodCache', JSON.stringify(cacheRef.current));
 
           setError(null);
         } catch (error) {
-          if (!isMounted.current) return; // avoid setting state if the component is unmounted
+          if (!isMounted.current) return;
           console.error(error);
           setError('Failed to load NASA APOD data');
         } finally {
-          if (!isMounted.current) return; // avoid setting state if the component is unmounted
+          if (!isMounted.current) return;
           setIsLoading(false);
         }
       }
