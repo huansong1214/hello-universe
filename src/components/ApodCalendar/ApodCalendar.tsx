@@ -1,16 +1,26 @@
 'use client';
 
-import {useState } from "react";
-
+import React, { useState, useEffect, useCallback } from "react";
 import Calendar from "react-calendar";
 
 import { useApodCalendarData } from './useApodCalendarData';
+import Modal from './Modal';
 
 import styles from './ApodCalendar.module.css';
+
+interface Apod {
+  media_type: 'image' | 'video';
+  url: string;
+  date: string;
+  title: string;
+  explanation: string;
+};
 
 export default function ApodCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [activeStartDate, setActiveStartDate] = useState<Date>(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedApod, setSelectedApod] = useState<Apod | null>(null);
 
   const { calendarData, error, isLoading } = useApodCalendarData(activeStartDate);
 
@@ -32,7 +42,33 @@ export default function ApodCalendar() {
     return calendarData[dateString];
   };
 
-  const selectedApod = getApodForSelectedDate(selectedDate);
+  const openModal = (date: Date) => {
+    const apod = getApodForSelectedDate(date);
+    if (apod) {
+      setSelectedApod(apod);
+      setIsModalOpen(true);
+    }
+  };
+
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setSelectedApod(null);
+  }, []);
+
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  }, [closeModal]);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen, handleKeyDown]);
 
   return (
     <div>
@@ -55,7 +91,7 @@ export default function ApodCalendar() {
           const dateString = date.toISOString().split('T')[0];
           const apod = calendarData[dateString];
           return apod ? (
-            <div className={styles.tileImage}>
+            <div className={styles.tileImage} onClick={() => openModal(date)}>
               <span className={styles.dateOverlay}>{date.getDate()}</span>
               <img
                 src={apod.url}
@@ -67,21 +103,11 @@ export default function ApodCalendar() {
       />
 
       {selectedApod && (
-        <div className={styles.apodDetails}>
-          <h2>{selectedApod.title}</h2>
-          <p>{selectedApod.explanation}</p>
-          {selectedApod.media_type === 'image' && (
-            <img src={selectedApod.url} alt={selectedApod.title} />
-          )}
-          {selectedApod.media_type === 'video' && (
-            <iframe
-              src={selectedApod.url}
-              title={selectedApod.title}
-              allow='fullscreen'
-              allowFullScreen
-            />
-          )}
-        </div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          apod={selectedApod}
+        />
       )}
     </div>
   );

@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 import styles from './apod.module.css';
 
 interface ApodData {
-  date: string;
-  explanation: string;
-  title: string;
-  url: string;
   media_type: 'image' | 'video';
+  url: string;
+  date: string;
+  title: string;
+  explanation: string;
 }
 
 export default function Apod() {
