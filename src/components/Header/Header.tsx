@@ -66,9 +66,6 @@ export default function Header() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/apod">APOD</Link>
-            </li>
-            <li>
               <Link href="/apod-calendar">APOD Calendar</Link>
             </li>
             <li>
