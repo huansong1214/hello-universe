@@ -5,8 +5,8 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   apod: {
-    media_type: 'image' | 'video';
-    url: string;
+    media_type: 'image' | 'video' | 'other';
+    url?: string; // 'other' media type may not have a url
     date: string;
     title: string;
     explanation: string;
