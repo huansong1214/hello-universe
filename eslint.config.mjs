@@ -13,6 +13,11 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   prettier,
+  {
+    rules: {
+      '@next/next/no-img-element': 'off', // disable the no-img-element rule
+    },
+  }
 ];
 
 export default eslintConfig;
