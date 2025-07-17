@@ -87,6 +87,11 @@ export default function ApodCalendar() {
           activeStartDate && setActiveStartDate(activeStartDate)
         }
 
+        tileDisabled={({ date }) => {
+          const dateString = date.toISOString().split('T')[0];
+          return !calendarData[dateString];
+        }}
+
         tileContent={({ date }) => {
           const dateString = date.toISOString().split('T')[0];
           const apod = calendarData[dateString];
@@ -98,10 +103,13 @@ export default function ApodCalendar() {
           const isVideo = ['video', 'other'].includes(apod.media_type);
 
           return (
-            <div className={styles.tileImage} onClick={() => openModal(date)}>
+            <div className={styles.tileImage}>
               <span className={styles.dateOverlay}>{date.getDate()}</span>
 
-              <div className={styles.thumbnailContainer}>
+              <div
+                className={styles.thumbnailContainer}
+                onClick={() => openModal(date)}
+              >
                 {isImage && (
                   <img
                   src={apod.url}
