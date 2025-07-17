@@ -78,7 +78,7 @@
 }
 
 .nasaUrl {
-  color: var(--info);
+  color: var(--primary);
   cursor: pointer;
 }
 
