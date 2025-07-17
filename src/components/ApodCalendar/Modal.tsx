@@ -23,14 +23,23 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
     if (apod.media_type === 'image') {
       return <img src={apod.url} alt={apod.title} />;
     } else if (apod.media_type === 'video') {
-      return (
-        <iframe
-          src={apod.url}
-          title={apod.title}
-          allowFullScreen
-          aria-label={apod.title}
-        />
-      );
+      if (apod.url?.includes('youtube.com')) {
+        return (
+          <iframe
+            src={apod.url}
+            title={apod.title}
+            allowFullScreen
+            aria-label={apod.title}
+          />
+        );
+      } else {
+        // fallback for non-Youbube url (eg html page for 2025-03-02)
+        return (
+          <p className={styles.mediaOther}>
+          View content on <a href={nasaUrl} target='_blank' rel='noopener noreferrer' className={styles.nasaUrl}>NASA APOD page</a>
+        </p>
+        );
+      }
     } else if (apod.media_type === 'other') {
       return (
         <p className={styles.mediaOther}>
