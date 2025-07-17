@@ -90,15 +90,31 @@ export default function ApodCalendar() {
         tileContent={({ date }) => {
           const dateString = date.toISOString().split('T')[0];
           const apod = calendarData[dateString];
-          return apod ? (
+
+          if (!apod) return null;
+
+          // conditionally render thumbnail based on media type
+          const isImage = apod.media_type === 'image';
+          const isVideo = ['video', 'other'].includes(apod.media_type);
+
+          return (
             <div className={styles.tileImage} onClick={() => openModal(date)}>
               <span className={styles.dateOverlay}>{date.getDate()}</span>
-              <img
-                src={apod.url}
-                alt={apod.title}
-                className={styles.thumbnail} />
+
+              <div className={styles.thumbnailContainer}>
+                {isImage && (
+                  <img
+                  src={apod.url}
+                  alt={apod.title}
+                  className={styles.thumbnail}
+                  />
+                )}
+                {isVideo && (
+                  <div className={styles.playOverlay}>▶</div>
+                )}
+              </div>
             </div>
-          ) : null;
+          );
         }}
       />
 
