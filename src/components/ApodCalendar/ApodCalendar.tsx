@@ -107,6 +107,7 @@ export default function ApodCalendar() {
                   src={apod.url}
                   alt={apod.title}
                   className={styles.thumbnail}
+                  loading='lazy'
                   />
                 )}
                 {isVideo && (
