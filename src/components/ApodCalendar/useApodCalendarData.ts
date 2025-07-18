@@ -122,7 +122,7 @@ export function useApodCalendarData(activeStartDate: Date) {
       }
 
       fetchApodData();
-    }, 500); // 500ms debounce
+    }, 200); // 200ms debounce
 
     return () => clearTimeout(timeout); // cleanup timeout on unmount
   }, [activeStartDate]);
