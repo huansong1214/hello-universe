@@ -84,6 +84,10 @@ export default function ApodCalendar() {
           view='month'
           minDetail='month'
           maxDetail='month'
+          // set minDate to 2015-01-01 (start of APOD archive)
+          minDate={new Date(2015, 0, 1)}
+          // set maxDate to the last day of the current month
+          maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
           onActiveStartDateChange={({ activeStartDate }) =>
             activeStartDate && setActiveStartDate(activeStartDate)
           }
