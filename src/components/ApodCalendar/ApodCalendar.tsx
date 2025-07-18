@@ -75,57 +75,58 @@ export default function ApodCalendar() {
       {isLoading && <p className={styles.loading}>Loading APOD data...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
-      <Calendar
-        className={styles.reactCalendar}
-        onChange={handleDateChange}
-        value={selectedDate}
-        selectRange={false}
-        view='month'
-        minDetail='month'
-        maxDetail='month'
-        onActiveStartDateChange={({ activeStartDate }) =>
-          activeStartDate && setActiveStartDate(activeStartDate)
-        }
+      {!isLoading && Object.keys(calendarData).length > 0 && (
+        <Calendar
+          className={styles.reactCalendar}
+          onChange={handleDateChange}
+          value={selectedDate}
+          selectRange={false}
+          view='month'
+          minDetail='month'
+          maxDetail='month'
+          onActiveStartDateChange={({ activeStartDate }) =>
+            activeStartDate && setActiveStartDate(activeStartDate)
+          }
 
-        tileDisabled={({ date }) => {
-          const dateString = date.toISOString().split('T')[0];
-          return !calendarData[dateString];
-        }}
+          tileDisabled={({ date }) => {
+            const dateString = date.toISOString().split('T')[0];
+            return !calendarData[dateString];
+          }}
 
-        tileContent={({ date }) => {
-          const dateString = date.toISOString().split('T')[0];
-          const apod = calendarData[dateString];
+          tileContent={({ date }) => {
+            const dateString = date.toISOString().split('T')[0];
+            const apod = calendarData[dateString];
+            if (!apod) return null;
 
-          if (!apod) return null;
+            // conditionally render thumbnail based on media type
+            const isImage = apod.media_type === 'image';
+            const isVideo = ['video', 'other'].includes(apod.media_type);
 
-          // conditionally render thumbnail based on media type
-          const isImage = apod.media_type === 'image';
-          const isVideo = ['video', 'other'].includes(apod.media_type);
+            return (
+              <div className={styles.tileImage}>
+                <span className={styles.dateOverlay}>{date.getDate()}</span>
 
-          return (
-            <div className={styles.tileImage}>
-              <span className={styles.dateOverlay}>{date.getDate()}</span>
-
-              <div
-                className={styles.thumbnailContainer}
-                onClick={() => openModal(date)}
-              >
-                {isImage && (
-                  <img
-                  src={apod.url}
-                  alt={apod.title}
-                  className={styles.thumbnail}
-                  loading='lazy'
-                  />
-                )}
-                {isVideo && (
-                  <div className={styles.playOverlay}>▶</div>
-                )}
+                <div
+                  className={styles.thumbnailContainer}
+                  onClick={() => openModal(date)}
+                >
+                  {isImage && (
+                    <img
+                    src={apod.url}
+                    alt={apod.title}
+                    className={styles.thumbnail}
+                    loading='lazy'
+                    />
+                  )}
+                  {isVideo && (
+                    <div className={styles.playOverlay}>▶</div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        }}
-      />
+            );
+          }}
+        />
+      )}
 
       {selectedApod && (
         <Modal
