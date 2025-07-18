@@ -31,6 +31,10 @@ body {
   background-color: var(--primary) !important;
 }
 
+.react-calendar__navigation__arrow:disabled {
+  background-color: var(--muted) !important;
+}
+
 .react-calendar__month-view__days__day--weekend {
   color:var(--foreground);
 }
