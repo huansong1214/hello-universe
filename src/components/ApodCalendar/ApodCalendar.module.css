@@ -28,6 +28,10 @@
   align-items: center;
 }
 
+.thumbnailContainer:hover {
+  background-color: var(--primary);
+}
+
 .thumbnail {
   width: 100%;
   height: 100%;

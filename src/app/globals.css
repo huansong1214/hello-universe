@@ -27,6 +27,10 @@ body {
   background-color: var(--muted) !important;
 }
 
+.react-calendar__navigation__arrow:hover {
+  background-color: var(--primary) !important;
+}
+
 .react-calendar__month-view__days__day--weekend {
   color:var(--foreground);
 }
@@ -42,4 +46,8 @@ body {
 
 .react-calendar__tile > abbr {
   display: none;
+}
+
+.react-calendar__tile:disabled {
+  background-color: var(--muted);
 }
