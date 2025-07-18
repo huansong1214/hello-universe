@@ -40,6 +40,7 @@
 
 @media (min-width: 768px) {
   .dateOverlay {
+    display: block;
     position: absolute;
     top: 0.2rem;
     left: 0.2rem;
