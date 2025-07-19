@@ -1,0 +1,51 @@
+.mainContainer {
+  margin-top: 4rem;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin: 0.5rem 1rem;
+  color: var(--secondary);
+}
+
+.filterButtons {
+  margin: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.loading {
+  color: var(--info);
+  margin: 0.5rem 0;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.roverName {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--background);
+}
+
+@media (min-width: 768px) {
+  .mainContainer {
+    width: 768px;
+    margin: 4rem auto;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
