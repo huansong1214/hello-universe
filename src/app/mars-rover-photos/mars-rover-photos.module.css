@@ -8,12 +8,6 @@
   color: var(--secondary);
 }
 
-.filterButtons {
-  margin: 1rem;
-  display: flex;
-  gap: 1rem;
-}
-
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -24,19 +18,6 @@
 .loading {
   color: var(--info);
   margin: 0.5rem 0;
-}
-
-.imageContainer {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}
-
-.roverName {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--background);
 }
 
 @media (min-width: 768px) {

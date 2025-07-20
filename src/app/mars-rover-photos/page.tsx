@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { FlipCard } from '@/components/FlipCard/FlipCard';
+import FilterButtons from '@/components/MarsRoverPhotos/FilterButtons';
+import RoverCard from '@/components/MarsRoverPhotos/RoverCard';
 
 import styles from './mars-rover-photos.module.css';
-
-import { Button } from '@/components/ui/button';
 
 type ManifestData = {
   photo_manifest: {
@@ -33,7 +32,7 @@ export default function MarsRoverPhotosPage() {
     async function fetchManifests() {
       const cached = localStorage.getItem(CACHE_KEY);
 
-      if (cached) {
+      if(cached) {
         try {
           const { timestamp, data } = JSON.parse(cached);
           if (Date.now() - timestamp < EXPIRATION_MS) {
@@ -67,7 +66,6 @@ export default function MarsRoverPhotosPage() {
     fetchManifests();
   }, []);
 
-  // filter manifests only if filterStatus is not 'all'
   const filteredManifests =
     filterStatus === 'all'
       ? manifests
@@ -91,43 +89,22 @@ export default function MarsRoverPhotosPage() {
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Mars Rover Photos</h1>
 
-      {/* filter buttons */}
-      <div className={styles.filterButtons}>
-        <Button active={filterStatus === 'all'} onClick={() => setFilterStatus('all')}>All</Button>
-        <Button active={filterStatus === 'active'} onClick={() => setFilterStatus('active')}>Active</Button>
-        <Button active={filterStatus === 'complete'} onClick={() => setFilterStatus('complete')}>Complete</Button>
-      </div>
+      <FilterButtons filterStatus={filterStatus} onChange={setFilterStatus} />
 
       <div className={styles.grid}>
         {filteredManifests.map((manifest) => {
           if (!manifest.photo_manifest) return null;
 
+          const { name, status, launch_date, landing_date, total_photos } = manifest.photo_manifest;
+
           return (
-            <FlipCard
-              key={manifest.photo_manifest.name}
-              frontContent={
-                <div className={styles.imageContainer}>
-                  <div className={styles.roverName}>
-                    {manifest.photo_manifest.name}
-                  </div>
-                  <img
-                    src={`/images/rover-${manifest.photo_manifest.name.toLowerCase()}.jpg`}
-                    alt={`Mars Rover ${manifest.photo_manifest.name}`}
-                  />
-                </div>
-              }
-              backContent={
-                <div>
-                  <h3>{manifest.photo_manifest.name}</h3>
-                  <p>Status: {manifest.photo_manifest.status}</p>
-                  <p>Launch: {manifest.photo_manifest.launch_date}</p>
-                  <p>Landing: {manifest.photo_manifest.landing_date}</p>
-                  <p>
-                    Photos:{' '}
-                    {manifest.photo_manifest.total_photos.toLocaleString()}
-                  </p>
-                </div>
-              }
+            <RoverCard
+              key={name}
+              name={name}
+              status={status}
+              launchDate={launch_date}
+              landingDate={landing_date}
+              totalPhotos={total_photos}
             />
           );
         })}
