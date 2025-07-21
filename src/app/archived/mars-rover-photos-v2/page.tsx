@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import clsx from "clsx";
-
-import FilterButtons from "@/components/MarsRoverPhotos/FilterButtons";
-import RoverCard from "@/components/MarsRoverPhotos/RoverCard";
+import FilterButtons from '@/components/MarsRoverPhotos/FilterButtons';
+import RoverCard from '@/components/MarsRoverPhotos/RoverCard';
 
 import styles from './mars-rover-photos.module.css';
 
@@ -68,18 +66,6 @@ export default function MarsRoverPhotosPage() {
     fetchManifests();
   }, []);
 
-  if (manifests.length === 0) {
-    return (
-      <main className={styles.mainContainer}>
-        <h1 className={styles.heading}>Mars Rover Photos</h1>
-        <div className={styles.timeline}>
-            <p className={styles.loading}>Loading rover data...</p>
-        </div>
-      </main>
-    );
-  }
-
-  // filter manifests based on filterStatus
   const filteredManifests =
     filterStatus === 'all'
       ? manifests
@@ -88,12 +74,16 @@ export default function MarsRoverPhotosPage() {
             manifest.photo_manifest?.status.toLowerCase() === filterStatus,
       );
 
-  // sort filtered manifests by launch_date descending (most recent first)
-  const sortedManifests = filteredManifests.slice().sort((a, b) => {
-    const dateA = new Date(a.photo_manifest?.landing_date || '').getTime();
-    const dateB = new Date(b.photo_manifest?.landing_date || '').getTime();
-    return dateB - dateA;
-  });
+  if (manifests.length === 0) {
+    return (
+      <main className={styles.mainContainer}>
+        <h1 className={styles.heading}>Mars Rover Photos</h1>
+        <div className={styles.grid}>
+          <p className={styles.loading}>Loading rover data...</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.mainContainer}>
@@ -101,27 +91,21 @@ export default function MarsRoverPhotosPage() {
 
       <FilterButtons filterStatus={filterStatus} onChange={setFilterStatus} />
 
-      <div className={styles.timeline}>
-        {sortedManifests.map((manifest, index) => {
+      <div className={styles.grid}>
+        {filteredManifests.map((manifest) => {
           if (!manifest.photo_manifest) return null;
 
           const { name, status, launch_date, landing_date, total_photos } = manifest.photo_manifest;
 
-          // alternate sides for timeline items
-          const sideClass = index % 2 === 0 ? 'left' : 'right';
-
           return (
-            <div key={name} className={clsx(styles.timelineItem, styles[sideClass])}>
-              <div className={styles.timelineItemContent}>
-              <RoverCard
-                name={name}
-                status={status}
-                launchDate={launch_date}
-                landingDate={landing_date}
-                totalPhotos={total_photos}
-              />
-              </div>
-            </div>
+            <RoverCard
+              key={name}
+              name={name}
+              status={status}
+              launchDate={launch_date}
+              landingDate={landing_date}
+              totalPhotos={total_photos}
+            />
           );
         })}
       </div>
