@@ -8,16 +8,56 @@
   color: var(--secondary);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  margin: 1rem;
-}
-
 .loading {
   color: var(--info);
   margin: 0.5rem 0;
+}
+
+/* timeline container */
+.timeline {
+  position: relative;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+/* the vertical timeline line */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 0.1rem;
+  background-color: var(--foreground);
+  top: 0;
+  bottom: 0;
+  left: 1.7rem;
+}
+
+/* timeline item container */
+.timelineItem {
+  position: relative;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 0.5rem;
+}
+
+/* circle marker */
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  width: 1.4rem;
+  height: 1.4rem;
+  top: 2rem;
+  left: 1rem;
+  background-color: var(--foreground);
+  border: 0.3rem solid var(--secondary);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* content box inside timeline item */
+.timelineItemContent {
+  position: relative;
+  padding: 0.5rem;
 }
 
 @media (min-width: 768px) {
@@ -26,7 +66,38 @@
     margin: 4rem auto;
   }
 
-  .grid {
-    grid-template-columns: 1fr 1fr;
+  /* the vertical timeline line */
+  .timeline::after {
+    left: 50%;
+    margin-left: -0.05rem;
+
+  }
+
+  /* timeline item container */
+  .timelineItem {
+    width: 50%;
+    padding: 0 1.7rem;
+  }
+
+  /* left side timeline item */
+  .timelineItem.left {
+    left: 0;
+  }
+
+  /* right side timeline item */
+  .timelineItem.right {
+    left: 50%;
+  }
+
+  /* circle marker for left item */
+  .timelineItem.left::before {
+    right: -0.7rem;
+    left: auto;
+  }
+
+  /* circle marker for right item */
+  .timelineItem.right::before {
+    left: -0.7rem;
+    right: auto;
   }
 }
