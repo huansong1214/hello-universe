@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
-import Calendar from "react-calendar";
+import React, { useState, useEffect, Suspense, useCallback } from "react";
 
 import { useApodCalendarData } from './useApodCalendarData';
 import Modal from './Modal';
 
 import styles from './ApodCalendar.module.css';
+
+// lazy load the Calendar component
+const Calendar = React.lazy(() => import('react-calendar'));
 
 interface Apod {
   media_type: 'image' | 'video' | 'other';
@@ -75,61 +77,64 @@ export default function ApodCalendar() {
       {isLoading && <p className={styles.loading}>Loading APOD data...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
+      {/* lazy load the Calendar component */}
       {!isLoading && Object.keys(calendarData).length > 0 && (
-        <Calendar
-          className={styles.reactCalendar}
-          onChange={handleDateChange}
-          value={selectedDate}
-          selectRange={false}
-          view='month'
-          minDetail='month'
-          maxDetail='month'
-          // set minDate to 2015-01-01 (start of APOD archive)
-          minDate={new Date(2015, 0, 1)}
-          // set maxDate to the last day of the current month
-          maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
-          onActiveStartDateChange={({ activeStartDate }) =>
-            activeStartDate && setActiveStartDate(activeStartDate)
-          }
+        <Suspense fallback={<p className={styles.loading}>Loading calendar...</p>}>
+          <Calendar
+            className={styles.reactCalendar}
+            onChange={handleDateChange}
+            value={selectedDate}
+            selectRange={false}
+            view='month'
+            minDetail='month'
+            maxDetail='month'
+            // set minDate to 2015-01-01 (start of APOD archive)
+            minDate={new Date(2015, 0, 1)}
+            // set maxDate to the last day of the current month
+            maxDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
+            onActiveStartDateChange={({ activeStartDate }) =>
+              activeStartDate && setActiveStartDate(activeStartDate)
+            }
 
-          tileDisabled={({ date }) => {
-            const dateString = date.toISOString().split('T')[0];
-            return !calendarData[dateString];
-          }}
+            tileDisabled={({ date }) => {
+              const dateString = date.toISOString().split('T')[0];
+              return !calendarData[dateString];
+            }}
 
-          tileContent={({ date }) => {
-            const dateString = date.toISOString().split('T')[0];
-            const apod = calendarData[dateString];
-            if (!apod) return null;
+            tileContent={({ date }) => {
+              const dateString = date.toISOString().split('T')[0];
+              const apod = calendarData[dateString];
+              if (!apod) return null;
 
-            // conditionally render thumbnail based on media type
-            const isImage = apod.media_type === 'image';
-            const isVideo = ['video', 'other'].includes(apod.media_type);
+              // conditionally render thumbnail based on media type
+              const isImage = apod.media_type === 'image';
+              const isVideo = ['video', 'other'].includes(apod.media_type);
 
-            return (
-              <div className={styles.tileImage}>
-                <span className={styles.dateOverlay}>{date.getDate()}</span>
+              return (
+                <div className={styles.tileImage}>
+                  <span className={styles.dateOverlay}>{date.getDate()}</span>
 
-                <div
-                  className={styles.thumbnailContainer}
-                  onClick={() => openModal(date)}
-                >
-                  {isImage && (
-                    <img
-                    src={apod.url}
-                    alt={apod.title}
-                    className={styles.thumbnail}
-                    loading='lazy'
-                    />
-                  )}
-                  {isVideo && (
-                    <div className={styles.playOverlay}>▶</div>
-                  )}
+                  <div
+                    className={styles.thumbnailContainer}
+                    onClick={() => openModal(date)}
+                  >
+                    {isImage && (
+                      <img
+                      src={apod.url}
+                      alt={apod.title}
+                      className={styles.thumbnail}
+                      loading='lazy'
+                      />
+                    )}
+                    {isVideo && (
+                      <div className={styles.playOverlay}>▶</div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        </Suspense>
       )}
 
       {selectedApod && (
