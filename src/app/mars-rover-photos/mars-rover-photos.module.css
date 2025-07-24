@@ -10,7 +10,7 @@
 
 .loading {
   color: var(--info);
-  margin: 0.5rem 0;
+  margin: 0.5rem 1rem;
 }
 
 /* timeline container */
@@ -30,6 +30,11 @@
   top: 0;
   bottom: 0;
   left: 1.7rem;
+}
+
+/* hide timeline line until data is ready */
+.timeline.hiddenLine::after {
+  display: none;
 }
 
 /* timeline item container */

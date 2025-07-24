@@ -67,8 +67,7 @@
 
 .error {
   color: var(--info);
-  margin: 0.5rem 0;
-  text-align: center;
+  margin: 0.5rem 1rem;
 }
 
 .mediaOther {

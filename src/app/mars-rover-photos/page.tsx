@@ -72,7 +72,7 @@ export default function MarsRoverPhotosPage() {
     return (
       <main className={styles.mainContainer}>
         <h1 className={styles.heading}>Mars Rover Photos</h1>
-        <div className={styles.timeline}>
+        <div className={clsx(styles.timeline, manifests.length === 0 && styles.hiddenLine)}>
             <p className={styles.loading}>Loading rover data...</p>
         </div>
       </main>
