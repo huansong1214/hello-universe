@@ -4,7 +4,7 @@ const NASA_API_KEY = process.env.NASA_API_KEY;
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { rover: string } },
+  { params }: { params: Promise<{ rover: string }> },
 ) {
   if (!NASA_API_KEY) {
     return NextResponse.json(
@@ -13,7 +13,7 @@ export async function GET(
     );
   }
 
-  const { rover } = params;
+  const { rover } = await params;
 
   const url = `https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${NASA_API_KEY}`;
 
