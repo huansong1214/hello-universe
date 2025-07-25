@@ -2,8 +2,11 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { ZodError } from 'zod';
 
-import { contactSchema, type ContactFormData } from 'lib/contactSchema';
-import { EmailTemplate } from 'emails/ContactEmail';
+import {
+  contactSchema,
+  type ContactFormData,
+} from 'features/contact/types/contactSchema';
+import { EmailTemplate } from 'features/contact/EmailTemplate';
 
 if (!process.env.RESEND_API_KEY) {
   throw new Error('Missing RESEND_API_KEY environment variable');

@@ -1,4 +1,4 @@
-import { FlipCard } from '@/components/FlipCard/FlipCard';
+import { FlipCard } from 'features/mars-rovers/components/FlipCard';
 
 import styles from './RoverCard.module.css';
 

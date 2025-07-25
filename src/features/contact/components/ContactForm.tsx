@@ -4,11 +4,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/Input';
+import { Textarea } from '@/components/ui/Textarea';
+import { Button } from '@/components/ui/Button';
 
-import { contactSchema, type ContactFormData } from 'lib/contactSchema';
+import {
+  contactSchema,
+  type ContactFormData,
+} from 'features/contact/types/contactSchema';
 
 import styles from './ContactForm.module.css';
 

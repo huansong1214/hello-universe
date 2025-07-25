@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
-import FilterButtons from "@/components/MarsRoverPhotos/FilterButtons";
-import RoverCard from "@/components/MarsRoverPhotos/RoverCard";
+import FilterButtons from "features/mars-rovers/components/FilterButtons";
+import RoverCard from "features/mars-rovers/components/RoverCard";
 
-import styles from './mars-rover-photos.module.css';
+import styles from './page.module.css';
 
 type ManifestData = {
   photo_manifest: {
@@ -23,7 +23,7 @@ type ManifestData = {
 
 const rovers = ['perseverance', 'curiosity', 'opportunity', 'spirit'];
 
-export default function MarsRoverPhotosPage() {
+export default function MarsRoversPage() {
   const [manifests, setManifests] = useState<ManifestData[]>([]);
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'complete'>('all');
 

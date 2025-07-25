@@ -1,8 +1,8 @@
-import ApodCalendar from '@/components/ApodCalendar/ApodCalendar';
+import ApodCalendar from 'features/apod-calendar/components/ApodCalendar';
 
-import styles from './apod-calendar.module.css';
+import styles from './page.module.css';
 
-export default function ApodCalendarPage() {
+export default function ApodPage() {
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Astronomy Picture of the Day</h1>
