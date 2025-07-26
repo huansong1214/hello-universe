@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { FlipCard } from 'features/mars-rovers/components/FlipCard';
 
 import styles from './RoverCard.module.css';
@@ -23,12 +25,16 @@ const RoverCard = ({ name, status, launchDate, landingDate, totalPhotos }: Rover
       </div>
     }
     backContent={
+
       <div>
         <h3>{name}</h3>
         <p>Status: {status}</p>
         <p>Launch: {launchDate}</p>
         <p>Landing: {landingDate}</p>
         <p>Photos: {totalPhotos.toLocaleString()}</p>
+        <Link href={`/mars-rovers/camera/${name.toLowerCase()}`} passHref>
+          <p className={styles.link}>View camera data</p>
+        </Link>
       </div>
     }
   />
