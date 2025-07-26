@@ -50,7 +50,7 @@ export default function MarsRoversPage() {
       try {
         const responses = await Promise.all(
           rovers.map((rover) =>
-            fetch(`api/rovers/${rover}/manifest`).then((response) => response.json()),
+            fetch(`api/mars-rovers/${rover}/manifest`).then((response) => response.json()),
           ),
         );
 
