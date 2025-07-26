@@ -10,3 +10,12 @@
   transform: translateX(-50%);
   color: var(--background);
 }
+
+.link {
+  color: var(--primary);
+}
+
+.link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
