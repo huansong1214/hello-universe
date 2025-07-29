@@ -10,16 +10,16 @@ export function KeyLegend({ categories, colorScale, hiddenCategories, toggleCate
         <div id="key" className="box">
             <h1>Key</h1>
             {categories.map(category => (
-                <p key={category}>
+                <label key={category}>
                     <input
                         type="checkbox"
                         checked={!hiddenCategories.has(category)}
                         onChange={() => toggleCategory(category)}
                         title="Include in chart"
                     />
-                    <div className="color" style={{ backgroundColor: colorScale(category) }}></div>
+                    <span className="color" style={{ backgroundColor: colorScale(category) }}></span>
                     <span>{category}</span>
-                </p>
+                </label>
             ))}
         </div>
     );
