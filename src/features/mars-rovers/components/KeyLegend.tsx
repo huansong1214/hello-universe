@@ -1,3 +1,5 @@
+import styles from './KeyLegend.module.css';
+
 type KeyLegendProps = {
     categories: string[];
     colorScale: d3.ScaleOrdinal<string, string>;
@@ -7,8 +9,8 @@ type KeyLegendProps = {
 
 export function KeyLegend({ categories, colorScale, hiddenCategories, toggleCategory }: KeyLegendProps) {
     return (
-        <div id="key" className="box">
-            <h1>Key</h1>
+        <div className={styles.box}>
+            <h1 className={styles.title}>Key</h1>
             {categories.map(category => (
                 <label key={category}>
                     <input
@@ -17,7 +19,7 @@ export function KeyLegend({ categories, colorScale, hiddenCategories, toggleCate
                         onChange={() => toggleCategory(category)}
                         title="Include in chart"
                     />
-                    <span className="color" style={{ backgroundColor: colorScale(category) }}></span>
+                    <span className={styles.color} style={{ backgroundColor: colorScale(category) }}></span>
                     <span>{category}</span>
                 </label>
             ))}
