@@ -1,0 +1,128 @@
+import { useEffect,  useState, useRef } from 'react';
+import * as d3 from 'd3';
+
+import { InfoBox } from './InfoBox';
+import { KeyLegend } from './KeyLegend';
+
+type Item = {
+    name: string;
+    sol_count: number;
+    category: string;
+};
+
+const width = 600;
+const height = 400;
+const margin = { top: 20, right: 10, bottom: 20, left: 50 };
+
+export default function CameraChart({ rover }: { rover: string }) {
+    const svgRef = useRef<SVGSVGElement | null>(null);
+    const [items, setItems] = useState<Item[]>([]);
+    const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(new Set());
+    const [selectedCamera, setSelectedCamera] = useState<Item | null>(null);
+
+    useEffect(() => {
+        if (!rover) {
+            console.error("No rover provided");
+            return;
+        }
+
+        fetch(`/api/mars-rovers/${rover}/camera`)
+            .then(response => response.json())
+            .then((data: Item[]) => {
+                setItems(data);
+                setSelectedCamera(null); // reset selection on data load
+                setHiddenCategories(new Set()); // reset filters
+            })
+            .catch(console.error);
+    }, [rover]);
+
+    useEffect(() => {
+        if (!svgRef.current || items.length === 0) return;
+
+        const svg = d3.select(svgRef.current);
+        svg.selectAll('*').remove();
+
+        const filtered = items.filter(d => !hiddenCategories.has(d.category));
+        const categories = Array.from(new Set(items.map(d => d.category)));
+
+        const colorScale = d3.scaleOrdinal()
+            .domain(categories)
+            .range(d3.schemeCategory10);
+
+        const xScale = d3.scaleBand()
+            .domain(filtered.map(d => d.name))
+            .range([margin.left, width - margin.right])
+            .padding(0.3);
+
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(filtered, d => d.sol_count)?? 0])
+            .range([height - margin.bottom, margin.top])
+            .nice();
+
+        const bottomAxis = d3.axisBottom(xScale).tickValues([]);
+        const leftAxis = d3.axisLeft(yScale).tickFormat(d3.format("~s"));
+
+        svg.append('g')
+            .attr('transform', `translate(0,${height - margin.bottom})`)
+            .call(bottomAxis);
+
+        svg.append('g')
+            .attr('transform', `translate(${margin.left},0)`)
+            .call(leftAxis);
+        
+        svg.append('text')
+            .text('Sol Count')
+            .style('font-size', '14px')
+            .attr('text-anchor', 'middle')
+            .attr('transform', `translate(12,${margin.top + (height - margin.top - margin.bottom) / 2}) rotate(270)`);
+
+        svg.selectAll<SVGRectElement, Item>('rect')
+            .data(filtered, d => d.name)
+            .join('rect')
+            .attr('x', d => xScale(d.name) ?? 0)
+            .attr('y', d => yScale(d.sol_count))
+            .attr('width', xScale.bandwidth())
+            .attr('height', d => yScale(0) - yScale(d.sol_count))
+            .attr('fill', d => colorScale(d.category) as string)
+            .style('cursor', 'pointer')
+            .on('mouseover', (event, d) => {
+                setSelectedCamera(d);
+            });
+
+    }, [items, hiddenCategories]);
+
+    const categories = Array.from(new Set(items.map(d => d.category)));
+    const colorScale: d3.ScaleOrdinal<string, string> = d3.scaleOrdinal<string, string>()
+        .domain(categories)
+        .range(d3.schemeCategory10);
+
+    function toggleCategory(category: string) {
+        const newHidden = new Set(hiddenCategories);
+        if (hiddenCategories.has(category)) {
+            newHidden.delete(category);
+        } else {
+            newHidden.add(category);
+            // if selected camera is in this category, deselect it
+            if (selectedCamera?.category === category) {
+                setSelectedCamera(null);
+            }
+        }
+        setHiddenCategories(newHidden);
+    }
+
+    return (
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+            <svg ref={svgRef} width={width} height={height} />
+
+            <div id='sidebar' style={{ marginLeft: 20, width: 200}}>
+                <InfoBox selectedCamera={selectedCamera} />
+                <KeyLegend
+                    categories={categories}
+                    colorScale={colorScale}
+                    hiddenCategories={hiddenCategories}
+                    toggleCategory={toggleCategory}
+                />
+            </div>
+        </div>
+    );
+}
