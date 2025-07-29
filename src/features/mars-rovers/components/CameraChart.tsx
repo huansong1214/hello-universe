@@ -1,4 +1,4 @@
-import { useEffect,  useState, useRef } from 'react';
+import { useEffect,  useState, useRef, useMemo} from 'react';
 import * as d3 from 'd3';
 
 import { InfoBox } from './InfoBox';
@@ -19,6 +19,18 @@ export default function CameraChart({ rover }: { rover: string }) {
     const [items, setItems] = useState<Item[]>([]);
     const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(new Set());
     const [selectedCamera, setSelectedCamera] = useState<Item | null>(null);
+
+    // memoize categories based on items
+    const categories = useMemo(() => Array.from(new Set(items.map(d => d.category))), [items]);
+
+    // memoize color scale based on categories
+    const colorScale = useMemo(
+        () => 
+            d3.scaleOrdinal<string, string>()
+                .domain(categories)
+                .range(d3.schemeCategory10),
+        [categories]
+    );
 
     useEffect(() => {
         if (!rover) {
@@ -43,11 +55,6 @@ export default function CameraChart({ rover }: { rover: string }) {
         svg.selectAll('*').remove();
 
         const filtered = items.filter(d => !hiddenCategories.has(d.category));
-        const categories = Array.from(new Set(items.map(d => d.category)));
-
-        const colorScale = d3.scaleOrdinal()
-            .domain(categories)
-            .range(d3.schemeCategory10);
 
         const xScale = d3.scaleBand()
             .domain(filtered.map(d => d.name))
@@ -90,11 +97,6 @@ export default function CameraChart({ rover }: { rover: string }) {
             });
 
     }, [items, hiddenCategories]);
-
-    const categories = Array.from(new Set(items.map(d => d.category)));
-    const colorScale: d3.ScaleOrdinal<string, string> = d3.scaleOrdinal<string, string>()
-        .domain(categories)
-        .range(d3.schemeCategory10);
 
     function toggleCategory(category: string) {
         const newHidden = new Set(hiddenCategories);
