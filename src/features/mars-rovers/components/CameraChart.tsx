@@ -32,6 +32,30 @@ export default function CameraChart({ rover }: { rover: string }) {
         [categories]
     );
 
+    // memoize filtered items based on items and hiddenCategories
+    const filtered = useMemo(
+        () => items.filter(d => !hiddenCategories.has(d.category)),
+        [items, hiddenCategories]
+    );
+
+    // memoize xScale based on filtered
+    const xScale = useMemo(() =>
+        d3.scaleBand()
+            .domain(filtered.map(d => d.name))
+            .range([margin.left, width - margin.right])
+            .padding(0.3),
+        [filtered]
+    );
+
+    // memoize yScale based on filtered
+    const yScale = useMemo(() =>
+        d3.scaleLinear()
+            .domain([0, d3.max(filtered, d => d.sol_count)?? 0])
+            .range([height - margin.bottom, margin.top])
+            .nice(),
+        [filtered]
+    );
+
     useEffect(() => {
         if (!rover) {
             console.error("No rover provided");
@@ -53,18 +77,6 @@ export default function CameraChart({ rover }: { rover: string }) {
 
         const svg = d3.select(svgRef.current);
         svg.selectAll('*').remove();
-
-        const filtered = items.filter(d => !hiddenCategories.has(d.category));
-
-        const xScale = d3.scaleBand()
-            .domain(filtered.map(d => d.name))
-            .range([margin.left, width - margin.right])
-            .padding(0.3);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(filtered, d => d.sol_count)?? 0])
-            .range([height - margin.bottom, margin.top])
-            .nice();
 
         const bottomAxis = d3.axisBottom(xScale).tickValues([]);
         const leftAxis = d3.axisLeft(yScale).tickFormat(d3.format("~s"));
