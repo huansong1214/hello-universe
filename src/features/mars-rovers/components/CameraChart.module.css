@@ -1,0 +1,21 @@
+.cameraChartContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 1rem;
+}
+
+:global(.y-axis-label) {
+  fill: var(--foreground);
+  font-size: 1rem;
+}
+
+:global(.rect) {
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .cameraChartContainer {
+    flex-direction: row;
+  }
+}

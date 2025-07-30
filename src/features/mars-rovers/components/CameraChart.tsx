@@ -4,6 +4,8 @@ import * as d3 from 'd3';
 import { InfoBox } from './InfoBox';
 import { KeyLegend } from './KeyLegend';
 
+import styles from './CameraChart.module.css';
+
 type Item = {
     name: string;
     sol_count: number;
@@ -91,7 +93,7 @@ export default function CameraChart({ rover }: { rover: string }) {
         
         svg.append('text')
             .text('Sol Count')
-            .style('font-size', '14px')
+            .attr('class', 'y-axis-label')
             .attr('text-anchor', 'middle')
             .attr('transform', `translate(12,${margin.top + (height - margin.top - margin.bottom) / 2}) rotate(270)`);
 
@@ -103,7 +105,7 @@ export default function CameraChart({ rover }: { rover: string }) {
             .attr('width', xScale.bandwidth())
             .attr('height', d => yScale(0) - yScale(d.sol_count))
             .attr('fill', d => colorScale(d.category) as string)
-            .style('cursor', 'pointer')
+            .attr('class', 'rect')
             .on('mouseover', (event, d) => {
                 setSelectedCamera(d);
             });
@@ -125,10 +127,10 @@ export default function CameraChart({ rover }: { rover: string }) {
     }
 
     return (
-        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+        <div className={styles.cameraChartContainer}>
             <svg ref={svgRef} width={width} height={height} />
 
-            <div id='sidebar' style={{ marginLeft: 20, width: 200}}>
+            <div className={styles.sideBar}>
                 <InfoBox selectedCamera={selectedCamera} />
                 <KeyLegend
                     categories={categories}
