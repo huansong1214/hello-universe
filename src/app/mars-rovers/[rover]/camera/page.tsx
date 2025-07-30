@@ -19,8 +19,8 @@ function CameraUsagePage() {
   }
 
   useEffect(() => {
-    const roverName = getRoverName(rover); // make sure to get a single string
-    setRoverName(capitalize(roverName)); // set the capitalized rover name
+    const rawName = getRoverName(rover); // make sure to get a single string
+    setRoverName(capitalize(rawName)); // set the capitalized rover name
   }, [rover]);
 
   return (
