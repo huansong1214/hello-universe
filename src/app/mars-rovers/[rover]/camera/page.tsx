@@ -1,13 +1,11 @@
 'use client';
 
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import styles from './page.module.css';
 
 function CameraUsagePage() {
   const { rover } = useParams(); // grab the rover param from the URL
-  const [roverName, setRoverName] = useState('');
 
   // capitalize first letter of rover name
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -18,10 +16,8 @@ function CameraUsagePage() {
     return param || 'Unknown'; // return the param if it exists, else return 'Unknown'
   }
 
-  useEffect(() => {
-    const rawName = getRoverName(rover); // make sure to get a single string
-    setRoverName(capitalize(rawName)); // set the capitalized rover name
-  }, [rover]);
+  const rawName = getRoverName(rover);
+  const roverName = capitalize(rawName);
 
   return (
     <main className={styles.mainContainer}>
