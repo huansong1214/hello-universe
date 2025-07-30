@@ -2,6 +2,8 @@
 
 import { useParams } from "next/navigation";
 
+import CameraChart from "features/mars-rovers/components/CameraChart";
+
 import styles from './page.module.css';
 
 // capitalize first letter of rover name
@@ -25,7 +27,7 @@ function CameraUsagePage() {
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Camera Usage for Rover {roverName}</h1>
-      {/* TODO: render chart here */}
+      <CameraChart rover={rawName.toLowerCase()} />
     </main>
   );
 }
