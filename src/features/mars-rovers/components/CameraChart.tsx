@@ -89,7 +89,10 @@ export default function CameraChart({ rover }: { rover: string }) {
 
         svg.append('g')
             .attr('transform', `translate(${margin.left},0)`)
-            .call(leftAxis);
+            .call(leftAxis)
+            .selectAll('text')
+            .attr('class', 'y-axis-number')
+            ;
         
         svg.append('text')
             .text('Sol Count')
