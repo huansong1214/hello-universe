@@ -4,17 +4,20 @@ import { useParams } from "next/navigation";
 
 import styles from './page.module.css';
 
-function CameraUsagePage() {
-  const { rover } = useParams(); // grab the rover param from the URL
+// capitalize first letter of rover name
+function capitalize(str: string): string {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 
-  // capitalize first letter of rover name
-  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
-  // helper to get a single string from param that might be string | string[] | undefined
-  const getRoverName = (param: string | string[] | undefined): string => {
+// helper to get a single string from param that might be string | string[] | undefined
+function getRoverName(param: string | string[] | undefined): string {
     if (Array.isArray(param)) return param[0]; // pick the first element if it's an array
     return param || 'Unknown'; // return the param if it exists, else return 'Unknown'
-  }
+}
+
+function CameraUsagePage() {
+  const { rover } = useParams(); // grab the rover param from the URL
 
   const rawName = getRoverName(rover);
   const roverName = capitalize(rawName);
