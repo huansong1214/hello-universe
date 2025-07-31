@@ -55,3 +55,14 @@ body {
 .react-calendar__tile:disabled {
   background-color: var(--muted);
 }
+
+/* global styles for CameraChart.tsx */
+.y-axis-label,
+.y-axis-number {
+  fill: var(--foreground);
+  font-size: 0.9rem;
+}
+
+.rect {
+  cursor: pointer;
+}

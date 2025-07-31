@@ -5,20 +5,6 @@
   margin-left: 1rem;
 }
 
-:global(.y-axis-label) {
-  fill: var(--foreground);
-  font-size: 0.9rem;
-}
-
-:global(.y-axis-number) {
-  fill: var(--foreground);
-  font-size: 0.9rem;
-}
-
-:global(.rect) {
-  cursor: pointer;
-}
-
 @media (min-width: 768px) {
   .cameraChartContainer {
     flex-direction: row;
