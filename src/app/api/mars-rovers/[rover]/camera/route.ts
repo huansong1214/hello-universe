@@ -16,23 +16,38 @@ interface CameraUsage {
 
 // get camera category
 function getCameraCategory(camera: string) {
-    if (camera.startsWith("EDL")) return "Entry, Descent, Landing";
+    // engineering
     if (
-        camera.includes("NAVCAM") ||
-        camera.includes("HAZCAM")
+        camera.includes('NAV') ||
+        camera.includes('HAZ')
     ) {
-        return "Engineering";
+        return 'Engineering';
     }
+    // science
     if (
-        camera.startsWith("MCZ") ||
-        camera === "SKYCAM" ||
-        camera === "SHERLOC_WATSON" ||
-        camera === "SUPERCAM_RMI"
+        camera.startsWith('MCZ') ||
+        camera.startsWith('CHEM') ||
+        camera.startsWith('MAST') ||
+        camera === 'SKYCAM' ||
+        camera === 'SHERLOC_WATSON' ||
+        camera === 'SUPERCAM_RMI' ||
+        camera === 'MAHLI' ||
+        camera === 'MARDI' ||
+        camera === 'PANCAM' ||
+        camera === 'MINITES'
     ) {
-        return "Science";
+        return 'Science';
     }
-
-    return "Other";
+    // entry, descent, landing
+    if (
+        camera.startsWith('EDL') ||
+        camera === 'LCAM' ||
+        camera === 'ENTRY'
+    ) {
+        return 'Entry, Descent, Landing';
+    }
+    // other
+    return 'Other';
 }
 
 export async function GET(
