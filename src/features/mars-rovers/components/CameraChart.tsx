@@ -60,7 +60,7 @@ export default function CameraChart({ rover }: { rover: string }) {
 
     useEffect(() => {
         if (!rover) {
-            console.error("No rover provided");
+            console.error("No rover provided.");
             return;
         }
 

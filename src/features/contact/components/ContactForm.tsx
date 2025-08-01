@@ -63,7 +63,7 @@ export default function ContactForm() {
         {errorMessages.length > 0 && (
           <div className={styles.errorBlock} role="alert" aria-live="assertive">
             <p>
-              <strong>There was a problem</strong>
+              <strong>There was a problem.</strong>
             </p>
             <ul>
               {errorMessages.map((msg, i) => (
@@ -126,7 +126,7 @@ export default function ContactForm() {
           {/* feedback */}
           {success && (
             <p className={styles.success} role="status" aria-live="polite">
-              Message sent successfully
+              Message sent successfully.
             </p>
           )}
         </div>

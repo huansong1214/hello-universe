@@ -11,7 +11,7 @@ interface ApodData {
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
 if (!NASA_API_KEY) {
-  throw new Error('Missing NASA_API_KEY environment variable');
+  throw new Error('Missing NASA_API_KEY environment variable.');
 }
 
 export async function GET(req: NextRequest) {
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { message: 'Error fetching NASA APOD data', error: message },
+      { message: 'Error fetching APOD data.', error: message },
       { status: 500 }
     );
   }

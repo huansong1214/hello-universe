@@ -84,7 +84,7 @@ export default function ApodCalendar() {
       {/* lazy load the Calendar component */}
       {!isLoading && Object.keys(calendarData).length > 0 && (
         <Suspense
-          fallback={<p className={styles.loading}>Loading calendar...</p>}
+          fallback={<p className={styles.loading}>Loading APOD calendar...</p>}
         >
           <Calendar
             className={styles.reactCalendar}

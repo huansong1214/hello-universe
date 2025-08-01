@@ -72,7 +72,7 @@ export function useApodCalendarData(activeStartDate: Date) {
     const isCacheValid = cachedMonth && (!isCurrentMonth || now - cachedMonth.timestamp < EXPIRATION_MS);
 
     if (isCacheValid) {
-      console.log(`[Cache] Using cached data for ${monthKey}`);
+      console.log(`[Cache] Using cached data for ${monthKey}.`);
       setCalendarData(cachedMonth.data);
       setError(null);
       setIsLoading(false);
@@ -92,9 +92,9 @@ export function useApodCalendarData(activeStartDate: Date) {
           const startStr = formatDate(startDate);
           const endStr = formatDate(endDate);
 
-          console.log(`[Fetch] Fetching data for ${monthKey}`);
+          console.log(`[Fetch] Fetching data for ${monthKey}.`);
           const response = await fetch(`/api/apod?start_date=${startStr}&end_date=${endStr}`);
-          if (!response.ok) throw new Error('Failed to fetch NASA APOD data');
+          if (!response.ok) throw new Error('Failed to fetch APOD data.');
 
           const apods: ApodData[] = await response.json();
           const data: CalendarData = {};
@@ -114,7 +114,7 @@ export function useApodCalendarData(activeStartDate: Date) {
         } catch (error) {
           if (!isMounted.current) return;
           console.error(error);
-          setError('Failed to load NASA APOD data');
+          setError('Failed to load APOD data.');
         } finally {
           if (!isMounted.current) return;
           setIsLoading(false);

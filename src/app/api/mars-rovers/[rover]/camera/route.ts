@@ -56,7 +56,7 @@ export async function GET(
 ) {
     if (!NASA_API_KEY) {
         return NextResponse.json(
-            { error: 'Missing NASA_API_KEY environment variable'},
+            { error: 'Missing NASA_API_KEY environment variable.'},
             { status: 500 },
         );
     }
@@ -70,7 +70,7 @@ export async function GET(
 
         if (!response.ok) {
             return NextResponse.json(
-                { error: `Failed to fetch manifest from ${rover}` },
+                { error: `Failed to fetch manifest from ${rover}.` },
                 { status: response.status },
             );
         }
@@ -103,7 +103,7 @@ export async function GET(
     } catch (error) {
         console.error(`Error fetching manifest for ${rover}:`, error);
         return NextResponse.json(
-            { error: 'Internal server error while fetching manifest' },
+            { error: 'Internal server error while fetching manifest.' },
             { status: 500 },
         );
     }

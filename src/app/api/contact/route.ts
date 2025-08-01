@@ -9,7 +9,7 @@ import {
 import { EmailTemplate } from 'features/contact/EmailTemplate';
 
 if (!process.env.RESEND_API_KEY) {
-  throw new Error('Missing RESEND_API_KEY environment variable');
+  throw new Error('Missing RESEND_API_KEY environment variable.');
 }
 
 const resend = new Resend(process.env.RESEND_API_KEY);
