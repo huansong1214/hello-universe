@@ -6,6 +6,8 @@ import { KeyLegend } from './KeyLegend';
 
 import styles from './CameraChart.module.css';
 
+const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry, Descent, Landing'];
+
 type Item = {
     name: string;
     sol_count: number;
@@ -21,9 +23,9 @@ export default function CameraChart({ rover }: { rover: string }) {
     const [items, setItems] = useState<Item[]>([]);
     const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(new Set());
     const [selectedCamera, setSelectedCamera] = useState<Item | null>(null);
-
-    // memoize categories based on items
-    const categories = useMemo(() => Array.from(new Set(items.map(d => d.category))), [items]);
+    
+    // use a static list of categories
+    const categories = CATEGORIES;
 
     // memoize color scale based on categories
     const colorScale = useMemo(
