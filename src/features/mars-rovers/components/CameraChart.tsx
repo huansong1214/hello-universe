@@ -115,7 +115,7 @@ export default function CameraChart({ rover }: { rover: string }) {
                 setSelectedCamera(d);
             });
 
-    }, [items, hiddenCategories]);
+    }, [filtered, xScale, yScale, colorScale]);
 
     function toggleCategory(category: string) {
         const newHidden = new Set(hiddenCategories);
