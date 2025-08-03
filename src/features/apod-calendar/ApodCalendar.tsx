@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 
-import { useApodCalendarData } from '../hooks/useApodCalendarData';
+import { useApodCalendarData } from './useApodCalendarData';
 import Modal from './Modal';
 
 import styles from './ApodCalendar.module.css';

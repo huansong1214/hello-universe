@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/Button';
 import {
   contactSchema,
   type ContactFormData,
-} from 'features/contact/types/contactSchema';
+} from 'features/contact/contactSchema';
 
 import styles from './ContactForm.module.css';
 

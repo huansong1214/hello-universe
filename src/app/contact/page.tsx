@@ -1,4 +1,4 @@
-import ContactForm from 'features/contact/components/ContactForm';
+import ContactForm from 'features/contact/ContactForm';
 
 import styles from './page.module.css';
 

@@ -5,7 +5,7 @@ import { ZodError } from 'zod';
 import {
   contactSchema,
   type ContactFormData,
-} from 'features/contact/types/contactSchema';
+} from 'features/contact/contactSchema';
 import { EmailTemplate } from 'features/contact/EmailTemplate';
 
 if (!process.env.RESEND_API_KEY) {
