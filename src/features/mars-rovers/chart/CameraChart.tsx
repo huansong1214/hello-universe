@@ -66,7 +66,7 @@ export default function CameraChart({ rover }: { rover: string }) {
             return;
         }
 
-        fetch(`/api/mars-rovers/${rover}/camera`)
+        fetch(`/api/mars-rovers/${rover}/chart`)
             .then(response => response.json())
             .then((data: Item[]) => {
                 setItems(data);
