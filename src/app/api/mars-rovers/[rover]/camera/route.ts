@@ -38,13 +38,13 @@ function getCameraCategory(camera: string) {
     ) {
         return 'Science';
     }
-    // entry, descent, landing
+    // entry/descent/landing
     if (
         camera.startsWith('EDL') ||
         camera === 'LCAM' ||
         camera === 'ENTRY'
     ) {
-        return 'Entry, Descent, Landing';
+        return 'Entry/Descent/Landing';
     }
     // other
     return 'Other';

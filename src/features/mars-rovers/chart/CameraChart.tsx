@@ -6,7 +6,7 @@ import { KeyLegend } from './KeyLegend';
 
 import styles from './CameraChart.module.css';
 
-const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry, Descent, Landing'];
+const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry/Descent/Landing'];
 
 type Item = {
     name: string;
