@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
-import FilterButtons from "features/mars-rovers/components/FilterButtons";
-import RoverCard from "features/mars-rovers/components/RoverCard";
+import FilterButtons from "features/mars-rovers/main/FilterButtons";
+import RoverCard from "features/mars-rovers/main/RoverCard";
 
 import styles from './page.module.css';
 

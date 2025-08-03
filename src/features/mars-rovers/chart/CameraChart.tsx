@@ -23,13 +23,13 @@ export default function CameraChart({ rover }: { rover: string }) {
     const [items, setItems] = useState<Item[]>([]);
     const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(new Set());
     const [selectedCamera, setSelectedCamera] = useState<Item | null>(null);
-    
+
     // use a static list of categories
     const categories = CATEGORIES;
 
     // memoize color scale based on categories
     const colorScale = useMemo(
-        () => 
+        () =>
             d3.scaleOrdinal<string, string>()
                 .domain(categories)
                 .range(d3.schemeCategory10),
@@ -95,7 +95,7 @@ export default function CameraChart({ rover }: { rover: string }) {
             .selectAll('text')
             .attr('class', 'y-axis-number')
             ;
-        
+
         svg.append('text')
             .text('Sol Count')
             .attr('class', 'y-axis-label')

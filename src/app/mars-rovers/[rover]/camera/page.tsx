@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 
-import CameraChart from "features/mars-rovers/components/CameraChart";
+import CameraChart from "features/mars-rovers/chart/CameraChart";
 
 import styles from './page.module.css';
 

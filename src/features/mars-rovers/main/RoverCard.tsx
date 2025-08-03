@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { FlipCard } from 'features/mars-rovers/components/FlipCard';
+import { FlipCard } from './FlipCard';
 
 import styles from './RoverCard.module.css';
 
