@@ -77,7 +77,7 @@ export default function CameraChart({ rover }: { rover: string }) {
     }, [rover]);
 
     useEffect(() => {
-        if (!svgRef.current || items.length === 0) return;
+        if (!svgRef.current || filtered.length === 0) return;
 
         const svg = d3.select(svgRef.current);
         svg.selectAll('*').remove();
