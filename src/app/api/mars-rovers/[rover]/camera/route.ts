@@ -79,11 +79,11 @@ export async function GET(
         const photos = data.photo_manifest.photos;
 
         // map camera usage
-        let cameraSolsMap = new Map<string, Set<number>>();
+        const cameraSolsMap = new Map<string, Set<number>>();
 
         // count how many sols each camera was used
         photos.forEach((photoDay: PhotoDay) => {
-            let sol = photoDay.sol;
+            const sol = photoDay.sol;
             photoDay.cameras.forEach(camera => {
                 if (!cameraSolsMap.has(camera)) {
                     cameraSolsMap.set(camera, new Set());
@@ -93,7 +93,7 @@ export async function GET(
         });
 
         // convert to an array of objects for visualization
-        let items = Array.from(cameraSolsMap.entries()).map(([camera, solsSet]) => ({
+        const items: CameraUsage[] = Array.from(cameraSolsMap.entries()).map(([camera, solsSet]) => ({
             name: camera,
             sol_count: solsSet.size,
             category: getCameraCategory(camera)
