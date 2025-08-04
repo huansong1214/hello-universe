@@ -6,10 +6,15 @@
 
 .cameraTableContainer {
   margin: 0 1rem;
+  max-width: 882px;
 }
 
 .cameraTable th,
 .cameraTable td {
   border: 0.05rem solid var(--foreground);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
 }
+
+.cameraTableContainer tbody tr {
+    border: 0.05rem solid var(--foreground);
+  }

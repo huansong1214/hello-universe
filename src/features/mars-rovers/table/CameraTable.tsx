@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 import { CameraInfo } from "./camera";
-
 import styles from './CameraTable.module.css';
 
 export default function CameraTable({ rover }: { rover: string }) {
@@ -44,24 +45,24 @@ export default function CameraTable({ rover }: { rover: string }) {
 
   return (
     <div className={styles.cameraTableContainer}>
-      <table className={styles.cameraTable}>
-        <thead>
-          <tr>
-            <th>Abbreviation</th>
-            <th>Full Name</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table className={styles.cameraTable}>
+        <Thead>
+          <Tr>
+            <Th>Abbreviation</Th>
+            <Th>Full Name</Th>
+            <Th>Category</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
           {sortedCameras.map((camera) => (
-            <tr key={camera.abbreviation}>
-              <td>{camera.abbreviation}</td>
-              <td>{camera.fullName}</td>
-              <td>{camera.category}</td>
-            </tr>
+            <Tr key={camera.abbreviation}>
+              <Td>{camera.abbreviation}</Td>
+              <Td>{camera.fullName}</Td>
+              <Td>{camera.category}</Td>
+            </Tr>
           ))}
-        </tbody>
-      </table>
+        </Tbody>
+      </Table>
     </div>
   );
 }
