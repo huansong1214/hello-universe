@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@notionhq/client": "^4.0.1",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "next": "15.3.4",
@@ -20,6 +21,7 @@
     "react-calendar": "^6.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.59.0",
+    "react-super-responsive-table": "^6.0.2",
     "resend": "^4.6.0",
     "tailwind-variants": "^1.0.0",
     "zod": "^3.25.67"

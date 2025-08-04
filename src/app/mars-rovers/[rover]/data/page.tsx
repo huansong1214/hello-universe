@@ -2,7 +2,8 @@
 
 import { useParams } from "next/navigation";
 
-import CameraChart from "features/mars-rovers/components/CameraChart";
+import CameraChart from '@/features/mars-rovers/chart/CameraChart';
+import CameraTable from '@/features/mars-rovers/table/CameraTable';
 
 import styles from './page.module.css';
 
@@ -18,7 +19,7 @@ function getRoverName(param: string | string[] | undefined): string {
     return param || 'Unknown'; // return the param if it exists, else return 'Unknown'
 }
 
-function CameraUsagePage() {
+function CameraDataPage() {
   const { rover } = useParams(); // grab the rover param from the URL
 
   const rawName = getRoverName(rover);
@@ -26,10 +27,12 @@ function CameraUsagePage() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading}>Camera Usage for Rover {roverName}</h1>
+      <h1 className={styles.heading1}>Camera Usage for Rover {roverName}</h1>
       <CameraChart rover={rawName.toLowerCase()} />
+      <h2 className={styles.heading2}>Camera Table for Rover {roverName}</h2>
+      <CameraTable rover={rawName.toLowerCase()} />
     </main>
   );
 }
 
-export default CameraUsagePage;
+export default CameraDataPage;

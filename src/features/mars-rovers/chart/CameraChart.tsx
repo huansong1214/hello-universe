@@ -6,7 +6,7 @@ import { KeyLegend } from './KeyLegend';
 
 import styles from './CameraChart.module.css';
 
-const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry, Descent, Landing'];
+const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry/Descent/Landing'];
 
 type Item = {
     name: string;
@@ -23,13 +23,13 @@ export default function CameraChart({ rover }: { rover: string }) {
     const [items, setItems] = useState<Item[]>([]);
     const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(new Set());
     const [selectedCamera, setSelectedCamera] = useState<Item | null>(null);
-    
+
     // use a static list of categories
     const categories = CATEGORIES;
 
     // memoize color scale based on categories
     const colorScale = useMemo(
-        () => 
+        () =>
             d3.scaleOrdinal<string, string>()
                 .domain(categories)
                 .range(d3.schemeCategory10),
@@ -66,7 +66,7 @@ export default function CameraChart({ rover }: { rover: string }) {
             return;
         }
 
-        fetch(`/api/mars-rovers/${rover}/camera`)
+        fetch(`/api/mars-rovers/${rover}/chart`)
             .then(response => response.json())
             .then((data: Item[]) => {
                 setItems(data);
@@ -77,7 +77,7 @@ export default function CameraChart({ rover }: { rover: string }) {
     }, [rover]);
 
     useEffect(() => {
-        if (!svgRef.current || items.length === 0) return;
+        if (!svgRef.current || filtered.length === 0) return;
 
         const svg = d3.select(svgRef.current);
         svg.selectAll('*').remove();
@@ -95,7 +95,7 @@ export default function CameraChart({ rover }: { rover: string }) {
             .selectAll('text')
             .attr('class', 'y-axis-number')
             ;
-        
+
         svg.append('text')
             .text('Sol Count')
             .attr('class', 'y-axis-label')

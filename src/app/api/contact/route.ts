@@ -5,8 +5,8 @@ import { ZodError } from 'zod';
 import {
   contactSchema,
   type ContactFormData,
-} from 'features/contact/types/contactSchema';
-import { EmailTemplate } from 'features/contact/EmailTemplate';
+} from '@/features/contact/contactSchema';
+import { EmailTemplate } from '@/features/contact/EmailTemplate';
 
 if (!process.env.RESEND_API_KEY) {
   throw new Error('Missing RESEND_API_KEY environment variable.');
