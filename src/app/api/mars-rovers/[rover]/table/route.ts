@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PageObjectResponse } from "@notionhq/client";
 
-import { notion } from 'features/mars-rovers/table/notion';
-import { CameraInfo } from "features/mars-rovers/table/camera";
+import { notion } from '@/features/mars-rovers/table/notion';
+import { CameraInfo } from "@/features/mars-rovers/table/camera";
 
 const databaseId = process.env.NOTION_DATABASE_ID!;
 
