@@ -1,18 +1,23 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PageObjectResponse } from "@notionhq/client";
 
-import { notion } from '@/features/mars-rovers/table/notion';
-import { CameraInfo } from "@/features/mars-rovers/table/camera";
+import { notion } from 'features/mars-rovers/table/notion';
+import { CameraInfo } from "features/mars-rovers/table/camera";
 
 const databaseId = process.env.NOTION_DATABASE_ID!;
 
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ rover: string }> },
+) {
   if (!databaseId) {
     return NextResponse.json(
       { error: 'Missing NOTION_DATABASE_ID in environment variables.'},
       { status: 500 }
     );
   }
+
+  const { rover } = await params;
 
   try {
     const response = await notion.databases.query({ database_id: databaseId });
@@ -47,7 +52,11 @@ export async function GET() {
         };
       });
 
-    return NextResponse.json(cameras, { status: 200 });
+    const filtered = cameras.filter(camera =>
+      camera.rovers.some(r => r.toLowerCase() === rover.toLowerCase())
+    );
+
+    return NextResponse.json(filtered, { status: 200 });
   } catch (error) {
     console.error('Error fetching Notion camera data:', error);
     return NextResponse.json(
