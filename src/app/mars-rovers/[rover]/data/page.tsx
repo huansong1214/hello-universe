@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 
 import CameraChart from "features/mars-rovers/chart/CameraChart";
+import CameraTable from "features/mars-rovers/table/CameraTable";
 
 import styles from './page.module.css';
 
@@ -28,6 +29,8 @@ function CameraUsagePage() {
     <main className={styles.mainContainer}>
       <h1 className={styles.heading}>Camera Usage for Rover {roverName}</h1>
       <CameraChart rover={rawName.toLowerCase()} />
+      <h2>Camera Table for Rover {roverName}</h2>
+      <CameraTable rover={rawName.toLowerCase()} />
     </main>
   );
 }
