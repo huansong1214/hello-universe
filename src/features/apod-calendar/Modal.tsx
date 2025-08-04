@@ -62,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
           </div>
           <div className={styles.textContainer}>
             <h2>{apod.date}</h2>
-            <h3 className={styles.subheading}>{apod.title}</h3>
+            <h3 className={styles.heading3}>{apod.title}</h3>
             <p>{apod.explanation}</p>
           </div>
         </div>

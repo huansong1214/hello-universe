@@ -71,7 +71,7 @@ export default function MarsRoversPage() {
   if (manifests.length === 0) {
     return (
       <main className={styles.mainContainer}>
-        <h1 className={styles.heading}>Mars Rover Photos</h1>
+        <h1 className={styles.heading1}>Mars Rover Photos</h1>
         <div className={clsx(styles.timeline, manifests.length === 0 && styles.hiddenLine)}>
             <p className={styles.loading}>Loading rover data...</p>
         </div>
@@ -97,7 +97,7 @@ export default function MarsRoversPage() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading}>Mars Rover Photos</h1>
+      <h1 className={styles.heading1}>Mars Rover Photos</h1>
 
       <FilterButtons filterStatus={filterStatus} onChange={setFilterStatus} />
 

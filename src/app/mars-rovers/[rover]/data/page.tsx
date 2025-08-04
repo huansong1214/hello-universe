@@ -27,7 +27,7 @@ function CameraUsagePage() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading}>Camera Usage for Rover {roverName}</h1>
+      <h1 className={styles.heading1}>Camera Usage for Rover {roverName}</h1>
       <CameraChart rover={rawName.toLowerCase()} />
       <h2>Camera Table for Rover {roverName}</h2>
       <CameraTable rover={rawName.toLowerCase()} />
