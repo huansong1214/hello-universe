@@ -1,0 +1,15 @@
+.loading,
+.error {
+  color: var(--info);
+  margin: 0.5rem 1rem;
+}
+
+.cameraTableContainer {
+  margin: 0 1rem;
+}
+
+.cameraTable th,
+.cameraTable td {
+  border: 0.05rem solid var(--foreground);
+  padding: 0.5rem 1rem;
+}

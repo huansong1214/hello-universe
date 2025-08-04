@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { CameraInfo } from "./camera";
 
+import styles from './CameraTable.module.css';
+
 export default function CameraTable({ rover }: { rover: string }) {
   const [cameras, setCameras] = useState<CameraInfo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,12 +39,12 @@ export default function CameraTable({ rover }: { rover: string }) {
       CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category)
   );
 
-  if (loading) return <p>Loading cameras...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className={styles.loading}>Loading cameras...</p>;
+  if (error) return <p className={styles.error}>Error: {error}</p>;
 
   return (
-    <div>
-      <table>
+    <div className={styles.cameraTableContainer}>
+      <table className={styles.cameraTable}>
         <thead>
           <tr>
             <th>Abbreviation</th>
