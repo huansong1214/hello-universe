@@ -1,11 +1,11 @@
-import React from 'react';
+import VideoDisplay from '@/features/whats-up/VideoDisplay';
 
 import styles from './page.module.css';
 
 export default function Home() {
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading1}>Under Maintenance</h1>
+      <VideoDisplay />
     </main>
   );
 }
