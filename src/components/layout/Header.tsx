@@ -39,6 +39,20 @@ export default function Header() {
     };
   }, [isOpen]);
 
+  // toggle 'menuOpen' class on <body> to disable pointer events on video/iframe
+  // this prevents embedded media from intercepting clicks on the mobile nav menu
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('menuOpen');
+    } else {
+      document.body.classList.remove('menuOpen');
+    }
+
+    return () => {
+      document.body.classList.remove('menuOpen');
+    };
+  }, [isOpen]);
+
   return (
     <header className={styles.header}>
       <div>
