@@ -2,48 +2,57 @@
 
 ## Description
 
-_TODO: A short explanation of what the project does_
+*A Code:You Web Development Pathway capstone project.*
+
+**Hello Universe** is a space- and astronomy-themed web application created to make good use of high-quality public resources. It aims to make scientific data and imagery more accessible and engaging by combining curated content with interactive visualizations. From skywatching tips to Mars rover data, this project highlights how open data can inspire curiosity.
 
 ## Installation Instructions
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+1. **Clone the repository**
+```bash
+git clone https://github.com/huansong1214/hello-universe
+cd hello-universe
+```
 
-### Getting Started
+2. **Install dependencies**
+```bash
+npm install
+```
 
-First, run the development server:
+3. **Set up environment variables**
+
+Create a `.env.local` file in the root of the project and copy the contents of `.env.example` into it. Then replace the placeholder values with your actual API keys.
+
+```bash
+cp .env.example .env.local
+```
+
+4. **Run the development server**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. **Open your browser and visit** [http://localhost:3000](http://localhost:3000)
 
-## Usage
+## Features
 
-The app is also deployed on Vercel at [Hello Universe](https://hello-universe-ruddy.vercel.app/).
+- What's Up: Monthly skywatching tips from NASA presented via embedded YouTube videos.
+- Astronomy Picture of the Day (APOD) Calendar: Interactive calendar displaying daily astronomy images and descriptions.
+- Mars Rover Camera Usage Visualization: Dynamic charts showing camera usage data from Mars rover missions.
+- Contact Form: Allows users to send messages through the app.
 
-> Note: Deployment is temporarily disabled.
+## Technologies Used
 
-## Examples
-
-_TODO: Code snippets or screenshots showing how it works_
-
-## Contributing
-
-This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages.
-
-## License
-
-_TODO: Information about how the project can be used or shared_
+- Next.js
+- YouTube API
+- NASA Open APIs
+- React Calendar
+- D3.js
+- Resend API
 
 ## Credits
 
-_TODO: Acknowledgments or links to related work_
-
-**Code:You**
+- [Code:You](https://code-you.org)
+- [NASA Open APIs](https://api.nasa.gov)
+- [Mars Rover Photos API](https://mars-photos.herokuapp.com)
