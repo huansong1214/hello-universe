@@ -35,10 +35,7 @@ export async function GET(req: NextRequest) {
     const response = await fetch(apiUrl, { cache: 'no-store' });
 
     if (!response.ok) {
-      return NextResponse.json(
-        { message: 'Failed to fetch NASA APOD data' },
-        { status: response.status }
-      );
+      throw new Error('NASA APOD API error.');
     }
 
     const data = await response.json();
@@ -49,10 +46,10 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(data as ApodData);
     }
 
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
+  } catch (error) {
+    console.error('NASA APOD API error:', error);
     return NextResponse.json(
-      { message: 'Error fetching APOD data.', error: message },
+      { error: 'Failed to fetch NASA APOD data.' },
       { status: 500 }
     );
   }
