@@ -30,19 +30,28 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      return NextResponse.json({ error }, { status: 500 });
+      console.error('Resend API error:', error);
+      return NextResponse.json(
+        { error: 'Failed to send email. Please try again later.'},
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(resendData);
   } catch (error) {
     if (error instanceof ZodError) {
       // validation error
-      return NextResponse.json({ error: error.errors }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid form submission.', details: error.errors },
+        { status: 400 }
+      );
     }
+
     // server error
+    console.error('Form submission error:', error);
     return NextResponse.json(
-      { error: (error as Error).message },
-      { status: 500 },
+      { error: 'An unexpected error occurred. Please try again later' },
+      { status: 500 }
     );
   }
 }
