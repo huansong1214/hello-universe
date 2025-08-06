@@ -45,10 +45,10 @@ npm run dev
 ## Technologies Used
 
 - Next.js
-- YouTube API
-- NASA Open APIs
 - React Calendar
 - D3.js
+- YouTube API
+- NASA Open APIs
 - Resend API
 
 ## Credits
