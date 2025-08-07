@@ -19,6 +19,7 @@ if (!NASA_API_KEY) {
 
 // Handle GET requests to this API route.
 export async function GET(req: NextRequest) {
+  // extract parameters from URL
   const { searchParams } = new URL(req.url);
 
   // Extract optional query parameters.
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest) {
     apiUrl += `&date=${date}`;
   }
 
+  // try to fetch data
   try {
     // Fetch data from the NASA APOD API with no cache.
     const response = await fetch(apiUrl, { cache: 'no-store' });
