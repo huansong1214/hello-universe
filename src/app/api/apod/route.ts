@@ -47,7 +47,12 @@ export async function GET(req: NextRequest) {
     }
 
   } catch (error) {
-    console.error('NASA APOD API error:', error);
+    if (error instanceof Error) {
+      console.error('NASA APOD API error: ', error.message);
+    } else {
+      console.error('NASA APOD API error: An unknown error occurred.')
+    }
+
     return NextResponse.json(
       { error: 'Failed to fetch NASA APOD data.' },
       { status: 500 }
