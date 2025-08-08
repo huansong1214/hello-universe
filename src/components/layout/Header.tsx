@@ -80,7 +80,7 @@ export default function Header() {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/apod">APOD</Link>
+              <Link href="/apod">APOD Calendar</Link>
             </li>
             <li>
               <Link href="/mars-rovers">Mars Rovers</Link>
