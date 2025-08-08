@@ -50,62 +50,55 @@ function getCameraCategory(camera: string) {
     return 'Other';
 }
 
+if (!NASA_API_KEY) {
+  throw new Error('Missing NASA_API_KEY environment variable.');
+}
+
 export async function GET(
     req: NextRequest,
     { params }: { params: Promise<{ rover: string }> },
 ) {
-    if (!NASA_API_KEY) {
-        return NextResponse.json(
-            { error: 'Missing NASA_API_KEY environment variable.'},
-            { status: 500 },
-        );
-    }
-
+  try {
     const { rover } = await params;
 
     const url = `https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${NASA_API_KEY}`;
 
-    try {
-        const response = await fetch(url);
+    const response = await fetch(url);
 
-        if (!response.ok) {
-            return NextResponse.json(
-                { error: `Failed to fetch manifest from ${rover}.` },
-                { status: response.status },
-            );
-        }
-
-        const data = await response.json();
-        const photos = data.photo_manifest.photos;
-
-        // map camera usage
-        const cameraSolsMap = new Map<string, Set<number>>();
-
-        // count how many sols each camera was used
-        photos.forEach((photoDay: PhotoDay) => {
-            const sol = photoDay.sol;
-            photoDay.cameras.forEach(camera => {
-                if (!cameraSolsMap.has(camera)) {
-                    cameraSolsMap.set(camera, new Set());
-                }
-                cameraSolsMap.get(camera)!.add(sol);
-            });
-        });
-
-        // convert to an array of objects for visualization
-        const items: CameraUsage[] = Array.from(cameraSolsMap.entries()).map(([camera, solsSet]) => ({
-            name: camera,
-            sol_count: solsSet.size,
-            category: getCameraCategory(camera)
-        }));
-
-        return NextResponse.json(items);
-    } catch (error) {
-        console.error(`Error fetching manifest for ${rover}:`, error);
-        return NextResponse.json(
-            { error: 'Internal server error while fetching manifest.' },
-            { status: 500 },
-        );
+    if (!response.ok) {
+      throw new Error('NASA Mars Rover Photos API error.');
     }
 
+    const data = await response.json();
+    const photos = data.photo_manifest.photos;
+
+    // map camera usage
+    const cameraSolsMap = new Map<string, Set<number>>();
+
+    // count how many sols each camera was used
+    photos.forEach((photoDay: PhotoDay) => {
+        const sol = photoDay.sol;
+        photoDay.cameras.forEach(camera => {
+            if (!cameraSolsMap.has(camera)) {
+                cameraSolsMap.set(camera, new Set());
+            }
+            cameraSolsMap.get(camera)!.add(sol);
+        });
+    });
+
+    // convert to an array of objects for visualization
+    const items: CameraUsage[] = Array.from(cameraSolsMap.entries()).map(([camera, solsSet]) => ({
+        name: camera,
+        sol_count: solsSet.size,
+        category: getCameraCategory(camera)
+    }));
+
+    return NextResponse.json(items);
+  } catch (error) {
+      console.error(`Error fetching Mars rover manifest:`, error);
+      return NextResponse.json(
+          { error: 'Internal server error while fetching manifest.' },
+          { status: 500 },
+      );
+  }
 }

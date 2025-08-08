@@ -6,20 +6,17 @@ import { CameraInfo } from "@/features/mars-rovers/table/camera";
 
 const databaseId = process.env.NOTION_DATABASE_ID!;
 
+if (!databaseId) {
+  throw new Error('Missing NOTION_DATABASE_ID in environment variables.');
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ rover: string }> },
 ) {
-  if (!databaseId) {
-    return NextResponse.json(
-      { error: 'Missing NOTION_DATABASE_ID in environment variables.'},
-      { status: 500 }
-    );
-  }
-
-  const { rover } = await params;
-
   try {
+    const { rover } = await params;
+
     const response = await notion.databases.query({ database_id: databaseId });
 
     const cameras: CameraInfo[] = response.results

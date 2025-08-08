@@ -19,6 +19,7 @@ if (!NASA_API_KEY) {
 
 // Handle GET requests to this API route.
 export async function GET(req: NextRequest) {
+  // extract parameters from URL
   const { searchParams } = new URL(req.url);
 
   // Extract optional query parameters.
