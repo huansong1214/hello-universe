@@ -97,7 +97,7 @@ export default function MarsRoversPage() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading1}>Mars Rover Photos</h1>
+      <h1 className={styles.heading1}>Mars Rover Missions Timeline</h1>
 
       <FilterButtons filterStatus={filterStatus} onChange={setFilterStatus} />
 
