@@ -42,6 +42,16 @@ npm run dev
 - Mars Rover Camera Usage Visualization: Dynamic charts showing camera usage data from Mars rover missions.
 - Contact Form: Allows users to send messages through the app.
 
+## Sitemap of Routes
+
+| URL                         | Description                                    |
+|-----------------------------|------------------------------------------------|
+| `/`                         | Home / What's Up Skywatching Tips video        |
+| `/apod`                     | Astronomy Picture of the Day calendar          |
+| `/mars-rovers`              | Mars rover missions timeline                   |
+| `/mars-rovers/[rover]/data` | Mars rover camera data (dynamic route by rover)|
+| `/contact`                  | Contact form                                   |
+
 ## Technologies Used
 
 - Next.js
@@ -54,5 +64,16 @@ npm run dev
 ## Credits
 
 - [Code:You](https://code-you.org)
-- [NASA Open APIs](https://api.nasa.gov)
-- [Mars Rover Photos API](https://mars-photos.herokuapp.com)
+
+- APOD calendar design inspiration:
+  [NASA's Astronomy Picture of the Day](https://lizkalter.github.io/nasa-apod-calendar/)
+
+- Mars rover camera data:
+  [Mars Rover Photos API](https://mars-photos.herokuapp.com)
+
+- D3 interactive bar chart tutorial:
+  *JavaScript Crash Course* book by Nick Morgan
+
+- CSS resources:
+  [W3Schools](https://www.w3schools.com)
+  [freeCodeCamp](https://www.freecodecamp.org)
