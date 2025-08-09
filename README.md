@@ -11,6 +11,7 @@
 - APIs Used
   - NASA APOD API
   - NASA Mars Rover Photos API
+  - Notion API
   - YouTube Data API
   - Resend API
 - Responsive Design
@@ -31,7 +32,7 @@
 - Interactive UI
   - `react-calendar` for APOD date selection and modals
 - Framework Used
-  - Built with `Next.js` (React)
+  - Built with Next.js (React)
 
 ## Installation Instructions
 
@@ -103,8 +104,8 @@ npm run dev
 
 ## Technologies Used
 
-- `Next.js`
-- `D3.js`
+- Next.js
+- D3.js
 - `react-calendar`
 - `react-super-responsive-table`
 - NASA Open APIs
