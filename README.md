@@ -6,6 +6,33 @@
 
 *Hello Universe* is a space- and astronomy-themed web application created to make good use of high-quality public resources. It aims to make scientific data and imagery more accessible and engaging by combining curated content with interactive visualizations. From skywatching tips to Mars rover data, this project highlights how open data can inspire curiosity.
 
+## Capstone Requirements Fulfilled
+
+- APIs Used
+  - NASA APOD API
+  - NASA Mars Rover Photos API
+  - YouTube Data API
+  - Resend API
+- Responsive Design
+  - Mobile-first layout with media queries
+  - Hamburger menu for small screens
+  - Flexbox (e.g. camera chart container)
+  - Layout adjustments:
+    - Calendar overlay hidden on smaller screens
+    - Alternating rover cards in the timeline on larger screens
+  - Camera reference table using `react-super-responsive-table`
+  - Max content width (768px) for better readability
+- Data Visualization
+  - D3 bar chart for Mars rover camera usage
+  - Interactive features like hover info and category toggling
+- Data Persistence
+  - APOD calendar caches monthly data in `localStorage` and memory
+  - Data persists after reload/refresh
+- Interactive UI
+  - `react-calendar` for APOD date selection and modals
+- Framework Used
+  - Built with `Next.js` (React)
+
 ## Installation Instructions
 
 1. **Clone the repository**
@@ -43,7 +70,7 @@ npm run dev
 
 ### Astronomy Picture of the Day (APOD) Calendar
 - API: Fetches NASA APOD data by date or range with error handling.
-- Hook: Caches monthly APOD data in-memory and localStorage, managing loading and errors.
+- Hook: Caches monthly APOD data in-memory and `localStorage`, managing loading and errors.
 - UI: Interactive calendar with thumbnails and date selection opening a modal with details. Supports lazy loading and keyboard navigation.
 
 ### Mars Rover Camera Usage Visualization
@@ -76,10 +103,10 @@ npm run dev
 
 ## Technologies Used
 
-- Next.js
-- D3.js
-- react-calendar
-- react-super-responsive-table
+- `Next.js`
+- `D3.js`
+- `react-calendar`
+- `react-super-responsive-table`
 - NASA Open APIs
 - YouTube Data API
 - Resend API
@@ -92,7 +119,9 @@ npm run dev
   [NASA's Astronomy Picture of the Day](https://lizkalter.github.io/nasa-apod-calendar/)
 
 - Mars rover camera data:
-  [Mars Rover Photos API](https://mars-photos.herokuapp.com)
+  - [Mars Rover Photos API](https://mars-photos.herokuapp.com)
+  - [Perseverance Raw Images](https://mars.nasa.gov/mars2020/multimedia/raw-images/)
+  - [Curiosity Raw Images](https://mars.nasa.gov/msl/multimedia/raw-images/)
 
 - D3 interactive bar chart tutorial:
   *JavaScript Crash Course* book by Nick Morgan
