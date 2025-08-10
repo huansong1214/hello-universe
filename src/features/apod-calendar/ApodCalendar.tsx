@@ -12,7 +12,7 @@ const Calendar = React.lazy(() => import('react-calendar'));
 
 interface Apod {
   media_type: 'image' | 'video' | 'other';
-  url?: string; // 'Other' media type may not have a URL.
+  url?: string; // 'other' media type may not have a URL
   date: string;
   title: string;
   explanation: string;
