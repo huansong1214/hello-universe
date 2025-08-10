@@ -15,20 +15,17 @@
   - YouTube Data API
   - Resend API
 - Responsive Design
-  - Mobile-first layout with media queries
-  - Hamburger menu for small screens
-  - Flexbox (e.g. camera chart container)
-  - Layout adjustments:
-    - Calendar overlay hidden on smaller screens
-    - Alternating rover cards in the timeline on larger screens
-  - Camera reference table using `react-super-responsive-table`
-  - Max content width (768px) for better readability
+  - Mobile-first layout using media queries
+  - Hamburger menu for smaller screens
+  - Flexbox layout for camera chart
+  - Calendar overlay hidden on smaller screens
+  - Alternating rover cards on larger screens
+  - Camera table styled with `react-super-responsive-table`
+  - Max content width of 768px for better readability
 - Data Visualization
   - D3 bar chart for Mars rover camera usage
-  - Interactive features like hover info and category toggling
 - Data Persistence
-  - APOD calendar caches monthly data in `localStorage` and memory
-  - Data persists after reload/refresh
+  - Caches latest YouTube video, monthly APOD data, and Mars mission manifests in `localStorage`
 - Interactive UI
   - `react-calendar` for APOD date selection and modals
 - Framework Used
@@ -65,39 +62,41 @@ npm run dev
 
 ## Features
 
-### What's Up Monthly Skywatching Tips Video
+### What's Up – Monthly Skywatching Tips Video
 - API: Fetches the latest video from NASA’s YouTube playlist using the YouTube Data API.
+- Caching: Stores the latest video in `localStorage` and reuses it until the start of the next month.
 - UI: React component loads video data, handles loading and errors, and embeds the video with title and description.
 
 ### Astronomy Picture of the Day (APOD) Calendar
-- API: Fetches NASA APOD data by date or range with error handling.
-- Hook: Caches monthly APOD data in-memory and `localStorage`, managing loading and errors.
-- UI: Interactive calendar with thumbnails and date selection opening a modal with details. Supports lazy loading and keyboard navigation.
+- API: Fetches APOD data by date or range using the NASA APOD API.
+- Hook: Handles loading, error handling, and data fetching logic.
+- Caching: Stores monthly APOD data in `localStorage`.
+- UI: Interactive calendar with thumbnails and modals for selected dates.
 
 ### Mars Rover Camera Usage Visualization
 
 #### Mars Rover Missions Timeline
-- API: Uses NASA Mars Photos API to fetch mission manifests (status, launch/landing dates, total photos).
-- UI: Timeline of rover missions sorted by landing date (most recent first). Each rover appears as a flip card with mission details and link to camera usage data.
+- API: Uses the NASA Mars Photos API to fetch mission manifests (status, launch/landing dates, total photos).
+- UI: Displays a timeline sorted by landing date (most recent first). Each rover appears as a flip card with mission details and link to camera usage data.
 
-#### Mars Rover Camera Usage Visualization
-- API: Fetches rover manifest data from NASA Mars Photos API and calculates sols each camera was used. Cameras grouped into Engineering, Science, or Entry/Descent/Landing categories.
+#### Mars Rover Camera Usage Bar Chart
+- API: Fetches rover manifest data from NASA Mars Photos API and calculates the number of sols each camera was used. Cameras are grouped by category: Engineering, Science, or Entry/Descent/Landing.
 - UI: Interactive D3 bar chart visualizes camera activity by sol count, color-coded by category. Sidebar shows camera details on hover and clickable legend toggles categories.
 
 #### Mars Rover Camera Reference Table
-- API: Retrieves camera metadata from a Notion database via the Notion API, filtered by rover.
+- API: Fetches camera metadata from a Notion database via the Notion API, filtered by rover.
 - UI: Responsive table lists camera abbreviation, full name, and category, sorted by category for easy reference.
 
 ### Contact Form
-- API: Sends emails via Resend API with inputs validated by Zod, returning detailed errors.
-- UI: React form with name, email, and message fields. Validation and server errors appear together in a single error block to prevent layout shifts. Submit button disables during submission, and form resets on success.
+- API: Sends emails via the Resend API, with inputs validated by Zod.
+- UI: React form with fields for name, email, and message. Displays validation and server errors together in one block to avoid layout shifts.
 
 ## Sitemap of Routes
 
 | URL                         | Description                                    |
 |-----------------------------|------------------------------------------------|
-| `/`                         | Home / What's Up Skywatching Tips Video        |
-| `/apod`                     | Astronomy Picture of the Day Calendar          |
+| `/`                         | Home / What's Up – Skywatching Tips Video      |
+| `/apod`                     | Astronomy Picture of the Day (APOD) Calendar   |
 | `/mars-rovers`              | Mars Rover Missions Timeline                   |
 | `/mars-rovers/[rover]/data` | Mars Rover Camera Data (dynamic route by rover)|
 | `/contact`                  | Contact Form                                   |
