@@ -9,11 +9,17 @@
 ## Capstone Requirements Fulfilled
 
 - APIs Used
-  - NASA APOD API
-  - NASA Mars Rover Photos API
-  - Notion API
-  - YouTube Data API
-  - Resend API
+  ```tree
+  /app/api/
+  ├── /apod/route.ts             # NASA APOD API
+  ├── /contact/route.ts          # Resend API
+  ├── /mars-rover/[rover]/       # Dynamic route by rover
+  │   ├── /chart/route.ts        # NASA Mars Rover Photos API
+  │   ├── /manifest/route.ts     # NASA Mars Rover Photos API
+  │   └── /table/route.ts        # Notion API
+  └── /whats-up/route.ts         # YouTube Data API
+  ```
+
 - Responsive Design
   - Mobile-first layout using media queries
   - Hamburger menu for smaller screens
@@ -62,6 +68,16 @@ npm run dev
 
 ## Features
 
+### Sitemap of Routes
+
+| URL                         | Description                                    |
+|-----------------------------|------------------------------------------------|
+| `/`                         | Home / What's Up – Skywatching Tips Video      |
+| `/apod`                     | Astronomy Picture of the Day (APOD) Calendar   |
+| `/mars-rovers`              | Mars Rover Missions Timeline                   |
+| `/mars-rovers/[rover]/data` | Mars Rover Camera Data (dynamic route by rover)|
+| `/contact`                  | Contact Form                                   |
+
 ### What's Up – Monthly Skywatching Tips Video
 - API: Fetches the latest video from NASA’s YouTube playlist using the YouTube Data API.
 - Caching: Stores the latest video in `localStorage` and reuses it until the start of the next month.
@@ -90,26 +106,6 @@ npm run dev
 ### Contact Form
 - API: Sends emails via the Resend API, with inputs validated by Zod.
 - UI: React form with fields for name, email, and message. Displays validation and server errors together in one block to avoid layout shifts.
-
-## Sitemap of Routes
-
-| URL                         | Description                                    |
-|-----------------------------|------------------------------------------------|
-| `/`                         | Home / What's Up – Skywatching Tips Video      |
-| `/apod`                     | Astronomy Picture of the Day (APOD) Calendar   |
-| `/mars-rovers`              | Mars Rover Missions Timeline                   |
-| `/mars-rovers/[rover]/data` | Mars Rover Camera Data (dynamic route by rover)|
-| `/contact`                  | Contact Form                                   |
-
-## Technologies Used
-
-- Next.js
-- D3.js
-- `react-calendar`
-- `react-super-responsive-table`
-- NASA Open APIs
-- YouTube Data API
-- Resend API
 
 ## Credits
 
