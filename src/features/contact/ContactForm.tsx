@@ -1,23 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+// React and form libraries
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+// UI components
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
 
+// Schema and types
 import {
   contactSchema,
   type ContactFormData,
 } from '@/features/contact/contactSchema';
 
+// Styles
 import styles from './ContactForm.module.css';
 
 export default function ContactForm() {
+  // State to track successful submission.
   const [success, setSuccess] = useState(false);
 
+  // Clear success message after 5 seconds.
+  useEffect(() => {
+    if (success) {
+      const timeout = setTimeout(() => setSuccess(false), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [success]);
+
+  // Initialize react-hook-form with Zod schema validation.
   const {
     register,
     handleSubmit,
@@ -27,8 +41,10 @@ export default function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = async (data: ContactFormData) => {
+  // Handle form submission.
+  async function handleFormSubmit(data: ContactFormData) {
     try {
+      // Send form data as a POST request to API endpoint.
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -37,95 +53,92 @@ export default function ContactForm() {
         body: JSON.stringify(data),
       });
 
+      // Reset form on success.
       if (response.ok) {
         setSuccess(true);
         reset();
       } else {
+        // Log server error response.
         const result = await response.json();
         console.error('Error sending message:', result.error);
         setSuccess(false);
       }
     } catch (error) {
+      // Log unexpected errors.
       console.error('Form submission error:', error);
       setSuccess(false);
     }
-  };
+  }
 
-  // create an array of error messages
-  const errorMessages = Object.values(errors).map(
-    (error) => error?.message || '',
-  );
+  // Collect all validation error messages from the errors object.
+  const errorMessages = Object.values(errors)
+    .map((error) => error?.message)
+    .filter(Boolean);
 
   return (
     <div className={styles.formContainer}>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        {/* consolidated error block */}
+      <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
+        {/* Validation error block */}
         {errorMessages.length > 0 && (
-          <div className={styles.errorBlock} role="alert" aria-live="assertive">
+          <div className={styles.errorBlock}>
             <p>
               <strong>There was a problem.</strong>
             </p>
             <ul>
-              {errorMessages.map((msg, i) => (
-                <li key={i}>{msg}</li>
+              {errorMessages.map((msg, index) => (
+                <li key={index}>{msg}</li>
               ))}
             </ul>
           </div>
         )}
 
         <div className={styles.fieldsContainer}>
-          {/* name */}
+          {/* Name field */}
           <div className={styles.formItem}>
             <Input
-              id="name"
-              placeholder="Name"
-              autoComplete="name"
+              id='name'
+              placeholder='Name'
+              autoComplete='name'
               {...register('name')}
               className={styles.input}
-              aria-label="Full Name"
-              aria-invalid={errors.name ? 'true' : 'false'}
             />
           </div>
 
-          {/* email */}
+          {/* Email field */}
           <div className={styles.formItem}>
             <Input
-              id="email"
-              type="email"
-              placeholder="Email"
-              autoComplete="email"
+              id='email'
+              type='email'
+              placeholder='Email'
+              autoComplete='email'
               {...register('email')}
               className={styles.input}
-              aria-label="Email"
-              aria-invalid={errors.email ? 'true' : 'false'}
             />
           </div>
 
-          {/* message */}
+          {/* Message field */}
           <div className={styles.formItem}>
             <Textarea
-              id="message"
+              id='message'
               rows={5}
-              placeholder={'Message'}
+              placeholder='Message'
               {...register('message')}
               className={styles.textarea}
-              aria-label="Message"
-              aria-invalid={errors.message ? 'true' : 'false'}
             />
           </div>
 
-          {/* submit */}
+          {/* Submit button */}
           <Button
-            type="submit"
+            type='submit'
             className={styles.button}
             disabled={isSubmitting}
           >
             Send
           </Button>
 
-          {/* feedback */}
+          {/* Success message */}
           {success && (
-            <p className={styles.success} role="status" aria-live="polite">
+            <p className={styles.success}>
               Message sent successfully.
             </p>
           )}
