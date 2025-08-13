@@ -2,29 +2,39 @@ import { Button } from '@/components/ui/Button';
 
 import styles from './FilterButtons.module.css';
 
+type FilterStatus = 'all' | 'active' | 'complete';
+
 type FilterButtonsProps = {
-  filterStatus: 'all' | 'active' | 'complete';
-  onChange: (status: 'all' | 'active' | 'complete') => void;
+  filterStatus: FilterStatus;
+  onChange: (status: FilterStatus) => void;
 };
 
-const FilterButtons = ({ filterStatus, onChange }: FilterButtonsProps) => (
-  <div className={styles.filterButtons}>
-    <Button active={filterStatus === 'all'} onClick={() => onChange('all')}>
-      All
-    </Button>
-    <Button
-      active={filterStatus === 'active'}
-      onClick={() => onChange('active')}
-    >
-      Active
-    </Button>
-    <Button
-      active={filterStatus === 'complete'}
-      onClick={() => onChange('complete')}
-    >
-      Complete
-    </Button>
-  </div>
-);
+const FilterButtons = ({ filterStatus, onChange }: FilterButtonsProps) => {
+  function handleAllClick() {
+    onChange('all');
+  }
+
+  function handleActiveClick() {
+    onChange('active');
+  }
+
+  function handleCompleteClick() {
+    onChange('complete');
+  }
+
+  return (
+    <div className={styles.filterButtons}>
+      <Button active={filterStatus === 'all'} onClick={handleAllClick}>
+        All
+      </Button>
+      <Button active={filterStatus === 'active'} onClick={handleActiveClick}>
+        Active
+      </Button>
+      <Button active={filterStatus === 'complete'} onClick={handleCompleteClick}>
+        Complete
+      </Button>
+    </div>
+  );
+};
 
 export default FilterButtons;
