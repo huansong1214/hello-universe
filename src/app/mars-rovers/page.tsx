@@ -26,19 +26,24 @@ const rovers = ['perseverance', 'curiosity', 'opportunity', 'spirit'];
 export default function MarsRoversPage() {
   const [manifests, setManifests] = useState<ManifestData[]>([]);
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'complete'>('all');
+  const [loading, setLoading] = useState(true); // New loading state
 
   useEffect(() => {
     const CACHE_KEY = 'roverManifestsCache';
     const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 1 day
 
     async function fetchManifests() {
-      const cached = localStorage.getItem(CACHE_KEY);
+      setLoading(true); // Start loading
 
-      if(cached) {
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
+
+        if(cached) {
         try {
           const { timestamp, data } = JSON.parse(cached);
           if (Date.now() - timestamp < EXPIRATION_MS) {
             setManifests(data);
+            setLoading(false); // Stop loading immediately
             return;
           }
         } catch (error) {
@@ -47,32 +52,33 @@ export default function MarsRoversPage() {
         }
       }
 
-      try {
-        const responses = await Promise.all(
-          rovers.map((rover) =>
-            fetch(`api/mars-rovers/${rover}/manifest`).then((response) => response.json()),
-          ),
-        );
+      const responses = await Promise.all(
+        rovers.map((rover) =>
+          fetch(`api/mars-rovers/${rover}/manifest`).then((response) => response.json()),
+        ),
+      );
 
-        setManifests(responses);
+      setManifests(responses);
 
-        localStorage.setItem(
-          CACHE_KEY,
-          JSON.stringify({ timestamp: Date.now(), data: responses }),
-        );
-      } catch (error) {
-        console.error('Error fetching mission manifests:', error);
-      }
+      localStorage.setItem(
+        CACHE_KEY,
+        JSON.stringify({ timestamp: Date.now(), data: responses }),
+      );
+    } catch (error) {
+      console.error('Error fetching mission manifests:', error);
+    } finally {
+      setLoading(false); // Always stop loading
     }
+  }
 
     fetchManifests();
   }, []);
 
-  if (manifests.length === 0) {
+  if (loading) { // Loading check
     return (
       <main className={styles.mainContainer}>
-        <h1 className={styles.heading1}>Mars Rover Photos</h1>
-        <div className={clsx(styles.timeline, manifests.length === 0 && styles.hiddenLine)}>
+        <h1 className={styles.heading1}>Mars Rover Missions Timeline</h1>
+        <div className={clsx(styles.timeline, styles.hiddenLine)}>
             <p className={styles.loading}>Loading rover data...</p>
         </div>
       </main>
@@ -88,7 +94,7 @@ export default function MarsRoversPage() {
             manifest.photo_manifest?.status.toLowerCase() === filterStatus,
       );
 
-  // sort filtered manifests by launch_date descending (most recent first)
+  // sort filtered manifests by landing_date descending (most recent first)
   const sortedManifests = filteredManifests.slice().sort((a, b) => {
     const dateA = new Date(a.photo_manifest?.landing_date || '').getTime();
     const dateB = new Date(b.photo_manifest?.landing_date || '').getTime();
