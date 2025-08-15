@@ -13,7 +13,7 @@
   margin: 0.5rem 1rem;
 }
 
-/* timeline container */
+/* Timeline container */
 .timeline {
   position: relative;
   max-width: 768px;
@@ -21,7 +21,7 @@
   padding: 1rem 0;
 }
 
-/* the vertical timeline line */
+/* The vertical timeline line */
 .timeline::after {
   content: '';
   position: absolute;
@@ -32,12 +32,12 @@
   left: 1.7rem;
 }
 
-/* hide timeline line until data is ready */
+/* Hide timeline line until data is ready */
 .timeline.hiddenLine::after {
   display: none;
 }
 
-/* timeline item container */
+/* Timeline item container */
 .timelineItem {
   position: relative;
   width: 100%;
@@ -45,7 +45,7 @@
   padding-right: 0.5rem;
 }
 
-/* circle marker */
+/* Circle marker */
 .timelineItem::before {
   content: '';
   position: absolute;
@@ -59,7 +59,7 @@
   z-index: 1;
 }
 
-/* content box inside timeline item */
+/* Content box inside timeline item */
 .timelineItemContent {
   position: relative;
   padding: 0.5rem;
@@ -71,36 +71,36 @@
     margin: 4rem auto;
   }
 
-  /* the vertical timeline line */
+  /* The vertical timeline line */
   .timeline::after {
     left: 50%;
     margin-left: -0.05rem;
 
   }
 
-  /* timeline item container */
+  /* Timeline item container */
   .timelineItem {
     width: 50%;
     padding: 0 1.7rem;
   }
 
-  /* left side timeline item */
+  /* Left side timeline item */
   .timelineItem.left {
     left: 0;
   }
 
-  /* right side timeline item */
+  /* Right side timeline item */
   .timelineItem.right {
     left: 50%;
   }
 
-  /* circle marker for left item */
+  /* Circle marker for left item */
   .timelineItem.left::before {
     right: -0.7rem;
     left: auto;
   }
 
-  /* circle marker for right item */
+  /* Circle marker for right item */
   .timelineItem.right::before {
     left: -0.7rem;
     right: auto;
