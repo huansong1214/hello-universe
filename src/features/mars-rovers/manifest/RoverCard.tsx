@@ -12,9 +12,8 @@ type RoverCardProps = {
   totalPhotos: number;
 };
 
-const RoverCard = ({ name, status, launchDate, landingDate, totalPhotos }: RoverCardProps) => (
+export const RoverCard = ({ name, status, launchDate, landingDate, totalPhotos }: RoverCardProps) => (
   <FlipCard
-    key={name}
     frontContent={
       <div className={styles.imageContainer}>
         <div className={styles.roverName}>{name}</div>
@@ -32,12 +31,13 @@ const RoverCard = ({ name, status, launchDate, landingDate, totalPhotos }: Rover
         <p>Launch: {launchDate}</p>
         <p>Landing: {landingDate}</p>
         <p>Photos: {totalPhotos.toLocaleString()}</p>
-        <Link href={`/mars-rovers/${name.toLowerCase()}/data`} passHref>
-          <p className={styles.link}>View camera data</p>
+        <Link
+          href={`/mars-rovers/${name.toLowerCase()}/data`}
+          className={styles.link}
+        >
+          View camera data
         </Link>
       </div>
     }
   />
 );
-
-export default RoverCard;
