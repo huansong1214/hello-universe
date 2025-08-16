@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
-    "prepare": "husky install"
+    "postinstall": "command -v git >/dev/null 2>&1 && husky install || echo 'Git not found, skipping husky install'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
