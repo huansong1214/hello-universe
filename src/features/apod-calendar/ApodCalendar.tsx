@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 
-import { useApodCalendarData } from './useApodCalendarData';
-import Modal from './Modal';
-
 import styles from './ApodCalendar.module.css';
+import Modal from './Modal';
+import { useApodCalendarData } from './useApodCalendarData';
+
 
 // Lazy load the Calendar component for performance.
 const Calendar = React.lazy(() => import('react-calendar'));

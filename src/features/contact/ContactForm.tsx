@@ -1,22 +1,17 @@
 'use client';
 
-// React and form libraries
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
-// UI components
+import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
-import { Button } from '@/components/ui/Button';
-
-// Schema and types
 import {
   contactSchema,
   type ContactFormData,
 } from '@/features/contact/contactSchema';
 
-// Styles
 import styles from './ContactForm.module.css';
 
 export default function ContactForm() {

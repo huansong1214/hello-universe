@@ -1,7 +1,7 @@
 'use client';
 
+import { clsx } from "clsx";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 
 import { FilterButtons }  from "@/features/mars-rovers/manifest/FilterButtons";
 import { RoverCard } from "@/features/mars-rovers/manifest/RoverCard";

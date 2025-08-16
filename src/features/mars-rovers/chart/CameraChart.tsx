@@ -1,10 +1,10 @@
-import { useEffect,  useState, useRef, useMemo} from 'react';
 import * as d3 from 'd3';
+import { useEffect,  useState, useRef, useMemo} from 'react';
 
+import styles from './CameraChart.module.css';
 import { InfoBox } from './InfoBox';
 import { KeyLegend } from './KeyLegend';
 
-import styles from './CameraChart.module.css';
 
 const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry/Descent/Landing'];
 

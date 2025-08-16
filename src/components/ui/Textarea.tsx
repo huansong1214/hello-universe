@@ -1,5 +1,5 @@
+import { clsx } from 'clsx';
 import { forwardRef, type TextareaHTMLAttributes, type Ref } from 'react';
-import clsx from 'clsx';
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(function Textarea(
   { className, ...props },

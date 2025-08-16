@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useState, useRef, useEffect } from 'react';
 
 import styles from './Header.module.css';
 

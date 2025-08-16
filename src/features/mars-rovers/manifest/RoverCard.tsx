@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { FlipCard } from './FlipCard';
-
 import styles from './RoverCard.module.css';
 
 type RoverCardProps = {
