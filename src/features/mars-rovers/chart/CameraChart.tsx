@@ -129,7 +129,8 @@ export default function CameraChart({ rover }: { rover: string }) {
       .attr('class', 'rect')
       .on('mouseover', (event, d) => {
         setSelectedCamera(d);
-      });
+      })
+      .on('mouseout', () => setSelectedCamera(null));
   }, [filtered, xScale, yScale, colorScale]);
 
   function toggleCategory(category: string) {
