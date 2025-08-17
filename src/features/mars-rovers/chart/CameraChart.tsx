@@ -43,7 +43,7 @@ export default function CameraChart({ rover }: { rover: string }) {
   );
 
   // memoize filtered items based on items and hiddenCategories
-  const filtered = useMemo(
+  const filtered: Item[] = useMemo(
     () => items.filter((d) => !hiddenCategories.has(d.category)),
     [items, hiddenCategories],
   );
