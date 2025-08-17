@@ -43,31 +43,25 @@ function getCameraCategory(camera: string): string {
     if (patterns.some((pattern) => pattern.test(camera))) {
       return category;
     }
-    // science
-    if (
-        camera.startsWith('MCZ') ||
-        camera.startsWith('CHEM') ||
-        camera.startsWith('MAST') ||
-        camera === 'SKYCAM' ||
-        camera === 'SHERLOC_WATSON' ||
-        camera === 'SUPERCAM_RMI' ||
-        camera === 'MAHLI' ||
-        camera === 'MARDI' ||
-        camera === 'PANCAM' ||
-        camera === 'MINITES'
-    ) {
-        return 'Science';
-    }
-    // entry/descent/landing
-    if (
-        camera.startsWith('EDL') ||
-        camera === 'LCAM' ||
-        camera === 'ENTRY'
-    ) {
-        return 'Entry/Descent/Landing';
-    }
-    // other
-    return 'Other';
+  }
+  return 'Other';
+}
+
+// Helper: count sols per camera.
+function countCameraSols(photos: PhotoDay[]): Map<string, number> {
+  const cameraSolCount = new Map<string, number>();
+
+  photos.forEach((photoDay) => {
+    const countedCameras = new Set<string>();
+    photoDay.cameras.forEach((camera) => {
+      if (!countedCameras.has(camera)) {
+        cameraSolCount.set(camera, (cameraSolCount.get(camera) || 0) + 1);
+        countedCameras.add(camera);
+      }
+    });
+  });
+
+  return cameraSolCount;
 }
 
 export async function GET(
