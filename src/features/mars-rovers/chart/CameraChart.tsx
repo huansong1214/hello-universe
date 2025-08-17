@@ -23,16 +23,15 @@ const margin = { top: 20, right: 10, bottom: 20, left: 50 };
 
 export default function CameraChart({ rover }: { rover: string }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+
   const [items, setItems] = useState<Item[]>([]);
   const [hiddenCategories, setHiddenCategories] = useState<Set<string>>(
     new Set(),
   );
   const [selectedCamera, setSelectedCamera] = useState<Item | null>(null);
 
-  // use a static list of categories
   const categories = CATEGORIES;
 
-  // memoize color scale based on categories
   const colorScale = useMemo(
     () =>
       d3
@@ -42,13 +41,11 @@ export default function CameraChart({ rover }: { rover: string }) {
     [categories],
   );
 
-  // memoize filtered items based on items and hiddenCategories
   const filtered: Item[] = useMemo(
     () => items.filter((d) => !hiddenCategories.has(d.category)),
     [items, hiddenCategories],
   );
 
-  // memoize xScale based on filtered
   const xScale = useMemo(
     () =>
       d3
@@ -59,7 +56,6 @@ export default function CameraChart({ rover }: { rover: string }) {
     [filtered],
   );
 
-  // memoize yScale based on filtered
   const yScale = useMemo(
     () =>
       d3
@@ -80,8 +76,8 @@ export default function CameraChart({ rover }: { rover: string }) {
       .then((response) => response.json())
       .then((data: Item[]) => {
         setItems(data);
-        setSelectedCamera(null); // reset selection on data load
-        setHiddenCategories(new Set()); // reset filters
+        setSelectedCamera(null); // Reset selection
+        setHiddenCategories(new Set()); // Reset filters
       })
       .catch(console.error);
   }, [rover]);
@@ -90,7 +86,7 @@ export default function CameraChart({ rover }: { rover: string }) {
     if (!svgRef.current || filtered.length === 0) return;
 
     const svg = d3.select(svgRef.current);
-    svg.selectAll('*').remove();
+    svg.selectAll('*').remove(); // Clear previous chart
 
     const bottomAxis = d3.axisBottom(xScale).tickValues([]);
     const leftAxis = d3.axisLeft(yScale).tickFormat(d3.format('~s'));
@@ -122,23 +118,17 @@ export default function CameraChart({ rover }: { rover: string }) {
       .data(filtered, (d) => d.name)
       .join('rect')
       .attr('x', (d) => xScale(d.name) ?? 0)
-      // .attr('y', (d) => yScale(d.sol_count))
       .attr('y', yScale(0)) // Start from bottom
       .attr('width', xScale.bandwidth())
-      // .attr('height', (d) => yScale(0) - yScale(d.sol_count))
       .attr('height', 0) // Start with height 0
       .attr('fill', (d) => colorScale(d.category) as string)
       .attr('class', 'rect')
-      .on('mouseover', (event, d) => {
-        setSelectedCamera(d);
-      })
+      .on('mouseover', (event, d) => setSelectedCamera(d))
       .on('mouseout', () => setSelectedCamera(null))
-
-      // Animation
       .transition()
       .duration(500)
-      .attr('y', (d) => yScale(d.sol_count)) // Animate to final y
-      .attr('height', (d) => yScale(0) - yScale(d.sol_count)); // Animate to final height
+      .attr('y', (d) => yScale(d.sol_count))
+      .attr('height', (d) => yScale(0) - yScale(d.sol_count));
   }, [filtered, xScale, yScale, colorScale]);
 
   function toggleCategory(category: string) {
@@ -147,9 +137,8 @@ export default function CameraChart({ rover }: { rover: string }) {
       newHidden.delete(category);
     } else {
       newHidden.add(category);
-      // if selected camera is in this category, deselect it
       if (selectedCamera?.category === category) {
-        setSelectedCamera(null);
+        setSelectedCamera(null); // Deselect if hidden
       }
     }
     setHiddenCategories(newHidden);
@@ -158,7 +147,6 @@ export default function CameraChart({ rover }: { rover: string }) {
   return (
     <div className={styles.cameraChartContainer}>
       <svg ref={svgRef} width={width} height={height} />
-
       <div className={styles.sideBar}>
         <InfoBox selectedCamera={selectedCamera} />
         <KeyLegend
