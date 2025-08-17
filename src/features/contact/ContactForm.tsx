@@ -91,9 +91,9 @@ export default function ContactForm() {
           {/* Name field */}
           <div className={styles.formItem}>
             <Input
-              id='name'
-              placeholder='Name'
-              autoComplete='name'
+              id="name"
+              placeholder="Name"
+              autoComplete="name"
               {...register('name')}
               className={styles.input}
             />
@@ -102,10 +102,10 @@ export default function ContactForm() {
           {/* Email field */}
           <div className={styles.formItem}>
             <Input
-              id='email'
-              type='email'
-              placeholder='Email'
-              autoComplete='email'
+              id="email"
+              type="email"
+              placeholder="Email"
+              autoComplete="email"
               {...register('email')}
               className={styles.input}
             />
@@ -114,9 +114,9 @@ export default function ContactForm() {
           {/* Message field */}
           <div className={styles.formItem}>
             <Textarea
-              id='message'
+              id="message"
               rows={5}
-              placeholder='Message'
+              placeholder="Message"
               {...register('message')}
               className={styles.textarea}
             />
@@ -124,7 +124,7 @@ export default function ContactForm() {
 
           {/* Submit button */}
           <Button
-            type='submit'
+            type="submit"
             className={styles.button}
             disabled={isSubmitting}
           >
@@ -133,9 +133,7 @@ export default function ContactForm() {
 
           {/* Success message */}
           {success && (
-            <p className={styles.success}>
-              Message sent successfully.
-            </p>
+            <p className={styles.success}>Message sent successfully.</p>
           )}
         </div>
       </form>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from "next/navigation";
+import { useParams } from 'next/navigation';
 
 import CameraChart from '@/features/mars-rovers/chart/CameraChart';
 import CameraTable from '@/features/mars-rovers/table/CameraTable';
@@ -15,8 +15,8 @@ function capitalize(str: string): string {
 
 // helper to get a single string from param that might be string | string[] | undefined
 function getRoverName(param: string | string[] | undefined): string {
-    if (Array.isArray(param)) return param[0]; // pick the first element if it's an array
-    return param || 'Unknown'; // return the param if it exists, else return 'Unknown'
+  if (Array.isArray(param)) return param[0]; // pick the first element if it's an array
+  return param || 'Unknown'; // return the param if it exists, else return 'Unknown'
 }
 
 function CameraDataPage() {

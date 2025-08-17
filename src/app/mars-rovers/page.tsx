@@ -1,10 +1,10 @@
 'use client';
 
-import { clsx } from "clsx";
-import { useEffect, useState } from "react";
+import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
 
-import { FilterButtons }  from "@/features/mars-rovers/manifest/FilterButtons";
-import { RoverCard } from "@/features/mars-rovers/manifest/RoverCard";
+import { FilterButtons } from '@/features/mars-rovers/manifest/FilterButtons';
+import { RoverCard } from '@/features/mars-rovers/manifest/RoverCard';
 
 import styles from './page.module.css';
 
@@ -24,7 +24,9 @@ const rovers = ['perseverance', 'curiosity', 'opportunity', 'spirit'];
 
 export default function MarsRoversPage() {
   const [manifests, setManifests] = useState<ManifestData[]>([]);
-  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'complete'>('all');
+  const [filterStatus, setFilterStatus] = useState<
+    'all' | 'active' | 'complete'
+  >('all');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function MarsRoversPage() {
       try {
         // Try to load from cache.
         const cached = localStorage.getItem(CACHE_KEY);
-        if(cached) {
+        if (cached) {
           try {
             const { timestamp, data } = JSON.parse(cached);
             if (Date.now() - timestamp < EXPIRATION_MS) {
@@ -54,7 +56,9 @@ export default function MarsRoversPage() {
         // Fetch from API if no valid cache.
         const responses = await Promise.all(
           rovers.map((rover) =>
-            fetch(`api/mars-rovers/${rover}/manifest`).then((response) => response.json()),
+            fetch(`api/mars-rovers/${rover}/manifest`).then((response) =>
+              response.json(),
+            ),
           ),
         );
 
@@ -65,7 +69,6 @@ export default function MarsRoversPage() {
           CACHE_KEY,
           JSON.stringify({ timestamp: Date.now(), data: responses }),
         );
-
       } catch (error) {
         console.error('Error fetching mission manifests:', error);
       } finally {
@@ -82,7 +85,7 @@ export default function MarsRoversPage() {
       <main className={styles.mainContainer}>
         <h1 className={styles.heading1}>Mars Rover Missions Timeline</h1>
         <div className={clsx(styles.timeline, styles.hiddenLine)}>
-            <p className={styles.loading}>Loading rover data...</p>
+          <p className={styles.loading}>Loading rover data...</p>
         </div>
       </main>
     );
@@ -95,16 +98,14 @@ export default function MarsRoversPage() {
       : manifests.filter(
           (manifest) =>
             manifest.photo_manifest?.status.toLowerCase() === filterStatus,
-      );
+        );
 
   // Sort by landing_date (most recent first).
-  const sortedManifests = filteredManifests
-    .slice()
-    .sort((a, b) => {
-      const dateA = new Date(a.photo_manifest?.landing_date || '').getTime();
-      const dateB = new Date(b.photo_manifest?.landing_date || '').getTime();
-      return dateB - dateA;
-    });
+  const sortedManifests = filteredManifests.slice().sort((a, b) => {
+    const dateA = new Date(a.photo_manifest?.landing_date || '').getTime();
+    const dateB = new Date(b.photo_manifest?.landing_date || '').getTime();
+    return dateB - dateA;
+  });
 
   // Render main content.
   return (
@@ -117,11 +118,15 @@ export default function MarsRoversPage() {
         {sortedManifests.map((manifest, index) => {
           if (!manifest.photo_manifest) return null;
 
-          const { name, status, launch_date, landing_date, total_photos } = manifest.photo_manifest;
+          const { name, status, launch_date, landing_date, total_photos } =
+            manifest.photo_manifest;
           const sideClass = index % 2 === 0 ? 'left' : 'right'; // Alternate sides
 
           return (
-            <div key={name} className={clsx(styles.timelineItem, styles[sideClass])}>
+            <div
+              key={name}
+              className={clsx(styles.timelineItem, styles[sideClass])}
+            >
               <div className={styles.timelineItemContent}>
                 <RoverCard
                   name={name}

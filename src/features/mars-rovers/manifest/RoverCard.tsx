@@ -11,7 +11,13 @@ type RoverCardProps = {
   totalPhotos: number;
 };
 
-export const RoverCard = ({ name, status, launchDate, landingDate, totalPhotos }: RoverCardProps) => (
+export const RoverCard = ({
+  name,
+  status,
+  launchDate,
+  landingDate,
+  totalPhotos,
+}: RoverCardProps) => (
   <FlipCard
     frontContent={
       <div className={styles.imageContainer}>
@@ -23,7 +29,6 @@ export const RoverCard = ({ name, status, launchDate, landingDate, totalPhotos }
       </div>
     }
     backContent={
-
       <div>
         <h3>{name}</h3>
         <p>Status: {status}</p>

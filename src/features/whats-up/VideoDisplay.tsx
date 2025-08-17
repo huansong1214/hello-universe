@@ -50,7 +50,7 @@ export default function VideoDisplay() {
         // Store fresh data in localStorage with current timestamp
         localStorage.setItem(
           CACHE_KEY,
-          JSON.stringify({ data, timestamp: Date.now() })
+          JSON.stringify({ data, timestamp: Date.now() }),
         );
       } catch (error) {
         console.error('Error fetching YouTube data:', error);
@@ -63,7 +63,8 @@ export default function VideoDisplay() {
   }, []);
 
   if (loading) return <div className={styles.loading}>Loading video...</div>;
-  if (!video) return <div className={styles.error}>Error fetching video data.</div>;
+  if (!video)
+    return <div className={styles.error}>Error fetching video data.</div>;
 
   return (
     <div className={styles.grid}>

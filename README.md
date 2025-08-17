@@ -2,13 +2,14 @@
 
 ## Description
 
-*A Code:You Web Development Pathway capstone project.*
+_A Code:You Web Development Pathway capstone project._
 
-*Hello Universe* is a space- and astronomy-themed web application created to make good use of high-quality public resources. It aims to make scientific data and imagery more accessible and engaging by combining curated content with interactive visualizations. From skywatching tips to Mars rover data, this project highlights how open data can inspire curiosity.
+_Hello Universe_ is a space- and astronomy-themed web application created to make good use of high-quality public resources. It aims to make scientific data and imagery more accessible and engaging by combining curated content with interactive visualizations. From skywatching tips to Mars rover data, this project highlights how open data can inspire curiosity.
 
 ## Capstone Requirements Fulfilled
 
 - APIs Used
+
   ```tree
   /app/api/
   ├── /apod/route.ts             # NASA APOD API
@@ -40,12 +41,14 @@
 ## Installation Instructions
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/huansong1214/hello-universe
 cd hello-universe
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
@@ -70,20 +73,22 @@ npm run dev
 
 ### Sitemap of Routes
 
-| URL                         | Description                                    |
-|-----------------------------|------------------------------------------------|
-| `/`                         | Home / What's Up – Skywatching Tips Video      |
-| `/apod`                     | Astronomy Picture of the Day (APOD) Calendar   |
-| `/mars-rovers`              | Mars Rover Missions Timeline                   |
-| `/mars-rovers/[rover]/data` | Mars Rover Camera Data (dynamic route by rover)|
-| `/contact`                  | Contact Form                                   |
+| URL                         | Description                                     |
+| --------------------------- | ----------------------------------------------- |
+| `/`                         | Home / What's Up – Skywatching Tips Video       |
+| `/apod`                     | Astronomy Picture of the Day (APOD) Calendar    |
+| `/mars-rovers`              | Mars Rover Missions Timeline                    |
+| `/mars-rovers/[rover]/data` | Mars Rover Camera Data (dynamic route by rover) |
+| `/contact`                  | Contact Form                                    |
 
 ### What's Up – Monthly Skywatching Tips Video
+
 - API: Fetches the latest video from NASA’s YouTube playlist using the YouTube Data API.
 - Caching: Stores the latest video in `localStorage` and reuses it until the start of the next month.
 - UI: React component loads video data, handles loading and errors, and embeds the video with title and description.
 
 ### Astronomy Picture of the Day (APOD) Calendar
+
 - API: Fetches APOD data by date or range using the NASA APOD API.
 - Hook: Handles loading, error handling, and data fetching logic.
 - Caching: Stores monthly APOD data in `localStorage`.
@@ -92,18 +97,22 @@ npm run dev
 ### Mars Rover Camera Usage Visualization
 
 #### Mars Rover Missions Timeline
+
 - API: Uses the NASA Mars Photos API to fetch mission manifests (status, launch/landing dates, total photos).
 - UI: Displays a timeline sorted by landing date (most recent first). Each rover appears as a flip card with mission details and link to camera usage data.
 
 #### Mars Rover Camera Usage Bar Chart
+
 - API: Fetches rover manifest data from NASA Mars Photos API and calculates the number of sols each camera was used. Cameras are grouped by category: Engineering, Science, or Entry/Descent/Landing.
 - UI: Interactive D3 bar chart visualizes camera activity by sol count, color-coded by category. Sidebar shows camera details on hover and clickable legend toggles categories.
 
 #### Mars Rover Camera Reference Table
+
 - API: Fetches camera metadata from a Notion database via the Notion API, filtered by rover.
 - UI: Responsive table lists camera abbreviation, full name, and category, sorted by category for easy reference.
 
 ### Contact Form
+
 - API: Sends emails via the Resend API, with inputs validated by Zod.
 - UI: React form with fields for name, email, and message. Displays validation and server errors together in one block to avoid layout shifts.
 
@@ -120,7 +129,7 @@ npm run dev
   - [Curiosity Raw Images](https://mars.nasa.gov/msl/multimedia/raw-images/)
 
 - D3 interactive bar chart tutorial:
-  *JavaScript Crash Course* book by Nick Morgan
+  _JavaScript Crash Course_ book by Nick Morgan
 
 - CSS resources:
   [W3Schools](https://www.w3schools.com)
