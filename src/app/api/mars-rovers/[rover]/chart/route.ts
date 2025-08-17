@@ -2,10 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
-// types for response data
 interface PhotoDay {
     sol: number;
     cameras: string[];
+}
+
+interface ManifestResponse {
+  photo_manifest: {
+    photos: PhotoDay[];
+  };
 }
 
 interface CameraUsage {
