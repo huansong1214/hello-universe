@@ -19,14 +19,29 @@ interface CameraUsage {
     category: string;
 }
 
-// get camera category
-function getCameraCategory(camera: string) {
-    // engineering
-    if (
-        camera.includes('NAV') ||
-        camera.includes('HAZ')
-    ) {
-        return 'Engineering';
+// Camera category configuration.
+const CAMERA_CATEGORIES: { [category: string]: RegExp[] } = {
+  Engineering: [/NAV/, /HAZ/],
+  Science: [
+    /^MCZ/,
+    /^CHEM/,
+    /^MAST/,
+    /^SKYCAM$/,
+    /^SHERLOC_WATSON$/,
+    /^SUPERCAM_RMI$/,
+    /^MAHLI$/,
+    /^MARDI$/,
+    /^PANCAM$/,
+    /^MINITES$/,
+  ],
+  'Entry/Descent/Landing': [/^EDL/, /^LCAM$/, /^ENTRY$/],
+};
+
+// Helper: get camera category.
+function getCameraCategory(camera: string): string {
+  for (const [category, patterns] of Object.entries(CAMERA_CATEGORIES)) {
+    if (patterns.some((pattern) => pattern.test(camera))) {
+      return category;
     }
     // science
     if (
