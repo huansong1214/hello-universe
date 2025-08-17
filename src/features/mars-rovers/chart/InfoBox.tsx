@@ -1,28 +1,24 @@
 import styles from './InfoBox.module.css';
 
 type InfoBoxProps = {
-    selectedCamera: {
-        name: string;
-        category: string;
-        sol_count: number;
-    } | null;
+  selectedCamera: {
+    name: string;
+    category: string;
+    sol_count: number;
+  } | null;
 };
 
 export function InfoBox({ selectedCamera }: InfoBoxProps) {
-    return (
-        <div className={styles.box}>
-            <p>
-                <span className={styles.label}>Camera</span>
-                <span className={styles.value}>{selectedCamera?.name ?? ''}</span>
-            </p>
-            <p>
-                <span className={styles.label}>Category</span>
-                <span className={styles.value}>{selectedCamera?.category ?? ''}</span>
-            </p>
-            <p>
-                <span className={styles.label}>Sol Count</span>
-                <span className={styles.value}>{selectedCamera?.sol_count ?? ''}</span>
-            </p>
-        </div>
-    );
+  return (
+    <dl className={styles.box}>
+      <dt className={styles.label}>Camera</dt>
+      <dd className={styles.value}>{selectedCamera?.name ?? 'N/A'}</dd>
+
+      <dt className={styles.label}>Category</dt>
+      <dd className={styles.value}>{selectedCamera?.category ?? 'N/A'}</dd>
+
+      <dt className={styles.label}>Sol Count</dt>
+      <dd className={styles.value}>{selectedCamera?.sol_count ?? 'N/A'}</dd>
+    </dl>
+  );
 }
