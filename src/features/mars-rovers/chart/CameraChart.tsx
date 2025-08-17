@@ -122,15 +122,23 @@ export default function CameraChart({ rover }: { rover: string }) {
       .data(filtered, (d) => d.name)
       .join('rect')
       .attr('x', (d) => xScale(d.name) ?? 0)
-      .attr('y', (d) => yScale(d.sol_count))
+      // .attr('y', (d) => yScale(d.sol_count))
+      .attr('y', yScale(0)) // Start from bottom
       .attr('width', xScale.bandwidth())
-      .attr('height', (d) => yScale(0) - yScale(d.sol_count))
+      // .attr('height', (d) => yScale(0) - yScale(d.sol_count))
+      .attr('height', 0) // Start with height 0
       .attr('fill', (d) => colorScale(d.category) as string)
       .attr('class', 'rect')
       .on('mouseover', (event, d) => {
         setSelectedCamera(d);
       })
-      .on('mouseout', () => setSelectedCamera(null));
+      .on('mouseout', () => setSelectedCamera(null))
+
+      // Animation
+      .transition()
+      .duration(500)
+      .attr('y', (d) => yScale(d.sol_count)) // Animate to final y
+      .attr('height', (d) => yScale(0) - yScale(d.sol_count)); // Animate to final height
   }, [filtered, xScale, yScale, colorScale]);
 
   function toggleCategory(category: string) {
