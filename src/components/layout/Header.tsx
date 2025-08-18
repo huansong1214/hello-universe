@@ -14,11 +14,12 @@ export default function Header() {
     setIsOpen(!isOpen);
   };
 
-  // close menu when clicking outside
+  // Close menu when clicking outside.
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
       if (
+        isOpen &&
         navRef.current &&
         !navRef.current.contains(target) &&
         buttonRef.current &&
@@ -28,15 +29,8 @@ export default function Header() {
       }
     }
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
   // toggle 'menuOpen' class on <body> to disable pointer events on video/iframe
