@@ -33,14 +33,10 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // toggle 'menuOpen' class on <body> to disable pointer events on video/iframe
-  // this prevents embedded media from intercepting clicks on the mobile nav menu
+  // Toggle 'menuOpen' class on <body> to disable pointer events on video/iframe.
+  // This prevents embedded media from intercepting clicks on the mobile nav menu.
   useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add('menuOpen');
-    } else {
-      document.body.classList.remove('menuOpen');
-    }
+    document.body.classList.toggle('menuOpen', isOpen);
 
     return () => {
       document.body.classList.remove('menuOpen');
