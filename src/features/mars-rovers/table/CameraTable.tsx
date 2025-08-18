@@ -5,7 +5,11 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { CameraInfo } from './camera';
 import styles from './CameraTable.module.css';
 
-export default function CameraTable({ rover }: { rover: string }) {
+interface CameraTableProps {
+  rover: string;
+}
+
+export default function CameraTable({ rover }: CameraTableProps) {
   const [cameras, setCameras] = useState<CameraInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,16 +18,16 @@ export default function CameraTable({ rover }: { rover: string }) {
     async function fetchCameraData() {
       try {
         const response = await fetch(`/api/mars-rovers/${rover}/table`);
+
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
         }
 
         const data: CameraInfo[] = await response.json();
-
         setCameras(data);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setError(error.message);
+          setError('Failed to load cameras. Please try again later.');
         }
       } finally {
         setLoading(false);
