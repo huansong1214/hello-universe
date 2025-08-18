@@ -20,8 +20,10 @@ export async function GET(
   const { rover } = await params;
 
   try {
+    // Query all rows from the Notion database.
     const response = await notion.databases.query({ database_id: databaseId });
 
+    // Convert each Notion page (database row) into a CameraInfo object.
     const cameras: CameraInfo[] = response.results
       .filter((page): page is PageObjectResponse => page.object === 'page')
       .map((page) => {
@@ -29,15 +31,13 @@ export async function GET(
 
         return {
           abbreviation:
-            properties.Abbreviation.type === 'title' &&
-            properties.Abbreviation.title.length > 0
-              ? properties.Abbreviation.title[0].plain_text
+            properties.Abbreviation.type === 'title'
+              ? (properties.Abbreviation.title?.[0]?.plain_text ?? 'Unknown')
               : 'Unknown',
 
           fullName:
-            properties.FullName.type === 'rich_text' &&
-            properties.FullName.rich_text.length > 0
-              ? properties.FullName.rich_text[0].plain_text
+            properties.FullName.type === 'rich_text'
+              ? (properties.FullName.rich_text?.[0]?.plain_text ?? 'Unknown')
               : 'Unknown',
 
           category:
@@ -47,13 +47,18 @@ export async function GET(
 
           rovers:
             properties.Rovers.type === 'multi_select'
-              ? properties.Rovers.multi_select.map((item) => item.name)
+              ? properties.Rovers.multi_select.map(
+                  (roverOption) => roverOption.name,
+                )
               : [],
         };
       });
 
+    // Filter cameras by rover.
     const filtered = cameras.filter((camera) =>
-      camera.rovers.some((r) => r.toLowerCase() === rover.toLowerCase()),
+      camera.rovers.some(
+        (roverName) => roverName.toLowerCase() === rover.toLowerCase(),
+      ),
     );
 
     return NextResponse.json(filtered, { status: 200 });
