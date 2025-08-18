@@ -7,11 +7,6 @@ import CameraTable from '@/features/mars-rovers/table/CameraTable';
 
 import styles from './page.module.css';
 
-// function capitalize(str: string): string {
-//   if (!str) return '';
-//   return str.charAt(0).toUpperCase() + str.slice(1);
-// }
-
 // Title case helper for potential multi-word names like "Rosalind Franklin".
 function titleCase(str: string): string {
   if (!str) return '';
@@ -22,13 +17,13 @@ function titleCase(str: string): string {
     .join(' ');
 }
 
+// Helper to get a single string from a URL param that might be string, string[] or undefined.
 function getRoverName(param?: string | string[]): string {
   return Array.isArray(param) ? param[0] : (param ?? 'Unknown');
 }
 
-function CameraDataPage() {
+export default function CameraDataPage() {
   const { rover } = useParams();
-
   const rawName = getRoverName(rover);
   const roverName = titleCase(rawName);
   const roverKey = rawName.toLowerCase();
@@ -43,5 +38,3 @@ function CameraDataPage() {
     </main>
   );
 }
-
-export default CameraDataPage;
