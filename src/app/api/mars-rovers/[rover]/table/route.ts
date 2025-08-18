@@ -1,7 +1,7 @@
-import { PageObjectResponse } from "@notionhq/client";
-import { NextRequest, NextResponse } from "next/server";
+import { PageObjectResponse } from '@notionhq/client';
+import { NextRequest, NextResponse } from 'next/server';
 
-import { CameraInfo } from "@/features/mars-rovers/table/camera";
+import { CameraInfo } from '@/features/mars-rovers/table/camera';
 import { notion } from '@/features/mars-rovers/table/notion';
 
 const databaseId = process.env.NOTION_DATABASE_ID!;
@@ -12,8 +12,8 @@ export async function GET(
 ) {
   if (!databaseId) {
     return NextResponse.json(
-      { error: 'Missing NOTION_DATABASE_ID in environment variables.'},
-      { status: 500 }
+      { error: 'Missing NOTION_DATABASE_ID in environment variables.' },
+      { status: 500 },
     );
   }
 
@@ -29,39 +29,39 @@ export async function GET(
 
         return {
           abbreviation:
-          properties.Abbreviation.type === 'title' &&
-          properties.Abbreviation.title.length > 0
-            ? properties.Abbreviation.title[0].plain_text
-            : 'Unknown',
+            properties.Abbreviation.type === 'title' &&
+            properties.Abbreviation.title.length > 0
+              ? properties.Abbreviation.title[0].plain_text
+              : 'Unknown',
 
           fullName:
-          properties.FullName.type === 'rich_text' &&
-          properties.FullName.rich_text.length > 0
-            ? properties.FullName.rich_text[0].plain_text
-            : 'Unknown',
+            properties.FullName.type === 'rich_text' &&
+            properties.FullName.rich_text.length > 0
+              ? properties.FullName.rich_text[0].plain_text
+              : 'Unknown',
 
           category:
-          properties.Category.type === 'select'
-            ? properties.Category.select?.name ?? 'Unknown'
-            : 'Unknown',
+            properties.Category.type === 'select'
+              ? (properties.Category.select?.name ?? 'Unknown')
+              : 'Unknown',
 
           rovers:
-          properties.Rovers.type === 'multi_select'
-            ? properties.Rovers.multi_select.map((item) => item.name)
-            : [],
+            properties.Rovers.type === 'multi_select'
+              ? properties.Rovers.multi_select.map((item) => item.name)
+              : [],
         };
       });
 
-    const filtered = cameras.filter(camera =>
-      camera.rovers.some(r => r.toLowerCase() === rover.toLowerCase())
+    const filtered = cameras.filter((camera) =>
+      camera.rovers.some((r) => r.toLowerCase() === rover.toLowerCase()),
     );
 
     return NextResponse.json(filtered, { status: 200 });
   } catch (error) {
     console.error('Error fetching Notion camera data:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch camera data.'},
-      { status: 500 }
+      { error: 'Failed to fetch camera data.' },
+      { status: 500 },
     );
   }
 }

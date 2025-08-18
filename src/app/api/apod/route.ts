@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 // Define the structure of NASA APOD data.
 interface ApodData {
@@ -57,7 +57,6 @@ export async function GET(req: NextRequest) {
     } else {
       return NextResponse.json(data as ApodData);
     }
-
   } catch (error) {
     // Log error details on the server side.
     if (error instanceof Error) {
@@ -69,7 +68,7 @@ export async function GET(req: NextRequest) {
     // Return a safe, user-friendly error message.
     return NextResponse.json(
       { message: 'Failed to fetch NASA APOD data. Please try again later.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

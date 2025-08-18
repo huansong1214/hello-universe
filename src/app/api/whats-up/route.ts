@@ -13,7 +13,7 @@ export async function GET() {
   try {
     // Fetch the latest video from the playlist (maxResults=1).
     const response = await fetch(
-      `${YOUTUBE_API_URL}?part=snippet&maxResults=1&playlistId=${PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`
+      `${YOUTUBE_API_URL}?part=snippet&maxResults=1&playlistId=${PLAYLIST_ID}&key=${YOUTUBE_API_KEY}`,
     );
 
     // Handle unsuccessful API response.
@@ -33,10 +33,10 @@ export async function GET() {
   } catch (error) {
     // Log the error and return a 500 response.
     console.error('YouTube API error:', error);
-    
+
     return NextResponse.json(
       { error: 'Failed to fetch from YouTube API.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

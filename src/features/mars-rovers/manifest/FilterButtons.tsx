@@ -9,7 +9,10 @@ type FilterButtonsProps = {
   onChange: (status: FilterStatus) => void;
 };
 
-export const FilterButtons = ({ filterStatus, onChange }: FilterButtonsProps) => {
+export const FilterButtons = ({
+  filterStatus,
+  onChange,
+}: FilterButtonsProps) => {
   function handleAllClick() {
     onChange('all');
   }
@@ -30,7 +33,10 @@ export const FilterButtons = ({ filterStatus, onChange }: FilterButtonsProps) =>
       <Button active={filterStatus === 'active'} onClick={handleActiveClick}>
         Active
       </Button>
-      <Button active={filterStatus === 'complete'} onClick={handleCompleteClick}>
+      <Button
+        active={filterStatus === 'complete'}
+        onClick={handleCompleteClick}
+      >
         Complete
       </Button>
     </div>

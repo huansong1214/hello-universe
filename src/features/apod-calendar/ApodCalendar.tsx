@@ -6,7 +6,6 @@ import styles from './ApodCalendar.module.css';
 import Modal from './Modal';
 import { useApodCalendarData } from './useApodCalendarData';
 
-
 // Lazy load the Calendar component for performance.
 const Calendar = React.lazy(() => import('react-calendar'));
 
@@ -25,7 +24,8 @@ export default function ApodCalendar() {
   const [selectedApod, setSelectedApod] = useState<Apod | null>(null);
 
   // Store new month view temporarily to prevent calendar from reverting during loading.
-  const [pendingActiveStartDate, setPendingActiveStartDate] = useState<Date | null>(null);
+  const [pendingActiveStartDate, setPendingActiveStartDate] =
+    useState<Date | null>(null);
 
   // Fetch calendar data for the current month.
   const { calendarData, error, isLoading } =

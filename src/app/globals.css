@@ -36,7 +36,7 @@ body {
 }
 
 .react-calendar__month-view__days__day--weekend {
-  color:var(--foreground);
+  color: var(--foreground);
 }
 
 .react-calendar__month-view__weekdays {

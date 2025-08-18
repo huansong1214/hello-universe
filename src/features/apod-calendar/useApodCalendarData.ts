@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from 'react';
 
 interface ApodData {
   date: string;
@@ -59,7 +59,7 @@ export function useApodCalendarData(activeStartDate: Date) {
     // Cleanup: mark component as unmounted.
     return () => {
       isMounted.current = false;
-    }
+    };
   }, []);
 
   // Effect: refetch or load cached data whenever activeStartDate changes.
@@ -87,12 +87,15 @@ export function useApodCalendarData(activeStartDate: Date) {
     }
 
     // Determine if requested month is the current calendar month.
-    const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
+    const isCurrentMonth =
+      year === today.getFullYear() && month === today.getMonth();
 
     // Check if cached data is valid.
     // If not current month, any cache is valid.
     // If current month, cache must be less than 1 day old.
-    const isCacheValid = cachedMonth && (!isCurrentMonth || now - cachedMonth.timestamp < EXPIRATION_MS);
+    const isCacheValid =
+      cachedMonth &&
+      (!isCurrentMonth || now - cachedMonth.timestamp < EXPIRATION_MS);
 
     if (isCacheValid) {
       // Use cached data immediately without fetching.
@@ -125,7 +128,9 @@ export function useApodCalendarData(activeStartDate: Date) {
           console.log(`[Fetch] Fetching data for ${monthKey}.`);
 
           // Fetch APOD data for the month from API endpoint.
-          const response = await fetch(`/api/apod?start_date=${startStr}&end_date=${endStr}`);
+          const response = await fetch(
+            `/api/apod?start_date=${startStr}&end_date=${endStr}`,
+          );
 
           if (!response.ok) throw new Error('Failed to fetch APOD data.');
 
@@ -144,7 +149,7 @@ export function useApodCalendarData(activeStartDate: Date) {
 
           // Update cache and persist to localStorage.
           cacheRef.current[monthKey] = { data, timestamp: Date.now() };
-          
+
           try {
             localStorage.setItem('apodCache', JSON.stringify(cacheRef.current));
           } catch (err) {
@@ -152,7 +157,6 @@ export function useApodCalendarData(activeStartDate: Date) {
           }
 
           setError(null);
-
         } catch (err) {
           if (!isMounted.current) return;
 

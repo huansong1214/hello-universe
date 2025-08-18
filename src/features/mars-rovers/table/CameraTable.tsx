@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import { useEffect, useState } from 'react';
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
-import { CameraInfo } from "./camera";
+import { CameraInfo } from './camera';
 import styles from './CameraTable.module.css';
 
 export default function CameraTable({ rover }: { rover: string }) {
@@ -33,11 +33,14 @@ export default function CameraTable({ rover }: { rover: string }) {
     fetchCameraData();
   }, [rover]);
 
-  const CATEGORIES: string[] = ['Engineering', 'Science', 'Entry/Descent/Landing'];
+  const CATEGORIES: string[] = [
+    'Engineering',
+    'Science',
+    'Entry/Descent/Landing',
+  ];
 
   const sortedCameras = [...cameras].sort(
-    (a, b) =>
-      CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category)
+    (a, b) => CATEGORIES.indexOf(a.category) - CATEGORIES.indexOf(b.category),
   );
 
   if (loading) return <p className={styles.loading}>Loading cameras...</p>;

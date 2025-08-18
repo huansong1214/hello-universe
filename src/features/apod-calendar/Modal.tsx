@@ -33,31 +33,47 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
     } else if (media_type === 'video') {
       if (url?.includes('youtube.com')) {
         // Embed YouTube video in iframe.
-        return (
-          <iframe
-            src={url}
-            title={title}
-            allowFullScreen
-          />
-        );
+        return <iframe src={url} title={title} allowFullScreen />;
       } else {
         // For non-YouTube video URLs, link to NASA APOD page.
         return (
           <p className={styles.mediaOther}>
-          View content on <a href={nasaUrl} target='_blank' rel='noopener noreferrer' className={styles.nasaUrl}>NASA APOD page</a>.
-        </p>
+            View content on{' '}
+            <a
+              href={nasaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.nasaUrl}
+            >
+              NASA APOD page
+            </a>
+            .
+          </p>
         );
       }
     } else if (media_type === 'other') {
       // For 'other' media type, link to NASA APOD page.
       return (
         <p className={styles.mediaOther}>
-          Watch video on <a href={nasaUrl} target='_blank' rel='noopener noreferrer' className={styles.nasaUrl}>NASA APOD page</a>.
+          Watch video on{' '}
+          <a
+            href={nasaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.nasaUrl}
+          >
+            NASA APOD page
+          </a>
+          .
         </p>
       );
     } else {
       // Fallback message if media type is unrecognized.
-      return <p className={styles.error}>Sorry, no media available for this content.</p>;
+      return (
+        <p className={styles.error}>
+          Sorry, no media available for this content.
+        </p>
+      );
     }
   };
 
@@ -65,16 +81,19 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
     // Overlay that closes modal when clicked.
     <div className={styles.modalOverlay} onClick={onClose}>
       {/* Modal content box; stop propagation to prevent closing when clicking inside */}
-      <div className={styles.modalContent} onClick={(event) => event.stopPropagation()}>
+      <div
+        className={styles.modalContent}
+        onClick={(event) => event.stopPropagation()}
+      >
         {/* Close button */}
-        <button className={styles.closeButton} onClick={onClose}>X</button>
+        <button className={styles.closeButton} onClick={onClose}>
+          X
+        </button>
 
         {/* Grid layout for media and text */}
         <div className={styles.grid}>
           {/* Media container */}
-          <div className={styles.imageContainer}>
-            {renderMediaContent()}
-          </div>
+          <div className={styles.imageContainer}>{renderMediaContent()}</div>
 
           {/* Text Container */}
           <div className={styles.textContainer}>

@@ -75,7 +75,6 @@
   .timeline::after {
     left: 50%;
     margin-left: -0.05rem;
-
   }
 
   /* Timeline item container */

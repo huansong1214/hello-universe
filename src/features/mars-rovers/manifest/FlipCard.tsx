@@ -19,4 +19,4 @@ export function FlipCard({
       </div>
     </div>
   );
-};
+}

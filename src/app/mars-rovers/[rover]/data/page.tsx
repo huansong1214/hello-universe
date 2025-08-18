@@ -1,38 +1,40 @@
 'use client';
 
-import { useParams } from "next/navigation";
+import { useParams } from 'next/navigation';
 
 import CameraChart from '@/features/mars-rovers/chart/CameraChart';
 import CameraTable from '@/features/mars-rovers/table/CameraTable';
 
 import styles from './page.module.css';
 
-// capitalize first letter of rover name
-function capitalize(str: string): string {
+// Title case helper for potential multi-word names like "Rosalind Franklin".
+function titleCase(str: string): string {
   if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
-// helper to get a single string from param that might be string | string[] | undefined
-function getRoverName(param: string | string[] | undefined): string {
-    if (Array.isArray(param)) return param[0]; // pick the first element if it's an array
-    return param || 'Unknown'; // return the param if it exists, else return 'Unknown'
+// Helper to get a single string from a URL param that might be string, string[] or undefined.
+function getRoverName(param?: string | string[]): string {
+  return Array.isArray(param) ? param[0] : (param ?? 'Unknown');
 }
 
-function CameraDataPage() {
-  const { rover } = useParams(); // grab the rover param from the URL
-
+export default function CameraDataPage() {
+  const { rover } = useParams();
   const rawName = getRoverName(rover);
-  const roverName = capitalize(rawName);
+  const roverName = titleCase(rawName);
+  const roverKey = rawName.toLowerCase();
 
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading1}>Camera Usage for Rover {roverName}</h1>
-      <CameraChart rover={rawName.toLowerCase()} />
+      <CameraChart rover={roverKey} />
+
       <h2 className={styles.heading2}>Camera Table for Rover {roverName}</h2>
-      <CameraTable rover={rawName.toLowerCase()} />
+      <CameraTable rover={roverKey} />
     </main>
   );
 }
-
-export default CameraDataPage;
