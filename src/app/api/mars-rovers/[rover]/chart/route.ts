@@ -2,25 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
+// Represents camera activity on a single sol (Martian day).
 interface PhotoDay {
   sol: number;
   cameras: string[];
 }
 
+// Response from NASA API manifest endpoint.
 interface ManifestResponse {
   photo_manifest: {
     photos: PhotoDay[];
   };
 }
 
+// Output format: camera usage with category and number of sols.
 interface CameraUsage {
   name: string;
   sol_count: number;
   category: string;
 }
 
-// Camera category configuration.
-const CAMERA_CATEGORIES: { [category: string]: RegExp[] } = {
+// Mapping of camera names to categories for classification.
+const CAMERA_CATEGORIES: Record<string, RegExp[]> = {
   Engineering: [/NAV/, /HAZ/],
   Science: [
     /^MCZ/,
@@ -37,7 +40,7 @@ const CAMERA_CATEGORIES: { [category: string]: RegExp[] } = {
   'Entry/Descent/Landing': [/^EDL/, /^LCAM$/, /^ENTRY$/],
 };
 
-// Helper: get camera category.
+// Determine the category of a camera based on predefined regex patterns.
 function getCameraCategory(camera: string): string {
   for (const [category, patterns] of Object.entries(CAMERA_CATEGORIES)) {
     if (patterns.some((pattern) => pattern.test(camera))) {
@@ -47,7 +50,7 @@ function getCameraCategory(camera: string): string {
   return 'Other';
 }
 
-// Helper: count sols per camera.
+// Count the number of sols each camera has been active, avoiding duplicates per sol.
 function countCameraSols(photos: PhotoDay[]): Map<string, number> {
   const cameraSolCount = new Map<string, number>();
 
@@ -64,7 +67,6 @@ function countCameraSols(photos: PhotoDay[]): Map<string, number> {
   return cameraSolCount;
 }
 
-// API route.
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ rover: string }> },
