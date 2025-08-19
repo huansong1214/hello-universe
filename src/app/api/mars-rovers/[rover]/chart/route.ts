@@ -55,12 +55,8 @@ function countCameraSols(photos: PhotoDay[]): Map<string, number> {
   const cameraSolCount = new Map<string, number>();
 
   photos.forEach((photoDay) => {
-    const countedCameras = new Set<string>();
     photoDay.cameras.forEach((camera) => {
-      if (!countedCameras.has(camera)) {
-        cameraSolCount.set(camera, (cameraSolCount.get(camera) || 0) + 1);
-        countedCameras.add(camera);
-      }
+      cameraSolCount.set(camera, (cameraSolCount.get(camera) || 0) + 1);
     });
   });
 
