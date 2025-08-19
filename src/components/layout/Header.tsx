@@ -10,11 +10,9 @@ export default function Header() {
   const navRef = useRef<HTMLElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleClick = () => setIsOpen(!isOpen);
 
-  // Close menu when clicking outside.
+  // Close menu when clicking outside of nav or button.
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
@@ -33,14 +31,11 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // Toggle 'menuOpen' class on <body> to disable pointer events on video/iframe.
-  // This prevents embedded media from intercepting clicks on the mobile nav menu.
+  // Toggle 'menuOpen' class on <body> to prevent embedded media (video/iframe)
+  // from intercepting clicks.
   useEffect(() => {
     document.body.classList.toggle('menuOpen', isOpen);
-
-    return () => {
-      document.body.classList.remove('menuOpen');
-    };
+    return () => document.body.classList.remove('menuOpen');
   }, [isOpen]);
 
   return (
@@ -50,6 +45,7 @@ export default function Header() {
       </div>
 
       <div className={styles.navContainer}>
+        {/* Hamburger menu button */}
         <button
           ref={buttonRef}
           onClick={handleClick}
@@ -61,6 +57,7 @@ export default function Header() {
           <span className={styles.bar}></span>
         </button>
 
+        {/* Navigation links */}
         <nav
           ref={navRef}
           className={`${styles.nav} ${isOpen ? styles.open : ''}`}
