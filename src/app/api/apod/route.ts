@@ -12,13 +12,15 @@ interface ApodData {
 // Get NASA API key from environment variables.
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
-// Validate the presence of the API key.
-if (!NASA_API_KEY) {
-  throw new Error('Missing NASA_API_KEY environment variable.');
-}
-
 // Handle GET requests to this API route.
 export async function GET(req: NextRequest) {
+  if (!NASA_API_KEY) {
+    return NextResponse.json(
+      { message: 'Missing NASA_API_KEY environment variable.' },
+      { status: 500 },
+    );
+  }
+
   const { searchParams } = new URL(req.url);
 
   // Extract optional query parameters.
