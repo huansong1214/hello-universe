@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Define the structure of NASA APOD data.
 interface ApodData {
   date: string;
   explanation: string;
@@ -9,10 +8,8 @@ interface ApodData {
   media_type: 'image' | 'video';
 }
 
-// Get NASA API key from environment variables.
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
-// Handle GET requests to this API route.
 export async function GET(req: NextRequest) {
   if (!NASA_API_KEY) {
     return NextResponse.json(
@@ -23,53 +20,49 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
 
-  // Extract optional query parameters.
+  // Query parameters: either a single date or a date range.
   const date = searchParams.get('date');
-  const start_date = searchParams.get('start_date');
-  const end_date = searchParams.get('end_date');
+  const startDate = searchParams.get('start_date');
+  const endDate = searchParams.get('end_date');
 
-  // Start building the NASA API URL.
+  // Build NASA APOD API URL.
   let apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`;
 
-  // Add date or date range parameters if provided.
-  if (start_date) {
-    apiUrl += `&start_date=${start_date}`;
-    if (end_date) {
-      apiUrl += `&end_date=${end_date}`;
+  if (startDate) {
+    apiUrl += `&start_date=${startDate}`;
+    if (endDate) {
+      apiUrl += `&end_date=${endDate}`;
     }
   } else if (date) {
     apiUrl += `&date=${date}`;
   }
 
   try {
-    // Fetch data from the NASA APOD API with no cache.
     const response = await fetch(apiUrl, { cache: 'no-store' });
 
-    // Handle non-successful responses.
     if (!response.ok) {
-      throw new Error('NASA APOD API error.');
+      const errorText = await response.text();
+      console.error(`[NASA APOD API] ${response.status}: ${errorText}`);
+      return NextResponse.json(
+        { message: 'Failed to fetch data from NASA APOD API.' },
+        { status: response.status },
+      );
     }
 
-    // Parse the JSON response.
     const data = await response.json();
 
-    // Return response as JSON: either a single item or an array.
-    if (Array.isArray(data)) {
-      return NextResponse.json(data as ApodData[]);
-    } else {
-      return NextResponse.json(data as ApodData);
-    }
+    // Return array or single object depending on response shape.
+    return Array.isArray(data)
+      ? NextResponse.json(data as ApodData[])
+      : NextResponse.json(data as ApodData);
   } catch (error) {
-    // Log error details on the server side.
-    if (error instanceof Error) {
-      console.error('NASA APOD API error:', error.message);
-    } else {
-      console.error('NASA APOD API error: An unknown error occurred.');
-    }
+    console.error(
+      '[NASA APOD API]',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
 
-    // Return a safe, user-friendly error message.
     return NextResponse.json(
-      { message: 'Failed to fetch NASA APOD data. Please try again later.' },
+      { message: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }
