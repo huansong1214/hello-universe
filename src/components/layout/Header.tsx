@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import styles from './Header.module.css';
 
-export default function Header() {
+function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -81,3 +81,5 @@ export default function Header() {
     </header>
   );
 }
+
+export { Header };

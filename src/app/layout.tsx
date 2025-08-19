@@ -3,7 +3,7 @@ import 'react-calendar/dist/Calendar.css';
 
 import './globals.css';
 
-import Header from '@/components/layout/Header';
+import { Header } from '@/components/layout/Header';
 
 export const metadata = {
   title: 'Hello Universe',
