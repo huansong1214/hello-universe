@@ -8,14 +8,18 @@ import {
 } from '@/features/contact/contactSchema';
 import { EmailTemplate } from '@/features/contact/EmailTemplate';
 
-// Ensure API key is set before initializing Resend client.
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('Missing RESEND_API_KEY environment variable.');
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 export async function POST(req: Request) {
+  if (!RESEND_API_KEY) {
+    return NextResponse.json(
+      { error: 'Missing RESEND_API_KEY environment variable.' },
+      { status: 500 },
+    );
+  }
+
+  const resend = new Resend(RESEND_API_KEY);
+
   try {
     // Parse the incoming JSON body from the request.
     const json = await req.json();
