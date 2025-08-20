@@ -11,7 +11,7 @@ interface Video {
 }
 
 // Cache key used in localStorage.
-const CACHE_KEY = 'latestYoutubeVideo';
+const CACHE_KEY = 'latestYouTubeVideo';
 
 export default function VideoDisplay() {
   const [video, setVideo] = useState<Video | null>(null);
@@ -41,7 +41,7 @@ export default function VideoDisplay() {
           }
         }
 
-        // No valid cache, fetch fresh data from YouTube API.
+        // No valid cache, fetch fresh data from YouTube Data API.
         const response = await fetch('/api/whats-up');
         const data = await response.json();
 

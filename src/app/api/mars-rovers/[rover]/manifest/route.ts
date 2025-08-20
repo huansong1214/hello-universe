@@ -8,7 +8,7 @@ export async function GET(
 ) {
   if (!NASA_API_KEY) {
     return NextResponse.json(
-      { message: 'Missing NASA_API_KEY environment variable.' },
+      { error: 'Missing NASA_API_KEY environment variable.' },
       { status: 500 },
     );
   }
@@ -25,13 +25,13 @@ export async function GET(
 
       if (response.status === 404) {
         return NextResponse.json(
-          { message: `Rover ${rover} not found.` },
+          { error: `Rover ${rover} not found.` },
           { status: 404 },
         );
       }
 
       return NextResponse.json(
-        { message: 'Failed to fetch data from NASA Mars Photos API.' },
+        { error: 'Failed to fetch data from NASA Mars Photos API.' },
         { status: response.status },
       );
     }
@@ -46,7 +46,7 @@ export async function GET(
     );
 
     return NextResponse.json(
-      { message: 'Unexpected server error. Please try again later.' },
+      { error: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }

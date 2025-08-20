@@ -50,7 +50,7 @@ function getCameraCategory(camera: string): string {
   return 'Other';
 }
 
-// Count the number of sols each camera has been active, avoiding duplicates per sol.
+// Count the number of sols each camera has been active.
 function countCameraSols(photos: PhotoDay[]): Map<string, number> {
   const cameraSolCount = new Map<string, number>();
 
@@ -81,8 +81,18 @@ export async function GET(
     const response = await fetch(url);
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`[NASA Mars Photos API] ${response.status}: ${errorText}`);
+
+      if (response.status === 404) {
+        return NextResponse.json(
+          { error: `Rover ${rover} not found.` },
+          { status: 404 },
+        );
+      }
+
       return NextResponse.json(
-        { error: `Failed to fetch manifest from ${rover}.` },
+        { error: 'Failed to fetch data from NASA Mars Photos API.' },
         { status: response.status },
       );
     }
@@ -104,9 +114,13 @@ export async function GET(
 
     return NextResponse.json(items);
   } catch (error) {
-    console.error(`Error fetching manifest for ${rover}:`, error);
+    console.error(
+      '[NASA Mars Photos API]',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+
     return NextResponse.json(
-      { error: 'Internal server error while fetching manifest.' },
+      { error: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }

@@ -13,7 +13,7 @@ const NASA_API_KEY = process.env.NASA_API_KEY;
 export async function GET(req: NextRequest) {
   if (!NASA_API_KEY) {
     return NextResponse.json(
-      { message: 'Missing NASA_API_KEY environment variable.' },
+      { error: 'Missing NASA_API_KEY environment variable.' },
       { status: 500 },
     );
   }
@@ -25,7 +25,6 @@ export async function GET(req: NextRequest) {
   const startDate = searchParams.get('start_date');
   const endDate = searchParams.get('end_date');
 
-  // Build NASA APOD API URL.
   let apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`;
 
   if (startDate) {
@@ -45,7 +44,7 @@ export async function GET(req: NextRequest) {
       console.error(`[NASA APOD API] ${response.status}: ${errorText}`);
 
       return NextResponse.json(
-        { message: 'Failed to fetch data from NASA APOD API.' },
+        { error: 'Failed to fetch data from NASA APOD API.' },
         { status: response.status },
       );
     }
@@ -63,7 +62,7 @@ export async function GET(req: NextRequest) {
     );
 
     return NextResponse.json(
-      { message: 'Unexpected server error. Please try again later.' },
+      { error: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }

@@ -38,8 +38,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.errors }, { status: 400 });
     }
 
+    console.error(
+      '[Resend API]',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+
     return NextResponse.json(
-      { error: (error as Error).message },
+      { error: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }
