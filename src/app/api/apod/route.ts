@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`[NASA APOD API] ${response.status}: ${errorText}`);
+
       return NextResponse.json(
         { message: 'Failed to fetch data from NASA APOD API.' },
         { status: response.status },
