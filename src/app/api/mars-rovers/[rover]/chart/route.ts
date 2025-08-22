@@ -2,27 +2,27 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
-// Represents camera activity on a single sol (Martian day).
+// Represents camera activity on a single sol (Martian day)
 interface PhotoDay {
   sol: number;
   cameras: string[];
 }
 
-// Response from NASA API manifest endpoint.
+// Response from NASA API manifest endpoint
 interface ManifestResponse {
   photo_manifest: {
     photos: PhotoDay[];
   };
 }
 
-// Output format: camera usage with category and number of sols.
+// Output format: camera usage with category and number of sols
 interface CameraUsage {
   name: string;
   sol_count: number;
   category: string;
 }
 
-// Mapping of camera names to categories for classification.
+// Mapping of camera names to categories for classification
 const CAMERA_CATEGORIES: Record<string, RegExp[]> = {
   Engineering: [/NAV/, /HAZ/],
   Science: [
@@ -40,7 +40,7 @@ const CAMERA_CATEGORIES: Record<string, RegExp[]> = {
   'Entry/Descent/Landing': [/^EDL/, /^LCAM$/, /^ENTRY$/],
 };
 
-// Determine the category of a camera based on predefined regex patterns.
+// Determine the category of a camera based on predefined regex patterns
 function getCameraCategory(camera: string): string {
   for (const [category, patterns] of Object.entries(CAMERA_CATEGORIES)) {
     if (patterns.some((pattern) => pattern.test(camera))) {
@@ -50,7 +50,7 @@ function getCameraCategory(camera: string): string {
   return 'Other';
 }
 
-// Count the number of sols each camera has been active.
+// Count the number of sols each camera has been active
 function countCameraSols(photos: PhotoDay[]): Map<string, number> {
   const cameraSolCount = new Map<string, number>();
 
@@ -100,10 +100,10 @@ export async function GET(
     const data: ManifestResponse = await response.json();
     const photos = data.photo_manifest.photos;
 
-    // Count sols per camera using helper.
+    // Count sols per camera using helper
     const cameraSolCount = countCameraSols(photos);
 
-    // Convert Map to array of CameraUsage objects.
+    // Convert Map to array of CameraUsage objects
     const items: CameraUsage[] = Array.from(cameraSolCount.entries()).map(
       ([camera, sol_count]) => ({
         name: camera,

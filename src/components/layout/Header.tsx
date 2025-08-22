@@ -12,7 +12,7 @@ function Header() {
 
   const handleClick = () => setIsOpen(!isOpen);
 
-  // Close menu when clicking outside of nav or button.
+  // Close menu when clicking outside of nav or button
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
@@ -32,7 +32,7 @@ function Header() {
   }, [isOpen]);
 
   // Toggle 'menuOpen' class on <body> to prevent embedded media (video/iframe)
-  // from intercepting clicks.
+  // from intercepting clicks
   useEffect(() => {
     document.body.classList.toggle('menuOpen', isOpen);
     return () => document.body.classList.remove('menuOpen');

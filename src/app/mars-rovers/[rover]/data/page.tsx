@@ -7,7 +7,7 @@ import CameraTable from '@/features/mars-rovers/table/CameraTable';
 
 import styles from './page.module.css';
 
-// Title case helper for potential multi-word names like "Rosalind Franklin".
+// Title case helper for potential multi-word names like "Rosalind Franklin"
 function titleCase(str: string): string {
   if (!str) return '';
   return str
@@ -17,7 +17,7 @@ function titleCase(str: string): string {
     .join(' ');
 }
 
-// Helper to get a single string from a URL param that might be string, string[] or undefined.
+// Helper to get a single string from a URL param that might be string, string[] or undefined
 function getRoverName(param?: string | string[]): string {
   return Array.isArray(param) ? param[0] : (param ?? 'Unknown');
 }

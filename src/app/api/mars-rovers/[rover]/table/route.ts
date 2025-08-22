@@ -20,12 +20,12 @@ export async function GET(
   const { rover } = await params;
 
   try {
-    // Query all rows from the Notion database.
+    // Query all rows from the Notion database
     const response = await notion.databases.query({
       database_id: NOTION_DATABASE_ID,
     });
 
-    // Convert each Notion page (database row) into a CameraInfo object.
+    // Convert each Notion page (database row) into a CameraInfo object
     const cameras: CameraInfo[] = response.results
       .filter((page): page is PageObjectResponse => page.object === 'page')
       .map((page) => {
@@ -56,7 +56,7 @@ export async function GET(
         };
       });
 
-    // Filter cameras by rover.
+    // Filter cameras by rover
     const filtered = cameras.filter((camera) =>
       camera.rovers.some(
         (roverName) => roverName.toLowerCase() === rover.toLowerCase(),

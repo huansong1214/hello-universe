@@ -15,27 +15,27 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
-  // Don't render modal if it's not open.
+  // Don't render modal if it's not open
   if (!isOpen) return null;
 
-  // Destructure APOD properties for easier access.
+  // Destructure APOD properties for easier access
   const { media_type, url, date, title, explanation } = apod;
 
   // Format the date for NASA APOD URL (e.g., 2025-05-18 -> 250518)
   const formattedDate = date.replace(/-/g, '').slice(2);
   const nasaUrl = `https://apod.nasa.gov/apod/ap${formattedDate}.html`;
 
-  // Function to render media content based on media_type.
+  // Function to render media content based on media_type
   const renderMediaContent = () => {
     if (media_type === 'image') {
-      // Display image with alt text as title.
+      // Display image with alt text as title
       return <img src={url} alt={title} />;
     } else if (media_type === 'video') {
       if (url?.includes('youtube.com')) {
-        // Embed YouTube video in iframe.
+        // Embed YouTube video in iframe
         return <iframe src={url} title={title} allowFullScreen />;
       } else {
-        // For non-YouTube video URLs, link to NASA APOD page.
+        // For non-YouTube video URLs, link to NASA APOD page
         return (
           <p className={styles.mediaOther}>
             View content on{' '}
@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
         );
       }
     } else if (media_type === 'other') {
-      // For 'other' media type, link to NASA APOD page.
+      // For 'other' media type, link to NASA APOD page
       return (
         <p className={styles.mediaOther}>
           Watch video on{' '}
@@ -68,7 +68,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
         </p>
       );
     } else {
-      // Fallback message if media type is unrecognized.
+      // Fallback message if media type is unrecognized
       return (
         <p className={styles.error}>
           Sorry, no media available for this content.
@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
   };
 
   return (
-    // Overlay that closes modal when clicked.
+    // Overlay that closes modal when clicked
     <div className={styles.modalOverlay} onClick={onClose}>
       {/* Modal content box; stop propagation to prevent closing when clicking inside */}
       <div

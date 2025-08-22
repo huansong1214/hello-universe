@@ -6,7 +6,7 @@ import styles from './ApodCalendar.module.css';
 import Modal from './Modal';
 import { useApodCalendarData } from './useApodCalendarData';
 
-// Lazy load the Calendar component for performance.
+// Lazy load the Calendar component for performance
 const Calendar = React.lazy(() => import('react-calendar'));
 
 interface Apod {
@@ -23,18 +23,18 @@ export default function ApodCalendar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedApod, setSelectedApod] = useState<Apod | null>(null);
 
-  // Store new month view temporarily to prevent calendar from reverting during loading.
+  // Store new month view temporarily to prevent calendar from reverting during loading
   const [pendingActiveStartDate, setPendingActiveStartDate] =
     useState<Date | null>(null);
 
-  // Fetch calendar data for the current month.
+  // Fetch calendar data for the current month
   const { calendarData, error, isLoading } =
     useApodCalendarData(activeStartDate);
 
-  // Type for calendar selection value (single date or date range).
+  // Type for calendar selection value (single date or date range)
   type SingleOrRangeDate = Date | [Date | null, Date | null] | null;
 
-  // Track Calendar value changes.
+  // Track Calendar value changes
   const handleDateChange = (value: SingleOrRangeDate) => {
     if (value instanceof Date) {
       setSelectedDate(value);
@@ -46,33 +46,33 @@ export default function ApodCalendar() {
     }
   };
 
-  // Update activeStartDate and pendingActiveStartDate when user navigates to a new month.
+  // Update activeStartDate and pendingActiveStartDate when user navigates to a new month
   const handleActiveStartDateChange = ({
     activeStartDate,
   }: {
     activeStartDate: Date | null;
   }) => {
     if (activeStartDate) {
-      // Hold this date while loading so Calendar doesn't snap back.
+      // Hold this date while loading so Calendar doesn't snap back
       setPendingActiveStartDate(activeStartDate);
       setActiveStartDate(activeStartDate);
     }
   };
 
-  // Clear pendingActiveStartDate once calendar data has finished loading.
+  // Clear pendingActiveStartDate once calendar data has finished loading
   useEffect(() => {
     if (!isLoading && pendingActiveStartDate) {
       setPendingActiveStartDate(null);
     }
   }, [isLoading, pendingActiveStartDate]);
 
-  // Get APOD object for selected date.
+  // Get APOD object for selected date
   const getApodForSelectedDate = (date: Date) => {
     const dateString = date.toISOString().split('T')[0];
     return calendarData[dateString];
   };
 
-  // Open modal with APOD details for the selected date.
+  // Open modal with APOD details for the selected date
   const openModal = (date: Date) => {
     const apod = getApodForSelectedDate(date);
     if (apod) {
@@ -81,13 +81,13 @@ export default function ApodCalendar() {
     }
   };
 
-  // Close modal and clear selection.
+  // Close modal and clear selection
   const closeModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedApod(null);
   }, []);
 
-  // Close modal when Escape key is pressed.
+  // Close modal when Escape key is pressed
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -97,7 +97,7 @@ export default function ApodCalendar() {
     [closeModal],
   );
 
-  // Attach and clean up Escape key event listener.
+  // Attach and clean up Escape key event listener
   useEffect(() => {
     if (isModalOpen) {
       document.addEventListener('keydown', handleKeyDown);
@@ -112,7 +112,7 @@ export default function ApodCalendar() {
       {isLoading && <p className={styles.loading}>Loading APOD data...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
-      {/* Only render calendar after data is loaded. */}
+      {/* Only render calendar after data is loaded */}
       {!isLoading && Object.keys(calendarData).length > 0 && (
         <Suspense
           fallback={<p className={styles.loading}>Loading APOD calendar...</p>}
@@ -130,7 +130,7 @@ export default function ApodCalendar() {
               new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
             } // End of current month
             onActiveStartDateChange={handleActiveStartDateChange}
-            activeStartDate={pendingActiveStartDate || activeStartDate} // Prioritize pendingActiveStartDate while data is loading to prevent view reset.
+            activeStartDate={pendingActiveStartDate || activeStartDate} // Prioritize pendingActiveStartDate while data is loading to prevent view reset
             tileDisabled={({ date }) => {
               const dateString = date.toISOString().split('T')[0];
               return !calendarData[dateString];
@@ -140,7 +140,7 @@ export default function ApodCalendar() {
               const apod = calendarData[dateString];
               if (!apod) return null;
 
-              // Conditionally render thumbnail based on media type.
+              // Conditionally render thumbnail based on media type
               const isImage = apod.media_type === 'image';
               const isVideo = ['video', 'other'].includes(apod.media_type);
 

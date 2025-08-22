@@ -17,33 +17,33 @@ interface CachedMonth {
   timestamp: number;
 }
 
-// Helper: format Date to 'YYYY-MM-DD' string.
+// Helper: format Date to 'YYYY-MM-DD' string
 const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
-// Helper: create key for month cache in format 'YYYY-MM'.
+// Helper: create key for month cache in format 'YYYY-MM'
 const getMonthKey = (date: Date) =>
   `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 
-// Custom hook to fetch and cache NASA APOD data by month.
-// Uses in-memory and localStorage caching with 1-day expiration.
-// Debounces fetches and handles component unmounts safely.
+// Custom hook to fetch and cache NASA APOD data by month
+// Uses in-memory and localStorage caching with 1-day expiration
+// Debounces fetches and handles component unmounts safely
 export function useApodCalendarData(activeStartDate: Date) {
-  // State: APOD data for calendar dates keyed by date string.
+  // State: APOD data for calendar dates keyed by date string
   const [apodCalendarData, setApodCalendarData] = useState<CalendarData>({});
 
-  // Ref: cache of monthly data with timestamp to avoid unnecessary fetches.
+  // Ref: cache of monthly data with timestamp to avoid unnecessary fetches
   const cacheRef = useRef<Record<string, CachedMonth>>({});
 
-  // State: error message if fetch fails.
+  // State: error message if fetch fails
   const [error, setError] = useState<string | null>(null);
 
-  // State: loading indicator for fetch status.
+  // State: loading indicator for fetch status
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Ref: track component mounted state to avoid state updates after unmount.
+  // Ref: track component mounted state to avoid state updates after unmount
   const isMounted = useRef(true);
 
-  // Load cached data from localStorage once on mount.
+  // Load cached data from localStorage once on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -56,13 +56,13 @@ export function useApodCalendarData(activeStartDate: Date) {
       }
     }
 
-    // Cleanup: mark component as unmounted.
+    // Cleanup: mark component as unmounted
     return () => {
       isMounted.current = false;
     };
   }, []);
 
-  // Effect: refetch or load cached data whenever activeStartDate changes.
+  // Effect: refetch or load cached data whenever activeStartDate changes
   useEffect(() => {
     const today = new Date();
     const year = activeStartDate.getFullYear();
@@ -72,10 +72,10 @@ export function useApodCalendarData(activeStartDate: Date) {
     const cachedMonth = cacheRef.current[monthKey];
     const now = Date.now();
 
-    // Cache expiration: 1 day in milliseconds.
+    // Cache expiration: 1 day in milliseconds
     const EXPIRATION_MS = 24 * 60 * 60 * 1000;
 
-    // Early return: if the requested month is in the future, clear data and stop.
+    // Early return: if the requested month is in the future, clear data and stop
     if (
       year > today.getFullYear() ||
       (year === today.getFullYear() && month > today.getMonth())
@@ -86,19 +86,19 @@ export function useApodCalendarData(activeStartDate: Date) {
       return;
     }
 
-    // Determine if requested month is the current calendar month.
+    // Determine if requested month is the current calendar month
     const isCurrentMonth =
       year === today.getFullYear() && month === today.getMonth();
 
-    // Check if cached data is valid.
-    // If not current month, any cache is valid.
-    // If current month, cache must be less than 1 day old.
+    // Check if cached data is valid
+    // If not current month, any cache is valid
+    // If current month, cache must be less than 1 day old
     const isCacheValid =
       cachedMonth &&
       (!isCurrentMonth || now - cachedMonth.timestamp < EXPIRATION_MS);
 
     if (isCacheValid) {
-      // Use cached data immediately without fetching.
+      // Use cached data immediately without fetching
       console.log(`[Cache] Using cached data for ${monthKey}.`);
       setApodCalendarData(cachedMonth.data);
       setError(null);
@@ -107,19 +107,19 @@ export function useApodCalendarData(activeStartDate: Date) {
       return;
     }
 
-    // Debounce fetch to avoid rapid requests when activeStartDate changes quickly.
+    // Debounce fetch to avoid rapid requests when activeStartDate changes quickly
     const timeout = setTimeout(() => {
       async function fetchApodData() {
-        if (!isMounted.current) return; // Do nothing if component unmounted.
+        if (!isMounted.current) return; // Do nothing if component unmounted
 
         setIsLoading(true);
 
         try {
-          // Caculate start and end date strings for fetch query.
+          // Caculate start and end date strings for fetch query
           const startDate = new Date(year, month, 1);
           let endDate = new Date(year, month + 1, 0);
 
-          // For current month, do not request dates after today.
+          // For current month, do not request dates after today
           if (isCurrentMonth && today < endDate) endDate = today;
 
           const startStr = formatDate(startDate);
@@ -127,7 +127,7 @@ export function useApodCalendarData(activeStartDate: Date) {
 
           console.log(`[Fetch] Fetching data for ${monthKey}.`);
 
-          // Fetch APOD data for the month from API endpoint.
+          // Fetch APOD data for the month from API endpoint
           const response = await fetch(
             `/api/apod?start_date=${startStr}&end_date=${endStr}`,
           );
@@ -144,10 +144,10 @@ export function useApodCalendarData(activeStartDate: Date) {
 
           if (!isMounted.current) return;
 
-          // Update state with fetched data.
+          // Update state with fetched data
           setApodCalendarData(data);
 
-          // Update cache and persist to localStorage.
+          // Update cache and persist to localStorage
           cacheRef.current[monthKey] = { data, timestamp: Date.now() };
 
           try {
@@ -175,6 +175,6 @@ export function useApodCalendarData(activeStartDate: Date) {
     return () => clearTimeout(timeout);
   }, [activeStartDate]);
 
-  // Return current calendar data, loading, and error states.
+  // Return current calendar data, loading, and error states
   return { calendarData: apodCalendarData, error, isLoading };
 }

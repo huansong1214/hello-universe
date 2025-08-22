@@ -22,7 +22,7 @@ body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-/* global styles for react-calendar */
+/* Global styles for react-calendar */
 .react-calendar__navigation__label {
   background-color: var(--muted) !important;
 }
@@ -56,7 +56,7 @@ body {
   background-color: var(--muted);
 }
 
-/* global styles for CameraChart.tsx */
+/* Global styles for CameraChart.tsx */
 .y-axis-label,
 .y-axis-number {
   fill: var(--foreground);
@@ -67,8 +67,8 @@ body {
   cursor: pointer;
 }
 
-/* disable pointer events on embedded media when nav menu is open
-fixes issue where video/iframe blocks clicks on nav links in mobile view */
+/* Disable pointer events on embedded media when nav menu is open */
+/* Fixes issue where video/iframe blocks clicks on nav links in mobile view */
 body.menuOpen video,
 body.menuOpen iframe {
   pointer-events: none !important;

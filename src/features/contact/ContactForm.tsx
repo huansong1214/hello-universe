@@ -15,10 +15,10 @@ import {
 import styles from './ContactForm.module.css';
 
 export default function ContactForm() {
-  // State to track successful submission.
+  // State to track successful submission
   const [success, setSuccess] = useState(false);
 
-  // Clear success message after 5 seconds.
+  // Clear success message after 5 seconds
   useEffect(() => {
     if (success) {
       const timeout = setTimeout(() => setSuccess(false), 5000);
@@ -26,7 +26,7 @@ export default function ContactForm() {
     }
   }, [success]);
 
-  // Initialize react-hook-form with Zod schema validation.
+  // Initialize react-hook-form with Zod schema validation
   const {
     register,
     handleSubmit,
@@ -36,10 +36,10 @@ export default function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
-  // Handle form submission.
+  // Handle form submission
   async function handleFormSubmit(data: ContactFormData) {
     try {
-      // Send form data as a POST request to API endpoint.
+      // Send form data as a POST request to API endpoint
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -48,24 +48,24 @@ export default function ContactForm() {
         body: JSON.stringify(data),
       });
 
-      // Reset form on success.
+      // Reset form on success
       if (response.ok) {
         setSuccess(true);
         reset();
       } else {
-        // Log server error response.
+        // Log server error response
         const result = await response.json();
         console.error('Error sending message:', result.error);
         setSuccess(false);
       }
     } catch (error) {
-      // Log unexpected errors.
+      // Log unexpected errors
       console.error('Form submission error:', error);
       setSuccess(false);
     }
   }
 
-  // Collect all validation error messages from the errors object.
+  // Collect all validation error messages from the errors object
   const errorMessages = Object.values(errors)
     .map((error) => error?.message)
     .filter(Boolean);
@@ -88,7 +88,6 @@ export default function ContactForm() {
         )}
 
         <div className={styles.fieldsContainer}>
-          {/* Name field */}
           <div className={styles.formItem}>
             <Input
               id="name"
@@ -99,7 +98,6 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Email field */}
           <div className={styles.formItem}>
             <Input
               id="email"
@@ -111,7 +109,6 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Message field */}
           <div className={styles.formItem}>
             <Textarea
               id="message"
@@ -122,7 +119,6 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Submit button */}
           <Button
             type="submit"
             className={styles.button}
@@ -131,7 +127,6 @@ export default function ContactForm() {
             Send
           </Button>
 
-          {/* Success message */}
           {success && (
             <p className={styles.success}>Message sent successfully.</p>
           )}

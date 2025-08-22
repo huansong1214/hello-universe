@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
 
-  // Query parameters: either a single date or a date range.
+  // Query parameters: either a single date or a date range
   const date = searchParams.get('date');
   const startDate = searchParams.get('start_date');
   const endDate = searchParams.get('end_date');
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
 
     const data = await response.json();
 
-    // Return array or single object depending on response shape.
+    // Return array or single object depending on response shape
     return Array.isArray(data)
       ? NextResponse.json(data as ApodData[])
       : NextResponse.json(data as ApodData);

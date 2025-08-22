@@ -37,7 +37,7 @@ export default function MarsRoversPage() {
       setLoading(true);
 
       try {
-        // Try to load from cache.
+        // Try to load from cache
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           try {
@@ -53,7 +53,7 @@ export default function MarsRoversPage() {
           }
         }
 
-        // Fetch from API if no valid cache.
+        // Fetch from API if no valid cache
         const responses = await Promise.all(
           rovers.map((rover) =>
             fetch(`api/mars-rovers/${rover}/manifest`).then((response) =>
@@ -64,7 +64,7 @@ export default function MarsRoversPage() {
 
         setManifests(responses);
 
-        // Cache new data.
+        // Cache new data
         localStorage.setItem(
           CACHE_KEY,
           JSON.stringify({ timestamp: Date.now(), data: responses }),
@@ -79,7 +79,7 @@ export default function MarsRoversPage() {
     fetchManifests();
   }, []);
 
-  // Render loading state.
+  // Render loading state
   if (loading) {
     return (
       <main className={styles.mainContainer}>
@@ -91,7 +91,7 @@ export default function MarsRoversPage() {
     );
   }
 
-  // Filter manifests by status.
+  // Filter manifests by status
   const filteredManifests =
     filterStatus === 'all'
       ? manifests
@@ -100,14 +100,14 @@ export default function MarsRoversPage() {
             manifest.photo_manifest?.status.toLowerCase() === filterStatus,
         );
 
-  // Sort by landing_date (most recent first).
+  // Sort by landing_date (most recent first)
   const sortedManifests = filteredManifests.slice().sort((a, b) => {
     const dateA = new Date(a.photo_manifest?.landing_date || '').getTime();
     const dateB = new Date(b.photo_manifest?.landing_date || '').getTime();
     return dateB - dateA;
   });
 
-  // Render main content.
+  // Render main content
   return (
     <main className={styles.mainContainer}>
       <h1 className={styles.heading1}>Mars Rover Missions Timeline</h1>
