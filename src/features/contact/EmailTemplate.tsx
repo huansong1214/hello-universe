@@ -5,7 +5,7 @@ interface EmailTemplateProps {
   message: string;
 }
 
-export function EmailTemplate({ name, email, message }: EmailTemplateProps) {
+function EmailTemplate({ name, email, message }: EmailTemplateProps) {
   return (
     <div>
       <p>Name: {name}</p>
@@ -15,3 +15,5 @@ export function EmailTemplate({ name, email, message }: EmailTemplateProps) {
     </div>
   );
 }
+
+export { EmailTemplate };

@@ -13,7 +13,7 @@ interface Video {
 // Cache key used in localStorage
 const CACHE_KEY = 'latestYouTubeVideo';
 
-export default function VideoDisplay() {
+function VideoDisplay() {
   const [video, setVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -82,3 +82,5 @@ export default function VideoDisplay() {
     </div>
   );
 }
+
+export { VideoDisplay };

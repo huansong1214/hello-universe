@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 
 import styles from './ApodCalendar.module.css';
-import Modal from './Modal';
+import { Modal } from './Modal';
 import { useApodCalendarData } from './useApodCalendarData';
 
 // Lazy load the Calendar component for performance
@@ -17,7 +17,7 @@ interface Apod {
   explanation: string;
 }
 
-export default function ApodCalendar() {
+function ApodCalendar() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [activeStartDate, setActiveStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -179,3 +179,5 @@ export default function ApodCalendar() {
     </div>
   );
 }
+
+export { ApodCalendar };

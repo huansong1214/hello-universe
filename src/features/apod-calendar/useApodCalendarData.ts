@@ -27,7 +27,7 @@ const getMonthKey = (date: Date) =>
 // Custom hook to fetch and cache NASA APOD data by month
 // Uses in-memory and localStorage caching with 1-day expiration
 // Debounces fetches and handles component unmounts safely
-export function useApodCalendarData(activeStartDate: Date) {
+function useApodCalendarData(activeStartDate: Date) {
   // State: APOD data for calendar dates keyed by date string
   const [apodCalendarData, setApodCalendarData] = useState<CalendarData>({});
 
@@ -178,3 +178,5 @@ export function useApodCalendarData(activeStartDate: Date) {
   // Return current calendar data, loading, and error states
   return { calendarData: apodCalendarData, error, isLoading };
 }
+
+export { useApodCalendarData };

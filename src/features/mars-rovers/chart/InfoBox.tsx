@@ -8,7 +8,7 @@ type InfoBoxProps = {
   } | null;
 };
 
-export function InfoBox({ selectedCamera }: InfoBoxProps) {
+function InfoBox({ selectedCamera }: InfoBoxProps) {
   return (
     <dl className={styles.box}>
       <dt className={styles.label}>Camera</dt>
@@ -22,3 +22,5 @@ export function InfoBox({ selectedCamera }: InfoBoxProps) {
     </dl>
   );
 }
+
+export { InfoBox };

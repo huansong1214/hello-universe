@@ -11,7 +11,7 @@ type RoverCardProps = {
   totalPhotos: number;
 };
 
-export const RoverCard = ({
+const RoverCard = ({
   name,
   status,
   launchDate,
@@ -45,3 +45,5 @@ export const RoverCard = ({
     }
   />
 );
+
+export { RoverCard };

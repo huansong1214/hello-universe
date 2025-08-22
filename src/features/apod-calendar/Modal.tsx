@@ -107,4 +107,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, apod }) => {
   );
 };
 
-export default Modal;
+export { Modal };

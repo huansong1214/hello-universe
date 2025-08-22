@@ -14,7 +14,7 @@ import {
 
 import styles from './ContactForm.module.css';
 
-export default function ContactForm() {
+function ContactForm() {
   // State to track successful submission
   const [success, setSuccess] = useState(false);
 
@@ -135,3 +135,5 @@ export default function ContactForm() {
     </div>
   );
 }
+
+export { ContactForm };
