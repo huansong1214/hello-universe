@@ -9,7 +9,7 @@ interface CameraTableProps {
   rover: string;
 }
 
-export default function CameraTable({ rover }: CameraTableProps) {
+function CameraTable({ rover }: CameraTableProps) {
   const [cameras, setCameras] = useState<CameraInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,3 +73,5 @@ export default function CameraTable({ rover }: CameraTableProps) {
     </div>
   );
 }
+
+export { CameraTable };

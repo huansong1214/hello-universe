@@ -7,7 +7,7 @@ interface FlipCardProps {
   backContent: React.ReactNode;
 }
 
-export function FlipCard({
+function FlipCard({
   frontContent,
   backContent,
 }: FlipCardProps): React.ReactElement {
@@ -20,3 +20,5 @@ export function FlipCard({
     </div>
   );
 }
+
+export { FlipCard };

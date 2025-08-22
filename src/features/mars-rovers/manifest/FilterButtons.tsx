@@ -9,10 +9,7 @@ type FilterButtonsProps = {
   onChange: (status: FilterStatus) => void;
 };
 
-export const FilterButtons = ({
-  filterStatus,
-  onChange,
-}: FilterButtonsProps) => {
+const FilterButtons = ({ filterStatus, onChange }: FilterButtonsProps) => {
   function handleAllClick() {
     onChange('all');
   }
@@ -42,3 +39,5 @@ export const FilterButtons = ({
     </div>
   );
 };
+
+export { FilterButtons };

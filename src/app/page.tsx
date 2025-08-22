@@ -1,4 +1,4 @@
-import VideoDisplay from '@/features/whats-up/VideoDisplay';
+import { VideoDisplay } from '@/features/whats-up/VideoDisplay';
 
 import styles from './page.module.css';
 

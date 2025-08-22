@@ -5,20 +5,19 @@ import { useState, useRef, useEffect } from 'react';
 
 import styles from './Header.module.css';
 
-export default function Header() {
+function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleClick = () => setIsOpen(!isOpen);
 
-  // close menu when clicking outside
+  // Close menu when clicking outside of nav or button
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
       if (
+        isOpen &&
         navRef.current &&
         !navRef.current.contains(target) &&
         buttonRef.current &&
@@ -28,29 +27,15 @@ export default function Header() {
       }
     }
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // toggle 'menuOpen' class on <body> to disable pointer events on video/iframe
-  // this prevents embedded media from intercepting clicks on the mobile nav menu
+  // Toggle 'menuOpen' class on <body> to prevent embedded media (video/iframe)
+  // from intercepting clicks
   useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add('menuOpen');
-    } else {
-      document.body.classList.remove('menuOpen');
-    }
-
-    return () => {
-      document.body.classList.remove('menuOpen');
-    };
+    document.body.classList.toggle('menuOpen', isOpen);
+    return () => document.body.classList.remove('menuOpen');
   }, [isOpen]);
 
   return (
@@ -60,6 +45,7 @@ export default function Header() {
       </div>
 
       <div className={styles.navContainer}>
+        {/* Hamburger menu button */}
         <button
           ref={buttonRef}
           onClick={handleClick}
@@ -71,6 +57,7 @@ export default function Header() {
           <span className={styles.bar}></span>
         </button>
 
+        {/* Navigation links */}
         <nav
           ref={navRef}
           className={`${styles.nav} ${isOpen ? styles.open : ''}`}
@@ -94,3 +81,5 @@ export default function Header() {
     </header>
   );
 }
+
+export { Header };

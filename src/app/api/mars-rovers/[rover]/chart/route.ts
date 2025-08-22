@@ -2,25 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
+// Represents camera activity on a single sol (Martian day)
 interface PhotoDay {
   sol: number;
   cameras: string[];
 }
 
+// Response from NASA API manifest endpoint
 interface ManifestResponse {
   photo_manifest: {
     photos: PhotoDay[];
   };
 }
 
+// Output format: camera usage with category and number of sols
 interface CameraUsage {
   name: string;
   sol_count: number;
   category: string;
 }
 
-// Camera category configuration.
-const CAMERA_CATEGORIES: { [category: string]: RegExp[] } = {
+// Mapping of camera names to categories for classification
+const CAMERA_CATEGORIES: Record<string, RegExp[]> = {
   Engineering: [/NAV/, /HAZ/],
   Science: [
     /^MCZ/,
@@ -37,7 +40,7 @@ const CAMERA_CATEGORIES: { [category: string]: RegExp[] } = {
   'Entry/Descent/Landing': [/^EDL/, /^LCAM$/, /^ENTRY$/],
 };
 
-// Helper: get camera category.
+// Determine the category of a camera based on predefined regex patterns
 function getCameraCategory(camera: string): string {
   for (const [category, patterns] of Object.entries(CAMERA_CATEGORIES)) {
     if (patterns.some((pattern) => pattern.test(camera))) {
@@ -47,24 +50,19 @@ function getCameraCategory(camera: string): string {
   return 'Other';
 }
 
-// Helper: count sols per camera.
+// Count the number of sols each camera has been active
 function countCameraSols(photos: PhotoDay[]): Map<string, number> {
   const cameraSolCount = new Map<string, number>();
 
   photos.forEach((photoDay) => {
-    const countedCameras = new Set<string>();
     photoDay.cameras.forEach((camera) => {
-      if (!countedCameras.has(camera)) {
-        cameraSolCount.set(camera, (cameraSolCount.get(camera) || 0) + 1);
-        countedCameras.add(camera);
-      }
+      cameraSolCount.set(camera, (cameraSolCount.get(camera) || 0) + 1);
     });
   });
 
   return cameraSolCount;
 }
 
-// API route.
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ rover: string }> },
@@ -83,8 +81,18 @@ export async function GET(
     const response = await fetch(url);
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`[NASA Mars Photos API] ${response.status}: ${errorText}`);
+
+      if (response.status === 404) {
+        return NextResponse.json(
+          { error: `Rover ${rover} not found.` },
+          { status: 404 },
+        );
+      }
+
       return NextResponse.json(
-        { error: `Failed to fetch manifest from ${rover}.` },
+        { error: 'Failed to fetch data from NASA Mars Photos API.' },
         { status: response.status },
       );
     }
@@ -92,10 +100,10 @@ export async function GET(
     const data: ManifestResponse = await response.json();
     const photos = data.photo_manifest.photos;
 
-    // Count sols per camera using helper.
+    // Count sols per camera using helper
     const cameraSolCount = countCameraSols(photos);
 
-    // Convert Map to array of CameraUsage objects.
+    // Convert Map to array of CameraUsage objects
     const items: CameraUsage[] = Array.from(cameraSolCount.entries()).map(
       ([camera, sol_count]) => ({
         name: camera,
@@ -106,9 +114,13 @@ export async function GET(
 
     return NextResponse.json(items);
   } catch (error) {
-    console.error(`Error fetching manifest for ${rover}:`, error);
+    console.error(
+      '[NASA Mars Photos API]',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+
     return NextResponse.json(
-      { error: 'Internal server error while fetching manifest.' },
+      { error: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }

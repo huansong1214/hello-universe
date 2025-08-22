@@ -10,14 +10,14 @@ interface Video {
   videoId: string;
 }
 
-// Cache key used in localStorage.
-const CACHE_KEY = 'latestYoutubeVideo';
+// Cache key used in localStorage
+const CACHE_KEY = 'latestYouTubeVideo';
 
-export default function VideoDisplay() {
+function VideoDisplay() {
   const [video, setVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Calculate time in milliseconds until the 1st of next month.
+  // Calculate time in milliseconds until the 1st of next month
   const getCacheDuration = (): number => {
     const now = new Date();
     const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
@@ -27,13 +27,13 @@ export default function VideoDisplay() {
   useEffect(() => {
     async function fetchVideo() {
       try {
-        // Try to load cached data.
+        // Try to load cached data
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           const parsed = JSON.parse(cached);
           const now = Date.now();
 
-          // Check if cached data is still valid.
+          // Check if cached data is still valid
           if (now - parsed.timestamp < getCacheDuration()) {
             setVideo(parsed.data);
             setLoading(false);
@@ -41,7 +41,7 @@ export default function VideoDisplay() {
           }
         }
 
-        // No valid cache, fetch fresh data from YouTube API.
+        // No valid cache, fetch fresh data from YouTube Data API
         const response = await fetch('/api/whats-up');
         const data = await response.json();
 
@@ -82,3 +82,5 @@ export default function VideoDisplay() {
     </div>
   );
 }
+
+export { VideoDisplay };

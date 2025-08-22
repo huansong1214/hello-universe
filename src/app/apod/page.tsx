@@ -1,4 +1,4 @@
-import ApodCalendar from '@/features/apod-calendar/ApodCalendar';
+import { ApodCalendar } from '@/features/apod-calendar/ApodCalendar';
 
 import styles from './page.module.css';
 

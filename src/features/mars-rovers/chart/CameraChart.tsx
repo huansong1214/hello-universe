@@ -21,7 +21,7 @@ const width = 600;
 const height = 400;
 const margin = { top: 20, right: 10, bottom: 20, left: 50 };
 
-export default function CameraChart({ rover }: { rover: string }) {
+function CameraChart({ rover }: { rover: string }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const [items, setItems] = useState<Item[]>([]);
@@ -159,3 +159,5 @@ export default function CameraChart({ rover }: { rover: string }) {
     </div>
   );
 }
+
+export { CameraChart };

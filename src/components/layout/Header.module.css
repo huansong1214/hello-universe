@@ -56,7 +56,7 @@
   top: 0.625rem;
 }
 
-/* hamburger menu open state */
+/* Hamburger menu open state */
 .open .bar:nth-child(1) {
   opacity: 0;
 }

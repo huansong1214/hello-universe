@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { CameraInfo } from '@/features/mars-rovers/table/camera';
 import { notion } from '@/features/mars-rovers/table/notion';
 
-const databaseId = process.env.NOTION_DATABASE_ID!;
+const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID!;
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ rover: string }> },
 ) {
-  if (!databaseId) {
+  if (!NOTION_DATABASE_ID) {
     return NextResponse.json(
-      { error: 'Missing NOTION_DATABASE_ID in environment variables.' },
+      { error: 'Missing NOTION_DATABASE_ID environment variable.' },
       { status: 500 },
     );
   }
@@ -20,10 +20,12 @@ export async function GET(
   const { rover } = await params;
 
   try {
-    // Query all rows from the Notion database.
-    const response = await notion.databases.query({ database_id: databaseId });
+    // Query all rows from the Notion database
+    const response = await notion.databases.query({
+      database_id: NOTION_DATABASE_ID,
+    });
 
-    // Convert each Notion page (database row) into a CameraInfo object.
+    // Convert each Notion page (database row) into a CameraInfo object
     const cameras: CameraInfo[] = response.results
       .filter((page): page is PageObjectResponse => page.object === 'page')
       .map((page) => {
@@ -54,18 +56,22 @@ export async function GET(
         };
       });
 
-    // Filter cameras by rover.
+    // Filter cameras by rover
     const filtered = cameras.filter((camera) =>
       camera.rovers.some(
         (roverName) => roverName.toLowerCase() === rover.toLowerCase(),
       ),
     );
 
-    return NextResponse.json(filtered, { status: 200 });
+    return NextResponse.json(filtered);
   } catch (error) {
-    console.error('Error fetching Notion camera data:', error);
+    console.error(
+      '[Notion API]',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+
     return NextResponse.json(
-      { error: 'Failed to fetch camera data.' },
+      { error: 'Unexpected server error. Please try again later.' },
       { status: 500 },
     );
   }

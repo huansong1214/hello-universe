@@ -7,7 +7,7 @@ type KeyLegendProps = {
   toggleCategory: (category: string) => void;
 };
 
-export function KeyLegend({
+function KeyLegend({
   categories,
   colorScale,
   hiddenCategories,
@@ -36,3 +36,5 @@ export function KeyLegend({
     </div>
   );
 }
+
+export { KeyLegend };
