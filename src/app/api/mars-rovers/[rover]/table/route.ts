@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { CameraInfo } from '@/features/mars-rovers/table/camera';
 import { notion } from '@/features/mars-rovers/table/notion';
 
-const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID!;
+const NOTION_DATA_SOURCE_ID = process.env.NOTION_DATA_SOURCE_ID!;
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ rover: string }> },
 ) {
-  if (!NOTION_DATABASE_ID) {
+  if (!NOTION_DATA_SOURCE_ID) {
     return NextResponse.json(
-      { error: 'Missing NOTION_DATABASE_ID environment variable.' },
+      { error: 'Missing NOTION_DATA_SOURCE_ID environment variable.' },
       { status: 500 },
     );
   }
@@ -20,9 +20,9 @@ export async function GET(
   const { rover } = await params;
 
   try {
-    // Query all rows from the Notion database
-    const response = await notion.databases.query({
-      database_id: NOTION_DATABASE_ID,
+    // Query all rows from the Notion data source
+    const response = await notion.dataSources.query({
+      data_source_id: NOTION_DATA_SOURCE_ID,
     });
 
     // Convert each Notion page (database row) into a CameraInfo object
